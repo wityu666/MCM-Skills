@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "language": "Python",
+  "tests": 10,
+  "test_run_utc": "2026-10-04T01:49:01.888040+00:00",
+  "scope": "Catalog lookup and structural/data-boundary CLI/API checks; not model suitability or mathematical proof.",
+  "historical_command_sha256": "be0225d99f829a6a886396e39d33a0cfa3dc5e66b663180b3e140b6a271061b8",
+  "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+  "command_scope": "Module cases within the MCM-only combined command",
+  "historical_environment_sha256": "8991725670c1a83c71014a8258b8761c77cefda67ecfac89ce35a61b7647ff2a",
+  "historical_environment_scope": "Original machine environment is not a package dependency.",
+  "source_files": [
+    {
+      "path": "scripts/query_models.py",
+      "sha256": "dd1e51c6c1b89a42eac889030b3c37845087c0986df22c6432e7d581de09f738"
+    },
+    {
+      "path": "scripts/validate_model_contract.py",
+      "sha256": "2d76a08a04e3a73bad345dfdf5cd0f5f5d5fa70af1751cd69ccce59810bee8eb"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "tests/test_tools.py",
+      "sha256": "775db13c7a04dfa5a3a45912f19df66c2b32dc941290bf0366f548a87844e15f"
+    }
+  ],
+  "prior_reports": [
+    {
+      "path": "tests/code_review_evidence.json",
+      "sha256": "f421ae7676f956089b20683405bdb0145fd34eb35f0cef68a3d3cd251b78cb27",
+      "scope": "Historical original report; original paths retained"
+    }
+  ],
+  "matlab_status": "NOT_RUN",
+  "real_case_reproduced": false,
+  "historical_report_sha256": "3057211e622e05bf40e761e3ffcff133a657c6f2c255c86bd55b357ff8cd920f",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

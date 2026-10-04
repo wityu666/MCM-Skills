@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 综合评价与降维"
+  short_description: "服务 MCM A–C 评价与降维，核对指标、权重和排序的解释边界"
+  default_prompt: "使用 $mcm-modeling-evaluation 为当前 MCM A–C 评价或降维任务选择方法，核对假设、权重与稳定性，采用中文协作与英文论文表达。"

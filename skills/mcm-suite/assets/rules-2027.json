@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "contest": "MCM",
+  "year": 2027,
+  "checked_at": "2026-10-02",
+  "verification": "reference_snapshot",
+  "sources": [
+    {
+      "id": "S1",
+      "url": "https://www.contest.comap.com/undergraduate/contests/mcm/instructions.html",
+      "title": "2027 Contest Rules",
+      "accessed_at": "2026-10-02"
+    },
+    {
+      "id": "S2",
+      "url": "https://www.contest.comap.com/undergraduate/contests/",
+      "title": "Official problem types",
+      "accessed_at": "2026-10-02"
+    },
+    {
+      "id": "S3",
+      "url": "https://www.contest.comap.com/undergraduate/contests/mcm/faq.php",
+      "title": "Official FAQ",
+      "accessed_at": "2026-10-02"
+    },
+    {
+      "id": "S4",
+      "url": "https://contest.comap.com/undergraduate/contests/mcm/flyer/Contest_AI_Policy.pdf",
+      "title": "COMAP AI Policy v102025",
+      "accessed_at": "2026-10-02"
+    },
+    {
+      "id": "S5",
+      "url": "https://contest.comap.com/undergraduate/contests/mcm/flyer/MCM-ICM_SubProcess.pdf",
+      "title": "Submission Walk Through",
+      "accessed_at": "2026-10-02"
+    }
+  ],
+  "claims": {
+    "max_main_pages": {
+      "value": 25,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "ai_report_excluded": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "summary_first_page": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "summary_max_pages": {
+      "value": 1,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "english_required": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "anonymous_required": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "control_number_each_page": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "page_number_each_page": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "minimum_font_pt": {
+      "value": 12,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "pdf_only": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "max_file_mb_exclusive": {
+      "value": 25,
+      "status": "verified",
+      "source_id": "S5",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "ai_report_required_if_used": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S4",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "filename_control_number": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S5",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "no_extra_files_uploaded": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "external_human_help_prohibited": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "self_found_resources_allowed": {
+      "value": true,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "maximum_team_members": {
+      "value": 3,
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "start_at": {
+      "value": "2027-01-28T17:00:00-05:00",
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "stop_work_at": {
+      "value": "2027-02-01T20:00:00-05:00",
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "submit_by": {
+      "value": "2027-02-01T21:00:00-05:00",
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "submission_url": {
+      "value": "https://forms.comap.org/241335097294056",
+      "status": "verified",
+      "source_id": "S1",
+      "note": "2027 annual baseline; recheck before live use."
+    },
+    "problem_types": {
+      "value": {
+        "A": "continuous",
+        "B": "discrete",
+        "C": "data_insights"
+      },
+      "status": "verified",
+      "source_id": "S2",
+      "note": "2027 annual baseline; recheck before live use."
+    }
+  },
+  "problem_specific_requirements_status": "not_yet_published",
+  "ai_policy": {
+    "version": "v102025",
+    "generated_content": "retain actual prompts and outputs; disclose tools and purposes with citations",
+    "translation": "statement of use permitted; full input not universally required",
+    "code_completion": "purpose/tool statement according to policy",
+    "embedded_ai": "covered by policy",
+    "internal_log": "record actual usage and human verification"
+  },
+  "conflicts": [
+    {
+      "source": "https://contest.comap.com/undergraduate/contests/mcm/flyer/MCM-ICM_Tips.pdf",
+      "version": "V20240912",
+      "issues": [
+        "A/B labels reversed on p2",
+        "obsolete 20MB upload guidance"
+      ],
+      "resolution": "Use current annual rules and current submission guide."
+    }
+  ],
+  "notes": [
+    "2027 A-C statements not yet published on checked date.",
+    "25 pages already stated in 2026 problem statements.",
+    "Only the AI use report is excluded from main page count."
+  ]
+}

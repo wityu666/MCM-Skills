@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "language": "Python",
+  "tests": 13,
+  "test_run_utc": "2026-10-04T01:49:01.888040+00:00",
+  "scope": "Newton divided differences and bracketed bisection: exact polynomial/node cases, analytic roots, arithmetic range and invalid inputs.",
+  "historical_command_sha256": "be0225d99f829a6a886396e39d33a0cfa3dc5e66b663180b3e140b6a271061b8",
+  "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+  "command_scope": "Module cases within the MCM-only combined command",
+  "historical_environment_sha256": "8991725670c1a83c71014a8258b8761c77cefda67ecfac89ce35a61b7647ff2a",
+  "historical_environment_scope": "Original machine environment is not a package dependency.",
+  "source_files": [
+    {
+      "path": "assets/numerical_reference.py",
+      "sha256": "7792835503b3014046eadc7ea5f84c6371045591a9c7c173b8aa3b431c091a96"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "tests/test_reference.py",
+      "sha256": "c06ada7942f094b7a0834c47ba2f205f0adbdb6a301264d3d9392740f3570360"
+    }
+  ],
+  "prior_reports": [
+    {
+      "path": "tests/code_review_evidence.json",
+      "sha256": "005113efb55d9a54f8095b149ec12d5d078ed5d1278f5f9299aad77e512c2b68",
+      "scope": "Historical original report; original paths retained"
+    }
+  ],
+  "matlab_status": "NOT_RUN",
+  "real_case_reproduced": false,
+  "historical_report_sha256": "531e4fc780b7fed46dd2636584a6273e4ed67c025a557010e5333da1818f7c14",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 机理与动力系统建模"
+  short_description: "服务 MCM A–C 机理建模，连接假设、方程、参数与独立验证"
+  default_prompt: "使用 $mcm-modeling-mechanisms 为当前 MCM A–C 问题建立机理模型，明确假设、方程、参数与独立验证，采用中文协作与英文论文表达。"

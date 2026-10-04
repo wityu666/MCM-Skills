@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "family": "control",
+  "card_count": 5,
+  "ui_short_description_chars": 30,
+  "quick_validate": "Skill is valid! (exit 0)",
+  "card_ids": [
+    "ctrl-state-space",
+    "ctrl-pid",
+    "ctrl-kalman-linear",
+    "ctrl-arx-identification",
+    "ctrl-lqr-discrete"
+  ],
+  "knowledge_counts": {
+    "THEORY_GUIDE_REVIEWED": 5
+  },
+  "references_scope_note": "verified_primary may mean explicitly documented local official source read; linked webpage is not thereby claimed read. reference_only links remain unverified.",
+  "issues": [],
+  "final_readback_checks": [
+    "JSON parsed",
+    "all relative SKILL links exist",
+    "same card count/IDs",
+    "quick_validate exit 0"
+  ],
+  "historical_report_sha256": "76e88cb4b3359ae0473ae8b566e32e0fefd56a9ed10f996ada60a28db6a75396",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

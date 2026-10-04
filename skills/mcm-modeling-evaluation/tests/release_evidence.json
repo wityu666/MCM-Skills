@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "scope": "Direction-aware minmax entropy/L2 TOPSIS: hand scores, constant/zero columns, invariance, complex/finite-range and tiny-distance checks.",
+  "release": "github-portable-1.0.0",
+  "tests": 14,
+  "entrypoint": "scripts/run_tests.py",
+  "execution_context": "This repository; actual source and test hashes below",
+  "test_date": "2026-10-04",
+  "runtime": {
+    "python": "3.13.5",
+    "numpy": "2.1.3",
+    "scipy": "1.15.3"
+  },
+  "source_files": [
+    {
+      "path": "scripts/entropy_topsis.py",
+      "sha256": "da515bfc6d1a765447f8814a57023e793c7a52621e0c7cce7f01c2585576b43a"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "tests/test_entropy_topsis.py",
+      "sha256": "39222d4855bec5915e92dac2c46dcfed5f8a1199fd99fe9f027d4baba29b16e6"
+    }
+  ],
+  "previous_report_sha256": "2910d1fbb91fc0f17bfec95ebd76dea219ba36c99f0521c1348513ce67f187d5",
+  "matlab_status": "NOT_EXECUTED",
+  "real_case_reproduced": false
+}

@@ -1,0 +1,190 @@
+[
+  {
+    "id": "ml-hierarchical-clustering",
+    "name": "层次聚类与链接准则",
+    "family": "machine-learning",
+    "kind": "method",
+    "aliases": [
+      "层次聚类",
+      "Hierarchical clustering",
+      "Agglomerative",
+      "Ward linkage"
+    ],
+    "purpose": "从距离或观测建立嵌套分组，说明链接准则与截断选择。",
+    "minimum_data": [
+      "同尺度样本或合法凝聚距离",
+      "链接准则和所需分组层次"
+    ],
+    "assumptions": [
+      "距离的定义符合对象含义",
+      "Ward准则适用Euclidean平方误差几何，不任意用于非Euclidean预计算距离",
+      "不把树图当作真实类别证据"
+    ],
+    "mathematics": {
+      "notation": [
+        "A,B为待合并簇；n_A,n_B为样本数；μ_A,μ_B为均值"
+      ],
+      "core": "single=min_{i∈A,j∈B}d_ij，complete=max d_ij，average=平均d_ij；Ward增量ΔSSE=n_A*n_B/(n_A+n_B)*||μ_A-μ_B||²。",
+      "objective_constraints": "依具体应用设定；此方法本身不自动定义预算、控制或因果目标。"
+    },
+    "algorithm_steps": [
+      "先确定训练范围内尺度和距离",
+      "从单点簇开始合并使链接准则最小的一对",
+      "记录合并高度与成员数",
+      "按任务选截断并做扰动稳定性"
+    ],
+    "python": {
+      "apis": [
+        "scipy.cluster.hierarchy.linkage",
+        "sklearn.cluster.AgglomerativeClustering"
+      ],
+      "dependencies": [
+        "按实际接口确认维护版本"
+      ],
+      "implementation_notes": [
+        "接口方向，不代表已运行当前问题；在训练/拟合范围内确定数据处理。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "linkage",
+        "cluster",
+        "dendrogram"
+      ],
+      "dependencies": [
+        "按实际工具箱和版本确认"
+      ],
+      "implementation_notes": [
+        "本次未运行MATLAB；不把同名函数或外部工具箱视作已经可用。"
+      ]
+    },
+    "baseline": "两簇/三点距离手算，或与K-means的另一种分组假设对照",
+    "verification": [
+      {
+        "check": "成员守恒",
+        "method": "逐层查每对象恰出现一次",
+        "expected": "合并后总样本数不变"
+      },
+      {
+        "check": "链接定义",
+        "method": "三点独立手算首个合并及高度",
+        "expected": "符合所选链接，不混用准则"
+      },
+      {
+        "check": "稳定性",
+        "method": "尺度和小扰动重算",
+        "expected": "报告稳定范围，非强行固定簇数"
+      }
+    ],
+    "failure_modes": [
+      "尺度改变导致结果改变",
+      "single链化、异常点、非Euclidean Ward、过度解读树高度"
+    ],
+    "fallback": "保留距离与描述性树；不能稳定分组时停止类别解释",
+    "references": [
+      {
+        "title": "scipy.cluster.hierarchy.linkage installed first-party documentation",
+        "url": "https://docs.scipy.org/doc/scipy-1.15.3/reference/generated/scipy.cluster.hierarchy.linkage.html",
+        "url_scope": "Public upstream API entry; historical evidence came from an installed first-party docstring/source. This portability pass checked that this public page resolves; no new model-validation claim.",
+        "upstream_url_checked_at": "2026-10-04",
+        "historic_distribution_source": "scipy/cluster/hierarchy.py",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "version": "1.15.3",
+        "inspection_scope": "Local first-party documentation read; web page not represented as visited.",
+        "doc_sha256": "0af66d47985fd7f4fc4b65317b56c1954c15f570ff6c311e62ca789a6ee1664e"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED"
+  },
+  {
+    "id": "ml-bayesian-network",
+    "name": "有向无环贝叶斯网络",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [
+      "贝叶斯网络",
+      "Bayesian network",
+      "BNT",
+      "DAG factorization"
+    ],
+    "purpose": "用有向无环图及条件分布表示联合概率，并对已观察证据作条件推断。",
+    "minimum_data": [
+      "变量及类型",
+      "DAG或明确的结构学习方案",
+      "条件概率表/分布参数及数据来源"
+    ],
+    "assumptions": [
+      "图无有向环",
+      "条件分布正规化并覆盖状态",
+      "从观测学到的图不能自动认定为因果图；因果解释需额外识别条件"
+    ],
+    "mathematics": {
+      "notation": [
+        "X_i为随机变量；Pa_i为其父节点；E为观测证据"
+      ],
+      "core": "p(x_1,...,x_n)=∏_i p(x_i|x_{Pa_i})；查询p(Q|E)=Σ_{H}p(Q,H,E)/p(E)，连续隐变量将求和换成积分。",
+      "objective_constraints": "依具体应用设定；此方法本身不自动定义预算、控制或因果目标。"
+    },
+    "algorithm_steps": [
+      "明确结构来源和变量状态",
+      "在训练内估计CPT或连续条件模型，声明先验和缺失机制",
+      "用变量消元/树传播或条件合适的采样推断",
+      "检查概率、预测校准和结构敏感性"
+    ],
+    "python": {
+      "apis": [
+        "维护版本的pgmpy离散/连续接口，先核对具体类名"
+      ],
+      "dependencies": [
+        "按实际接口确认维护版本"
+      ],
+      "implementation_notes": [
+        "接口方向，不代表已运行当前问题；在训练/拟合范围内确定数据处理。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "用户授权且版本/许可已检查的BNT；或按定义实现小型CPT推断"
+      ],
+      "dependencies": [
+        "按实际工具箱和版本确认"
+      ],
+      "implementation_notes": [
+        "本次未运行MATLAB；不把同名函数或外部工具箱视作已经可用。"
+      ]
+    },
+    "baseline": "独立变量模型或两节点CPT手算",
+    "verification": [
+      {
+        "check": "联合概率",
+        "method": "小离散网络枚举全状态",
+        "expected": "概率非负且和为1"
+      },
+      {
+        "check": "推断",
+        "method": "两节点Bayes公式独立核算",
+        "expected": "条件概率与手算一致"
+      },
+      {
+        "check": "结构边界",
+        "method": "检查环、Markov等价和识别假设",
+        "expected": "不把关联推断升级因果效果"
+      }
+    ],
+    "failure_modes": [
+      "循环图、零证据概率、稀疏CPT、结构非识别、先验支配、把HMM当任意DAG"
+    ],
+    "fallback": "简化DAG/独立或朴素Bayes基准；保留不确定性，不补造隐藏关系",
+    "references": [
+      {
+        "title": "Bayes Net Toolbox original-maintainer project locator",
+        "url": "https://github.com/bayesnet/bnt",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "inspection_scope": "材料中的BNT名称与本库按概率定义独立审阅；此网页未读取。"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED"
+  }
+]

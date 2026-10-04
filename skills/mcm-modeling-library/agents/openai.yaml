@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 数学建模模型库"
+  short_description: "服务 MCM A–C 模型学习与匹配，连接数学、双语言实现和验证"
+  default_prompt: "使用 $mcm-modeling-library 根据 MCM A–C 问题与数据选择模型，并给出数学、实现和验证方案，采用中文协作与英文论文表达。"

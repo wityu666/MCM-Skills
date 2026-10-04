@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "scope": "Seasonal-naive hand predictions and observation-time/selected-group split helper boundaries, including iterable/NumPy index cases; feature availability not validated.",
+  "release": "github-portable-1.0.0",
+  "tests": 21,
+  "entrypoint": "scripts/run_tests.py",
+  "execution_context": "This repository; actual source and test hashes below",
+  "test_date": "2026-10-04",
+  "runtime": {
+    "python": "3.13.5",
+    "numpy": "2.1.3",
+    "scipy": "1.15.3"
+  },
+  "source_files": [
+    {
+      "path": "scripts/seasonal_naive.py",
+      "sha256": "27ffb3bd87a959113628e6134f973ae6d8c6fb4a2470539c40e9731eea208498"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "scripts/test_seasonal_naive.py",
+      "sha256": "d119f6314b3d2f97e19dee59613f49485b8da509cfeb0c645466c4b67d409684"
+    }
+  ],
+  "previous_report_sha256": "d5e2810c324277a1cdde20c3302dbc816eb5608023d29764435cfd3f39fce35a",
+  "matlab_status": "NOT_EXECUTED",
+  "real_case_reproduced": false
+}

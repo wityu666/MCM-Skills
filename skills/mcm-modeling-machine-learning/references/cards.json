@@ -1,0 +1,3780 @@
+[
+  {
+    "id": "ml-decision-tree",
+    "name": "分类/回归树CART",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [
+      "CART"
+    ],
+    "purpose": "以可检查叶分割拟合分类或连续回归。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "树深度/叶样本限制训练内选择，分类标签与回归响应区分。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "p_k叶类别份额；R叶区域；n_R叶样本数。"
+      ],
+      "core": "分割选择最大加权纯度改善；分类Gini=1-Σp_k²，回归叶内SSE；叶预测类频率/均值。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "sklearn.tree.DecisionTreeClassifier",
+        "DecisionTreeRegressor"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fitctree",
+        "fitrtree"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "单层两特征小例手算候选纯度/SSE与叶预测。",
+        "expected": "切分与叶输出符合定义；不以训练纯叶当泛化。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "过深、少数类叶、ID泄漏、训练范围外回归不能线性外推。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Ensembles",
+        "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "分类/回归树CART",
+      "CART"
+    ]
+  },
+  {
+    "id": "ml-random-forest",
+    "name": "随机森林",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "聚合随机树作分类/回归并检查稳定性。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "树和随机特征依赖样本；OOB可辅助但不能替代时间/群组留出。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "B树数；T_b树预测；特征随机子集。"
+      ],
+      "core": "对bootstrap样本/随机特征的B棵树取平均或投票；ŷ=B⁻¹ΣT_b(x)。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "sklearn.ensemble.RandomForestClassifier",
+        "RandomForestRegressor"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "TreeBagger",
+        "fitcensemble(Method=\"Bag\")"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "多棵预测独立求平均；分类概率和为1；种子重复区间。",
+        "expected": "聚合吻合且独立留出不泄漏。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "时间相关时OOB误解释、重要性偏好高基数、模型很大。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Ensembles",
+        "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "随机森林"
+    ]
+  },
+  {
+    "id": "ml-adaboost",
+    "name": "AdaBoost",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "通过样本重权弱学习器组合分类。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "经典式标签±1且弱分类器e<0.5；多类/回归是不同变体。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "e_m加权误差；w_i样本权重；α_m投票系数。"
+      ],
+      "core": "二类α_m=0.5 log[(1-e_m)/e_m]；w_i←w_i exp(-α_m y_i h_m(x_i))归一；H=signΣα_m h_m。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "sklearn.ensemble.AdaBoostClassifier"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fitcensemble(Method=\"AdaBoostM1\")"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "一轮手算e/α/权重；e=0或≥0.5明确停止/处理。",
+        "expected": "权重非负和为1，变体与损失一致。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "噪声/异常点权重膨胀、混用SAMME/二类式。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Ensembles",
+        "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "AdaBoost"
+    ]
+  },
+  {
+    "id": "ml-gradient-boosting",
+    "name": "梯度提升树GBDT",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [
+      "GBDT",
+      "GBM"
+    ],
+    "purpose": "以损失负梯度逐步加树作监督预测。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "可导损失、学习率/树深/早停选择只用训练内验证。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "F加性预测；η学习率；ρ步长；L损失。"
+      ],
+      "core": "r_im=-∂L(y_i,F(x_i))/∂F；拟合h_m到负梯度；F_m=F_{m-1}+ηρ_m h_m。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "GradientBoostingClassifier/Regressor",
+        "HistGradientBoostingRegressor"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fitrensemble(Method=\"LSBoost\")"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "平方损失下首轮伪残差是y-F；独立重算每阶段损失。",
+        "expected": "所选损失和任务匹配，不由训练下降推断泛化。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "过多轮过拟合、未来数据早停、类别域错配。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Ensembles",
+        "url": "https://scikit-learn.org/stable/modules/ensemble.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "梯度提升树GBDT",
+      "GBDT",
+      "GBM"
+    ]
+  },
+  {
+    "id": "ml-xgboost",
+    "name": "XGBoost正则树提升",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "以二阶梯度/叶正则训练树提升预测。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "所选损失可作一/二阶展开；稀疏缺失与类别方式由实际实现固定。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "G_j=Σg_i；H_j=Σh_i；T叶数；λγ复杂度惩罚。"
+      ],
+      "core": "目标Σl(y,ŷ)+Σ[γT+λ||w||²/2]；二阶近似用g,h构造叶权重w_j=-G_j/(H_j+λ)。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "xgboost.XGBClassifier",
+        "XGBRegressor"
+      ],
+      "dependencies": [
+        "xgboost"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "需明确外部接口/版本；无标准MATLAB内置XGBoost接口承诺"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "单叶小例核算G/H及正则叶权重；冻结预测迭代轮数。",
+        "expected": "数学叶值与所用参数吻合；独立验证非挑轮训练分数。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "旧wrapperAPI、损失/标签域、错用缺失值为0、调参泄漏。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "Chen and Guestrin XGBoost",
+        "url": "https://arxiv.org/pdf/1603.02754",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "XGBoost正则树提升"
+    ]
+  },
+  {
+    "id": "ml-lightgbm",
+    "name": "LightGBM高效树提升",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "以高效树学习组件实现GBDT预测。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "GOSS/EFB为算法变体，原论文条件及当前参数需区分。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "g样本梯度；a保留大梯度比例；b小梯度采样比例。"
+      ],
+      "core": "GBDT目标；GOSS保留大梯度并对子采样小梯度重加权；EFB把近互斥稀疏特征合并以减少扫描。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "lightgbm.LGBMClassifier",
+        "LGBMRegressor"
+      ],
+      "dependencies": [
+        "lightgbm"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "明确外部bridge；未验证当前MATLAB实现"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "与GBDT基准对照；抽样权重和稀疏合并冲突审计。",
+        "expected": "未将速度宣传当任务精度，留出/早停可追溯。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "小数据叶式生长过拟合、特征bundle冲突、类别映射漂移。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "Ke et al LightGBM",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "LightGBM高效树提升"
+    ]
+  },
+  {
+    "id": "ml-svc",
+    "name": "支持向量分类SVC",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "学习核间隔分类边界。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "核/尺度有依据，C/gamma训练内选择；概率需单独拟合。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "y_i∈{-1,1}；C>0；ξ松弛；φ特征映射。"
+      ],
+      "core": "min 0.5||w||²+CΣξ_i；y_i(wᵀφ(x_i)+b)≥1-ξ_i，ξ_i≥0；核K=φᵀφ。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "sklearn.svm.SVC",
+        "LinearSVC"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fitcsvm"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "线性可分小例手核间隔；核矩阵对称PSD（适用核）。",
+        "expected": "约束/分类方向成立，概率不直接等于间隔分数。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "大样本核矩阵、错误尺度/核、不平衡类、概率未校准。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Support Vector Machines",
+        "url": "https://scikit-learn.org/stable/modules/svm.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "支持向量分类SVC"
+    ]
+  },
+  {
+    "id": "ml-svr",
+    "name": "支持向量回归SVR",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "学习epsilon不敏感核回归函数。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "响应/特征尺度、ε的业务单位及核参数明确。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "ε不敏感带宽（响应单位）；C松弛惩罚。"
+      ],
+      "core": "min 0.5||w||²+CΣ(ξ_i+ξ_i*)；|y_i-f(x_i)|≤ε+相应松弛；epsilon-insensitive损失。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "sklearn.svm.SVR"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fitrsvm"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "ε=0和线性小例核算双侧残差约束。",
+        "expected": "管道与变量单位一致，留出误差对照baseline。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "ε单位错、样本量大核计算、非平稳、训练R²当未来预测。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Support Vector Machines",
+        "url": "https://scikit-learn.org/stable/modules/svm.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "支持向量回归SVR"
+    ]
+  },
+  {
+    "id": "ml-knn",
+    "name": "k近邻分类与回归",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "以训练邻居的均值/类票作局部预测。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "距离/尺度符合任务；k和权重训练内选，不把ID当距离。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "k正整数；d距离；N_k邻域。"
+      ],
+      "core": "N_k(x)按距离取k邻居；回归加权均值，分类加权类票归一。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "KNeighborsClassifier",
+        "KNeighborsRegressor"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fitcknn；回归原创邻居均值"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "二维小点集独立算距离、邻居/同距处理与预测。",
+        "expected": "邻居集合/投票一致，概率和1。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "维度灾难、量纲支配、标签泄漏、不平衡类。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Nearest Neighbors",
+        "url": "https://scikit-learn.org/stable/modules/neighbors.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "k近邻分类与回归"
+    ]
+  },
+  {
+    "id": "ml-naive-bayes",
+    "name": "朴素贝叶斯",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "从类先验和条件独立似然作分类概率。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "给定类的条件独立是假设；计数/二值/连续分布不能混用。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "c类别；j特征；类别先验和类条件似然。"
+      ],
+      "core": "P(c|x)∝P(c)∏jP(x_j|c)，在log域求和；Gaussian/Multinomial/Bernoulli各有观测域。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "GaussianNB",
+        "MultinomialNB",
+        "BernoulliNB"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fitcnb"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "二特征二类手算后验；稀疏0计数检查平滑。",
+        "expected": "后验非负归一，观测域符合分布。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "强相关特征导致过度置信、负计数、零概率。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Naive Bayes",
+        "url": "https://scikit-learn.org/stable/modules/naive_bayes.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "朴素贝叶斯"
+    ]
+  },
+  {
+    "id": "ml-kmeans",
+    "name": "K-means",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "寻找欧氏惯性低的硬簇原型。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "欧氏距离、近球状簇与尺度合理；K训练内/领域确定。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "K簇数；z_i簇指派；c_k中心。"
+      ],
+      "core": "min_{c,z}Σ||x_i-c_{z_i}||²；交替分配最近中心与重算簇均值。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "训练内确定尺度与K/初始化。",
+      "最近中心分配，非空簇重算均值，按停准则迭代。",
+      "独立算惯性与空簇，多seed稳定性。"
+    ],
+    "python": {
+      "apis": [
+        "sklearn.cluster.KMeans"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "kmeans"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "单簇/手工两簇小例",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "两簇小点集核算惯性；空簇/重复点与多初值稳定性。",
+        "expected": "迭代不增加目标（精确步骤），空簇明确处理。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "非球状/不均匀密度、常数特征、空簇、局部解。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Clustering",
+        "url": "https://scikit-learn.org/stable/modules/clustering.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "K-means"
+    ]
+  },
+  {
+    "id": "ml-dbscan",
+    "name": "DBSCAN密度聚类",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "按密度可达找到簇并识别噪声。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "距离/尺度和密度阈值适合数据；noise不是缺失观测。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "eps距离阈值；min_samples整数；noise标签。"
+      ],
+      "core": "eps邻域至少min_samples点为核心；按密度可达扩展簇，非可达点标noise。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "sklearn.cluster.DBSCAN"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "dbscan"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "距离图/单簇",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "手工核心/边界/噪声点；邻域计数与eps敏感性。",
+        "expected": "可达关系与标签可对照，全部noise不伪造簇。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "密度变化大、高维距离退化、边界点顺序依赖。"
+    ],
+    "fallback": "K-means或层次聚类但改变形状假设。",
+    "references": [
+      {
+        "title": "scikit-learn Clustering",
+        "url": "https://scikit-learn.org/stable/modules/clustering.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "DBSCAN密度聚类"
+    ]
+  },
+  {
+    "id": "ml-gaussian-mixture",
+    "name": "高斯混合GMM",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "拟合有限高斯混合密度与软责任。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "有限高斯混合，协方差形式与有效样本量匹配；标签可置换。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "π混合权重；μ均值；Σ协方差；r责任。"
+      ],
+      "core": "p(x)=Σkπ_k N(x|μ_k,Σ_k)；EM责任r_ik=π_kN_k/Σjπ_jN_j。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "选K和协方差结构并初始化。",
+      "EM责任/加权均值协方差更新。",
+      "检查likelihood、权重/正定、多初值和密度验证。"
+    ],
+    "python": {
+      "apis": [
+        "sklearn.mixture.GaussianMixture"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fitgmdist"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "单高斯",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "π≥0和1、Σ正定、责任行和1；likelihood及多初值。",
+        "expected": "概率域有效，不要求簇序号在不同运行字面一致。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "协方差塌陷、局部解、过多成分、密度误当类别真值。"
+    ],
+    "fallback": "少成分+协方差正则或非参数描述。",
+    "references": [
+      {
+        "title": "scikit-learn Gaussian mixture models",
+        "url": "https://scikit-learn.org/stable/modules/mixture.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [
+      "statistics:stat-em"
+    ],
+    "covered_terms": [
+      "高斯混合GMM",
+      "GMM",
+      "Gaussian Mixture"
+    ]
+  },
+  {
+    "id": "ml-som",
+    "name": "自组织映射SOM",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "学习保留网格拓扑的无监督原型映射。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "固定网格拓扑/距离；有序映射不是监督分类概率。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "w_j原型；η学习率；h邻域核；BMU最佳匹配单元。"
+      ],
+      "core": "BMU=argminj||x-w_j||；w_j←w_j+η h_{j,BMU}(x-w_j)，邻域和η逐步缩小。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "原创numpy SOM循环；第三方接口先核验"
+      ],
+      "dependencies": [
+        "Python标准库/numpy（原创实现方向按实际选择）"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "dlnetwork自定义SOM；selforgmap仅旧接口"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Deep Learning Toolbox（按所选方向）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "K-means",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "BMU小例、η=0不更新、邻域半径极限与拓扑误差。",
+        "expected": "邻域更新方向正确；多seed量化/拓扑误差公开。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "尺度支配、拓扑扭曲、参数任意、旧MATLAB接口将移除。"
+    ],
+    "fallback": "K-means失去网格拓扑解释。",
+    "references": [
+      {
+        "title": "MathWorks selforgmap",
+        "url": "https://www.mathworks.com/help/deeplearning/ref/selforgmap.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "自组织映射SOM"
+    ]
+  },
+  {
+    "id": "ml-fuzzy-cmeans",
+    "name": "模糊C-means",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "学习模糊隶属度和簇中心。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "模糊隶属度不是自动校准概率；距离和K,m明确。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "m模糊指数；u隶属度；c簇中心。"
+      ],
+      "core": "min ΣiΣk u_ik^m||x_i-c_k||²；Σk u_ik=1,u≥0,m>1；中心为u^m加权均值。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "skfuzzy.cluster.cmeans；版本需核验"
+      ],
+      "dependencies": [
+        "Python标准库/numpy（原创实现方向按实际选择）"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fcm(data,fcmOptions(...))"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Fuzzy Logic Toolbox"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "K-means",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "U每样本和1，中心加权重算；距离0专门处理。",
+        "expected": "U有效且独立重算目标与中心一致。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "0距离除零、全部相同点、尺度/重叠解释错误。"
+    ],
+    "fallback": "硬聚类并注明信息丢失。",
+    "references": [
+      {
+        "title": "MathWorks fcm",
+        "url": "https://www.mathworks.com/help/fuzzy/fcm.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "模糊C-means"
+    ]
+  },
+  {
+    "id": "ml-perceptron",
+    "name": "单层感知机",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "学习单层线性二类分类器。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "二类线性决策边界；可分条件才有相应收敛结论。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "y±1；w权重；b截距；η>0。"
+      ],
+      "core": "ŷ=sign(wᵀx+b)；误分时w←w+ηyx，b←b+ηy。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "sklearn.linear_model.Perceptron"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "原创更新；不是任意BP网络"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "OR可分小例与XOR不可分反例；X/y长度严格一致。",
+        "expected": "更新仅在误分，XOR失败如实报告。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "非线性可分、标签/样本zip截断、无最大迭代。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Linear Models",
+        "url": "https://scikit-learn.org/stable/modules/linear_model.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "单层感知机"
+    ]
+  },
+  {
+    "id": "ml-mlp-bp",
+    "name": "前馈MLP与BP训练",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [
+      "BP神经网络",
+      "MLP"
+    ],
+    "purpose": "用前馈非线性网络与BP拟合监督目标。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "BP是训练方法，拓扑/损失由任务决定；尺度、初始化与容量需验证。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "h_l层状态；W_l矩阵；σ激活；L任务损失。"
+      ],
+      "core": "h_l=σ(W_lh_{l-1}+b_l)；按链式法则∂L/∂W反向传播，min empirical loss+regularization。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "MLPClassifier",
+        "MLPRegressor"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fitcnet/fitrnet",
+        "trainnet/dlnetwork"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）",
+        "Deep Learning Toolbox（按所选方向）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "小网络有限差分检验梯度；单层退化线性/Logit。",
+        "expected": "梯度与维数一致，验证早停独立。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "非凸局部解、饱和梯度、小样本过拟合、全数据缩放。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn neural networks",
+        "url": "https://scikit-learn.org/stable/modules/neural_networks_supervised.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "前馈MLP与BP训练",
+      "BP神经网络",
+      "MLP"
+    ]
+  },
+  {
+    "id": "ml-rbf-network",
+    "name": "径向基网络RBF",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "用径向基与线性输出逼近响应函数。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "中心/宽度训练内确定，s_j>0；RBF不同于RBF-SVM。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "c_j中心；s_j宽度；a_j线性输出权重。"
+      ],
+      "core": "φ_j(x)=exp[-||x-c_j||²/(2s_j²)]；f(x)=Σa_jφ_j(x)+b；给定基后线性拟合输出。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "原创basis+scipy.linalg.lstsq"
+      ],
+      "dependencies": [
+        "scipy"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "自定义层/核特征；newrb仅旧接口"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "固定基核算输出/最小二乘；宽度极限与病态矩阵。",
+        "expected": "输出与基/权重吻合，不由训练MSE目标宣称泛化。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "过窄宽度过拟合、过宽秩退化、newrb将移除。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "MathWorks newrb",
+        "url": "https://www.mathworks.com/help/deeplearning/ref/newrb.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      },
+      {
+        "title": "SciPy lstsq",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.lstsq.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "径向基网络RBF"
+    ]
+  },
+  {
+    "id": "ml-elm",
+    "name": "极限学习机ELM",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "用固定随机隐藏层与线性输出拟合预测。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "随机节点分布/数量和激活明确；随机投影不保证本题泛化。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "H∈R^{n×m}隐藏输出；β输出权重；g激活。"
+      ],
+      "core": "随机固定w_j,b_j，H_ij=g(w_jᵀx_i+b_j)；β̂=H⁺Y；正则变体可min||Hβ-Y||²+λ||β||²。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "原创numpy随机隐藏层+scipy.linalg.lstsq"
+      ],
+      "dependencies": [
+        "scipy"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "randn形成H；mldivide/明确pinv阈值"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "训练均值/多数类，或任务相符线性模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "固定H独立QR/SVD求解；多seed而不挑最好seed。",
+        "expected": "最小二乘残差可核算，秩/条件数与验证误差公开。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "病态H、小样本巨大隐藏层、把速度结论当精度承诺。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "Huang Zhu Siew ELM",
+        "url": "https://extreme-learning-machines.org/pdf/ELM-NC-2006.pdf",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      },
+      {
+        "title": "SciPy lstsq",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.lstsq.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "极限学习机ELM"
+    ]
+  },
+  {
+    "id": "ml-cnn",
+    "name": "卷积神经网络CNN",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "用局部共享卷积结构拟合有空间结构的输入。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "局部结构/权重共享适合数据；通道/轴/stride/padding明确。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "W核；c输入通道；k输出通道；i,j空间索引。"
+      ],
+      "core": "y_{i,j,k}=b_k+Σ_{u,v,c}W_{u,v,c,k}x_{i+u,j+v,c}后接激活；深层参数以BP拟合。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "PyTorch Conv2d/TensorFlow Keras Conv2D（API方向待本地确认）"
+      ],
+      "dependencies": [
+        "PyTorch或TensorFlow（按所选方向，仅选需要者）"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "convolution2dLayer",
+        "trainnet"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Deep Learning Toolbox（按所选方向）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "扁平特征线性/小网络",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "小核手工cross-correlation；输出尺寸与padding；组留出避免同对象图泄漏。",
+        "expected": "实现卷积/互相关约定一致，标签按对象分组。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "错轴/空间泄漏、过小样本、把生成图片当新观测。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "MathWorks Convolution2DLayer",
+        "url": "https://www.mathworks.com/help/deeplearning/ref/nnet.cnn.layer.convolution2dlayer.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "卷积神经网络CNN"
+    ]
+  },
+  {
+    "id": "ml-rnn",
+    "name": "简单递归网络RNN",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [
+      "Elman",
+      "Elman递归神经网络"
+    ],
+    "purpose": "登记有状态反馈的序列预测网络及边界。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "序列有序，状态重置边界/截断长度明确；未来标签不可输入。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "h_t隐藏态；t序列步；W_x/W_h输入/递归矩阵。"
+      ],
+      "core": "经典Elman/RNN一层：h_t=tanh(W_x x_t+b_x+W_h h_{t-1}+b_h)，ŷ_t=g(W_y h_t+c)。完整BPTT沿时间链求导；relu是实际接口支持的激活变体。多层/双向/延迟需明确状态布局。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "定义序列边界、初始h0、输入/隐藏/输出矩阵和因果时点。",
+      "按递推前向；采用完整时间链梯度或明确的截断/旧简化规则，不静默混同。",
+      "核验两步手算/状态重置、训练窗口和真正多步留出。"
+    ],
+    "python": {
+      "apis": [
+        "torch.nn.RNN（本机2.12.1文档已读，未训练运行）"
+      ],
+      "dependencies": [
+        "PyTorch或TensorFlow（按所选方向，仅选需要者）"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "dlnetwork自定义递归层"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Deep Learning Toolbox（按所选方向）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。",
+        "已读elmannet官方说明：旧Elman训练staticderiv忽略延迟连接，不能与完整BPTT混同；它与newelm均为旧流程，未执行。"
+      ]
+    },
+    "baseline": "AR/naive",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "h初值0的两步手算；短序列有限差分梯度；边界重置。",
+        "expected": "状态和时间索引一致，预测只消费已知信息。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "梯度消失/爆炸、跨独立序列状态污染、teacher forcing漏未来。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "MathWorks LSTMLayer",
+        "url": "https://www.mathworks.com/help/deeplearning/ref/nnet.cnn.layer.lstmlayer.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      },
+      {
+        "title": "Installed PyTorch 2.12.1 torch.nn.RNN first-party docstring",
+        "url": "https://docs.pytorch.org/docs/2.12/generated/torch.nn.RNN.html",
+        "url_scope": "Public upstream API entry; historical evidence came from an installed first-party docstring/source. This portability pass checked that this public page resolves; no new model-validation claim.",
+        "upstream_url_checked_at": "2026-10-04",
+        "historic_distribution_source": "torch/nn/modules/rnn.py",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "source_kind": "installed_first_party_documentation",
+        "source_sha256": "45ba488838119cda365fa304f3638335b584c4c4b6da353a43d4f368da8f0e67",
+        "docstring_sha256": "16803eab32a680551a7d269c1431d0fffdc7d38abb54c381704ba0685eba95bf"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "简单递归网络RNN",
+      "Elman",
+      "Elman递归神经网络",
+      "RNN"
+    ],
+    "materials": [
+      {
+        "source_label": "23.Elman神经网络的数据预测----电力负荷预测模型研究【微信公众号：数模加油站】/chapter23.m",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "sha256": "9197245b44eb75a11e01857529024c005bc30a272bdbd4de1f2fd6ddfe072136",
+        "bytes": 1532,
+        "encoding": "gb18030",
+        "line_count": 77,
+        "read_scope": "Full source text, static only",
+        "executed": false
+      }
+    ],
+    "provenance_note": "本机RNN明确写multi-layer Elman；chapter23与官方elmannet的旧简化导数是实现差异，未把旧输出作为验证。",
+    "theory_review": {
+      "checked_at": "2026-10-04",
+      "scope": "经典Elman/RNN因果递推与BPTT/旧简化梯度差异",
+      "evidence_record": "research/parent_requested_theory_closure.json",
+      "check_ids": [
+        "elman-unroll"
+      ],
+      "implementation_claim": "No reference implementation or real case upgrade"
+    }
+  },
+  {
+    "id": "ml-lstm",
+    "name": "长短期记忆LSTM",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "以门和记忆状态学习序列监督映射。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "门/状态/序列输出布局明确；需足够数据而非自动优于AR。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "i/f/o∈(0,1)输入/遗忘/输出门；c记忆；⊙逐元素乘。"
+      ],
+      "core": "i,f,o=σ(W[x_t,h_{t-1}]+b)，g=tanh(...); c_t=f_t⊙c_{t-1}+i_t⊙g_t，h_t=o_t⊙tanh(c_t)。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "PyTorch LSTM/TensorFlow Keras LSTM（方向）"
+      ],
+      "dependencies": [
+        "PyTorch或TensorFlow（按所选方向，仅选需要者）"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "lstmLayer",
+        "trainnet"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Deep Learning Toolbox（按所选方向）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "AR/seasonal-naive",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "门饱和/清零小例、状态shape；多步滚动留出与naive。",
+        "expected": "c/h递推核对，训练与未来评估隔离。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "大量参数小样本、随机时序划分、归一化/窗口泄漏。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "MathWorks LSTMLayer",
+        "url": "https://www.mathworks.com/help/deeplearning/ref/nnet.cnn.layer.lstmlayer.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "长短期记忆LSTM"
+    ]
+  },
+  {
+    "id": "ml-narx",
+    "name": "NARX外生非线性自回归",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "以响应历史/外生延迟学习非线性时序映射。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "外生u在预测起点可用；0延迟变量不可偷用未来信息。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "p/q反馈/输入延迟；u外生输入；f非线性映射。"
+      ],
+      "core": "y_t=f(y_{t-1:t-p},u_{t:t-q})；开环训练用真实历史反馈，闭环多步用先前预测。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "原创lag features+MLP/递归闭环"
+      ],
+      "dependencies": [
+        "Python标准库/numpy（原创实现方向按实际选择）"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "trainnet/dlnetwork；narxnet仅旧接口"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Deep Learning Toolbox（按所选方向）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "ARX/naive",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "同数据比较开环一步与真实闭环多步；边界state初始化。",
+        "expected": "多步反馈确用预测值，exog来源可追溯。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "闭环用未来真实y、随机划分时序、未知未来u、旧接口将移除。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "MathWorks narxnet",
+        "url": "https://www.mathworks.com/help/deeplearning/ref/narxnet.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "NARX外生非线性自回归"
+    ]
+  },
+  {
+    "id": "ml-anfis",
+    "name": "ANFIS神经模糊推断",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "拟合Sugeno规则系统的前件/线性后件。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "规则数量、隶属度和分母正；可解释不代表因果。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "μ隶属度；r规则；a_r,b_r线性后件。"
+      ],
+      "core": "Sugeno规则r：权w_r=Πj μ_rj(x_j)，f_r=a_rᵀx+b_r；ŷ=Σw_rf_r/Σw_r；交替拟合前件/后件。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "原创membership+加权线性后件；第三方ANFIS先核验"
+      ],
+      "dependencies": [
+        "Python标准库/numpy（原创实现方向按实际选择）"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "genfis",
+        "tunefis(tunefisOptions(Method=\"anfis\"))"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Fuzzy Logic Toolbox"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "线性回归/少量规则",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "手工两条规则输出、权重归一；训练/检查数据分离。",
+        "expected": "输出符合Sugeno式，规则未激活时定义明确。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "规则组合指数增长、sumw=0、过拟合；anfis非推荐旧接口。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "MathWorks anfis / tunefis",
+        "url": "https://www.mathworks.com/help/fuzzy/anfis.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "ANFIS神经模糊推断"
+    ]
+  },
+  {
+    "id": "ml-association-apriori",
+    "name": "Apriori关联规则",
+    "family": "machine-learning",
+    "kind": "method",
+    "aliases": [],
+    "purpose": "挖掘频繁项集和阈值关联规则。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "事务去重/粒度、最低support/confidence预先定义；关联不等因果。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "A∩B=∅项集；N事务数；support为频数/N。"
+      ],
+      "core": "support(A→B)=P̂(A∪B)；confidence=P̂(A∪B)/P̂(A)；lift=confidence/P̂(B)；频繁项集满足支持度反单调。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "按事务去重和阈值定义频数。",
+      "连接候选，用支持反单调剪枝，再扫描计数。",
+      "从频繁集合生成规则并核算confidence/lift及独立事务验证。"
+    ],
+    "python": {
+      "apis": [
+        "mlxtend.frequent_patterns.apriori/association_rules"
+      ],
+      "dependencies": [
+        "mlxtend"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "原创频数计数/候选剪枝"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "直接计数枚举",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "小事务表枚举支持度、置信度和lift；A空支持分母拒绝。",
+        "expected": "频数与集合事件吻合，规则在独立事务验证。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "低基率巨大lift、重复交易、组合爆炸、选择偏差。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "Agrawal and Srikant Apriori",
+        "url": "https://www.vldb.org/conf/1994/P487.PDF",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "Apriori关联规则"
+    ]
+  },
+  {
+    "id": "ml-association-fpgrowth",
+    "name": "FP-growth频繁模式",
+    "family": "machine-learning",
+    "kind": "method",
+    "aliases": [],
+    "purpose": "以压缩条件模式挖掘同口径频繁项集。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "与Apriori同事务/阈值口径；压缩不更改频数。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "FP-tree节点count；条件模式基；minsup频数/比例明确。"
+      ],
+      "core": "按频率顺序把事务压缩为FP-tree，对条件模式基递归挖掘频繁项集；规则指标沿用支持/置信/lift。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "按频数排序并建FP-tree。",
+      "递归条件模式基/树挖掘频繁项集。",
+      "用独立枚举/Apriori对照后生成规则。"
+    ],
+    "python": {
+      "apis": [
+        "mlxtend.frequent_patterns.fpgrowth"
+      ],
+      "dependencies": [
+        "mlxtend"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "原创FP-tree或核验外部接口"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "Apriori/直接枚举",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "小表与Apriori/枚举的频繁项集完全对照。",
+        "expected": "同阈值得到同项集，顺序只影响树组织。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "稠密长事务低阈值输出爆炸、计数丢失。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "mlxtend fpgrowth",
+        "url": "https://rasbt.github.io/mlxtend/user_guide/frequent_patterns/fpgrowth/",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      },
+      {
+        "title": "Agrawal and Srikant Apriori",
+        "url": "https://www.vldb.org/conf/1994/P487.PDF",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "FP-growth频繁模式"
+    ]
+  },
+  {
+    "id": "ml-probability-calibration",
+    "name": "概率校准",
+    "family": "machine-learning",
+    "kind": "method",
+    "aliases": [],
+    "purpose": "在独立校准预测上改进概率口径。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "校准数据独立于模型拟合，类别基率与应用一致。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "s原分数；q校准概率；A,B拟合参数。"
+      ],
+      "core": "校准器q(s)：sigmoid q=1/(1+exp(As+B))或单调isotonic；按留出预测分数与y拟合。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "CalibratedClassifierCV",
+        "calibration_curve"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "独立校准集+Logit/isotonic方向"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "原概率/类频率",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "可靠度分箱、logloss/Brier以及校准样本量；测试标签不参与校准。",
+        "expected": "区分概率区分能力和校准，低Brier不单独宣称更好校准。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "复用训练标签、isotonic少样本过拟合、基率漂移。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Probability calibration",
+        "url": "https://scikit-learn.org/stable/modules/calibration.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "概率校准"
+    ]
+  },
+  {
+    "id": "ml-hmm",
+    "name": "隐马尔可夫模型HMM",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "从有序观测推断隐状态概率/路径和发射机制。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "隐状态一阶Markov，给定状态观测条件独立；发射/多序列边界明确。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "z隐状态；A转移；π初态；b发射分布。"
+      ],
+      "core": "p(z,x)=π_{z1}Π_{t>1}A_{z_{t-1},z_t}Π_t b_{z_t}(x_t)；forward/backward求似然与后验，Viterbi求最可能路径。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "明确多序列边界、状态数、发射与初值。",
+      "forward/backward+EM估计；Viterbi/后验按所求输出。",
+      "检查归一、停止状态、短序列枚举和独立序列。"
+    ],
+    "python": {
+      "apis": [
+        "hmmlearn.GaussianHMM/Discrete variants"
+      ],
+      "dependencies": [
+        "hmmlearn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "hmmtrain/hmmdecode/hmmviterbi（离散）；连续发射原创"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "单状态发射模型",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "A行和1、π和1；两状态短序列枚举似然与forward对照。",
+        "expected": "概率归一与递推相符，EM局部解/标签置换公开。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "发射错配、奇异协方差、跨序列串接、多初值敏感。"
+    ],
+    "fallback": "单混合/简单状态描述；Markov观测态主卡转simulation。",
+    "references": [
+      {
+        "title": "hmmlearn tutorial",
+        "url": "https://hmmlearn.readthedocs.io/en/stable/tutorial.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [
+      "statistics:stat-em",
+      "simulation:observed Markov chain"
+    ],
+    "covered_terms": [
+      "隐马尔可夫模型HMM"
+    ]
+  },
+  {
+    "id": "ml-shap",
+    "name": "SHAP模型预测解释",
+    "family": "machine-learning",
+    "kind": "method",
+    "aliases": [],
+    "purpose": "按明确背景分布解释已训练模型的预测。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "解释对象是已训练模型；条件/干预式背景及依赖特征选择改变归因。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "φ₀背景基值；φ_j模型预测贡献；p特征数。"
+      ],
+      "core": "f(x)=φ₀+Σφ_j；φ_j对所有特征子集的边际预测贡献按Shapley权重平均，value函数/背景分布必须明确。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "shap.Explainer/TreeExplainer（方向需版本）"
+      ],
+      "dependencies": [
+        "shap"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "shapley（功能范围需实际版本核对）"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "线性系数/置换重要性（非同一对象）",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "线性两特征模型枚举所有子集；检查base+sumφ=f(x)和背景敏感性。",
+        "expected": "local accuracy成立于所选解释定义，不由归因推出因果。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "相关特征任意拆分、背景不代表应用、把SHAP占比当真实因果重要度。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "Lundberg and Lee SHAP",
+        "url": "https://arxiv.org/pdf/1705.07874",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [
+      "games:Shapley value"
+    ],
+    "covered_terms": [
+      "SHAP模型预测解释"
+    ]
+  },
+  {
+    "id": "ml-lvq",
+    "name": "学习向量量化LVQ",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "登记监督原型量化的经典LVQ1更新。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "原型有类标签，η计划明确；LVQ变体不是同一更新式。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "w_c原型；η>0；c最近原型。"
+      ],
+      "core": "经典LVQ1：最邻近原型w_c；若类标签匹配w_c+=η(x-w_c)，否则w_c-=η(x-w_c)。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "训练内选择尺度与带类标签原型，定义最近赢家/并列规则。",
+      "按classic LVQ1正确类拉近、错误类推远，0<η<1并有停止上限。",
+      "独立核算方向和距离、原型标签；LVQ2/OLVQ等更新不得直接套同式。"
+    ],
+    "python": {
+      "apis": [
+        "原创prototype更新"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "自定义loop；lvqnet旧接口需再核验"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "kNN",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "二维单步拉近/推远手算，η=0不变。",
+        "expected": "原型标签/方向一致，验证独立。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "错误距离尺度、稀有类原型不足、变体混用。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Nearest Neighbors",
+        "url": "https://scikit-learn.org/stable/modules/neighbors.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      },
+      {
+        "title": "MathWorks learnlv1 algorithm, read this round",
+        "url": "https://www.mathworks.com/help/deeplearning/ref/learnlv1.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "学习向量量化LVQ",
+      "LVQ",
+      "学习向量量化"
+    ],
+    "materials": [
+      {
+        "source_label": "26.LVQ神经网络的分类——乳腺肿瘤诊断【微信公众号：数模加油站】/chapter26_lvq.m",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "sha256": "58813f2e387e36105245bef46e0be946db5af4ac30e7435ecefb765a64136a17",
+        "bytes": 1804,
+        "encoding": "gb18030",
+        "line_count": 61,
+        "read_scope": "Full source text, static only",
+        "executed": false
+      }
+    ],
+    "provenance_note": "源码明确learnlv1；当前官方Algorithm给赢家±lr(P-W)。只核验经典LVQ1，并未运行或验证来源领域案例。",
+    "theory_review": {
+      "checked_at": "2026-10-04",
+      "scope": "经典LVQ1原型更新、输入尺度/类标签和退化边界",
+      "evidence_record": "research/parent_requested_theory_closure.json",
+      "check_ids": [
+        "lvq1-direction"
+      ],
+      "implementation_claim": "No reference implementation or real case upgrade"
+    }
+  },
+  {
+    "id": "ml-grnn",
+    "name": "广义回归网络GRNN",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "用核归一回归预测连续响应。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "σ>0且距离/尺度适用；MATLAB spread参数与σ映射要核对。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "K非负核；σ宽度；y_i训练响应。"
+      ],
+      "core": "核回归形式ŷ(x)=Σ_i y_i K_σ(x,x_i)/Σ_i K_σ(x,x_i)，常用Gaussian核；宽度按训练内选择。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "原创Gaussian核+加权均值"
+      ],
+      "dependencies": [
+        "Python标准库/numpy（原创实现方向按实际选择）"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "自定义kernel；newgrnn仅旧接口"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "kNN回归",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "两点等距时输出均值；分母0/数值下溢处理。",
+        "expected": "核归一和输出范围可核算，宽度不靠测试集选。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "远点下溢、存储全部训练、尺度支配；旧接口将移除。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "MathWorks newgrnn",
+        "url": "https://www.mathworks.com/help/deeplearning/ref/newgrnn.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "广义回归网络GRNN",
+      "GRNN",
+      "广义回归神经网络"
+    ]
+  },
+  {
+    "id": "ml-pnn",
+    "name": "概率神经网络PNN",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "用类条件核密度与先验估计分类后验。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "类先验/核宽度和密度单位明确；密度值不直接等于概率。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "n_c类样本数；π_c先验；K核密度。"
+      ],
+      "core": "Parzen形式p(x|c)=(1/n_c)Σ_{i:y_i=c}K_σ(x,x_i)；P(c|x)∝π_c p(x|c)。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "原创类条件核密度"
+      ],
+      "dependencies": [
+        "Python标准库/numpy（原创实现方向按实际选择）"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "自定义kernel；newpnn仅旧接口"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "Naive Bayes/kNN",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "两类对称小例、后验行和1、宽度敏感。",
+        "expected": "先归一后验，正确区别密度/概率与类先验。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "高维核退化、先验不匹配、极度置信；旧接口将移除。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "MathWorks newpnn",
+        "url": "https://www.mathworks.com/help/deeplearning/ref/newpnn.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "概率神经网络PNN",
+      "PNN",
+      "概率神经网络"
+    ]
+  },
+  {
+    "id": "ml-rvm",
+    "name": "相关向量机RVM/ARD",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "登记Gaussian回归ARD/RVM候选及待核验原理论。",
+    "minimum_data": [
+      "回归：连续y、固定Φ基矩阵、Gaussian噪声/ARD先验；二分类另需Bernoulli标签和Laplace近似。",
+      "超参数域、bias基、初始化、精度/裁剪/停止规则及独立留出。"
+    ],
+    "assumptions": [
+      "此处仅Gaussian回归型，分类近似另议；超参数识别和数值稳定需补理论核验。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "Φ基矩阵；α>0精度；σ²噪声方差；m/Σ后验均值/协方差。"
+      ],
+      "core": "Gaussian回归：y=Φw+ε，ε~N(0,σ²I)，w~N(0,A^-1)，A=diagα>0；Σ=(ΦᵀΦ/σ²+A)^-1，m=ΣΦᵀy/σ²。C=σ²I+ΦA^-1Φᵀ，log evidence=-[n log2π+log|C|+yᵀC^-1y]/2；γ_i=1-α_iΣ_ii，αnew_i=γ_i/m_i²，σ²new=||y-Φm||²/(n-Σγ)。新观测var=σ²+φ*ᵀΣφ*；hyperparameter mode是full Bayes近似。",
+      "objective_constraints": "uniform scale-hyperprior条件下type-II证据最大化；α,σ²>0，近0均值/非正有效自由度/病态需明确处理。不是任意RVM版本共享固定剪枝阈值。"
+    },
+    "algorithm_steps": [
+      "定义Φ/噪声/ARD先验，固定初值及参数域。",
+      "条件Gaussian posterior用线性求解；更新证据或所选作者再估计式，检查正定/有效自由度与停止，多初值。",
+      "按实际裁剪规则作独立预测/区间检查；Bernoulli版本改MAP+Laplace而不沿用Gaussian噪声方差。"
+    ],
+    "python": {
+      "apis": [
+        "原创核Φ+ARD证据优化；ARDRegression仅线性ARD方向"
+      ],
+      "dependencies": [
+        "scipy"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "原创ARD/似然方向，无内置RVM承诺"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "Ridge",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "固定α/σ与手算Gaussian posterior比较；多初值/pruning敏感。",
+        "expected": "不由稀疏结果声称真实重要变量；原论文关键段核验后再升级。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "m_i≈0、α无穷/裁剪、n-Σγ≤0、病态基、多证据局部解；不同hyperprior更新不同。",
+      "二分类没有Gaussian噪声σ²，须MAP/Laplace；概率预测的后验积分不等于直接sigmoid(MAP)。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "Tipping Sparse Bayesian Learning and the Relevance Vector Machine",
+        "url": "https://www.jmlr.org/papers/volume1/tipping01a/tipping01a.pdf",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "metadata_recorded_at": "2026-10-04"
+      },
+      {
+        "title": "SciPy lstsq",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.lstsq.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "相关向量机RVM/ARD",
+      "RVM",
+      "相关向量机",
+      "ARD（基于先验精度的组件）"
+    ],
+    "variants": [
+      {
+        "name": "Gaussian regression with uniform scale-hyperprior point estimate",
+        "knowledge_level": "THEORY_GUIDE_REVIEWED",
+        "locator": "PDF pp5–7"
+      },
+      {
+        "name": "Bernoulli classification Laplace outline",
+        "knowledge_level": "THEORY_GUIDE_REVIEWED",
+        "core": "maximize Σ[ylogp+(1-y)log(1-p)]-wᵀAw/2；ΣLaplace=(ΦᵀBΦ+A)^-1，B=diag[p(1-p)]，没有σ²噪声项。",
+        "locator": "PDF pp8–9"
+      },
+      {
+        "name": "sequential fast updates / other hyperpriors / library implementation",
+        "knowledge_level": "INDEXED_ONLY",
+        "remaining": "具体更新、数值裁剪、停止/多类或稀疏实现未逐项核验。"
+      }
+    ],
+    "provenance_note": "本轮直接读取Tipping作者论文物理PDF pp5–9，完成平方与条件posterior小例核验。按请求不自动修改旧reference_only URL标签；新阅读定位在theory_review和closure记录，未复现论文表现。",
+    "theory_review": {
+      "checked_at": "2026-10-04",
+      "scope": "作者Gaussian regression证据再估计与Bernoulli/Laplace基本结构；不覆盖所有实现",
+      "evidence_record": "research/parent_requested_theory_closure.json",
+      "check_ids": [
+        "rvm-gaussian-square"
+      ],
+      "implementation_claim": "No reference implementation or real case upgrade"
+    }
+  },
+  {
+    "id": "ml-gaussian-process",
+    "name": "高斯过程回归GPR",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "以核和噪声生成连续响应的后验均值/方差。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "核PSD、噪声/尺度与超参数明确；有限Gaussian假设而非普遍真实区间。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "K训练核矩阵；k*交叉核；k**自核；σ²>0。"
+      ],
+      "core": "f~GP(m,k)，y=f(X)+ε，C=K+σ²I；m*=k*ᵀC⁻¹(y-m)+m(x*)，v*=k**-k*ᵀC⁻¹k*（latent；观测另加噪声）。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "GaussianProcessRegressor"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fitrgp"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Statistics and Machine Learning Toolbox（按所选接口）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "Ridge/线性GP",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "小矩阵posterior手算、对称PSD与Cholesky；重复点/noise。",
+        "expected": "方差不负于数值容差，latent/观测区间不混淆。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "n大O(n³)、高维/域漂移、优化局部、jitter掩盖非法核。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Gaussian Processes",
+        "url": "https://scikit-learn.org/stable/modules/gaussian_process.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "高斯过程回归GPR",
+      "GPR",
+      "高斯过程回归",
+      "GPML（第三方实现不是新模型）"
+    ]
+  },
+  {
+    "id": "ml-hopfield",
+    "name": "经典Hopfield关联记忆与优化接口",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "登记关联记忆/能量型网络并限制同步和连续变体。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "仅本卡对称零对角、bipolar、异步且零场不变的定义；公平更新到无变化。",
+      "局部固定点/存储模式稳定性与全局最优不同；连续TSP和newhop内部设计需分别核验。"
+    ],
+    "mathematics": {
+      "notation": [
+        "v状态；W对称耦合；E能量；b阈值偏置。"
+      ],
+      "core": "经典bipolar离散模型：v∈{-1,1}^n，W=Wᵀ，Wii=0；E=-vᵀWv/2-bᵀv。异步单坐标v_i′=sign(Σj≠i Wijv_j+b_i)，局部场0保持旧态。ΔE=-(v_i′-v_i)H_i≤0。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "明确状态、W对称/零对角、b和初态；可选Hebb权重也要实查所存模式是否稳定。",
+      "一次更新一个神经元，零场保持；每步独立算ΔE与实际E。",
+      "无变化完整扫描后输出固定点；同步周期/虚假记忆反例必须报告。"
+    ],
+    "python": {
+      "apis": [
+        "原创异步更新"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "原创异步；newhop旧接口需核验"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "直接最近存储模式/小优化枚举",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "逐次单点更新独立核算E；两点同步振荡反例。",
+        "expected": "经典条件下E不增加，约束问题仍独立检验排列/可行性。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "非对称/同步、虚假记忆、TSP处罚/动力不同式。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn neural networks",
+        "url": "https://scikit-learn.org/stable/modules/neural_networks_supervised.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "经典Hopfield关联记忆与优化接口",
+      "Hopfield",
+      "Hopfield连续TSP（需另核验能量/动力式）"
+    ],
+    "materials": [
+      {
+        "source_label": "10.离散Hopfield神经网络的分类——高校科研能力评价【微信公众号：数模加油站】/chapter10.m",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "sha256": "7af1b9fb50bbad833deaed061472a3ac1fa0bfd0e0734e88f10f3356e14242f6",
+        "bytes": 1452,
+        "encoding": "gb18030",
+        "line_count": 69,
+        "read_scope": "Full source text, static only",
+        "executed": false
+      }
+    ],
+    "provenance_note": "已读来源newhop调用但未读其内部实现；THEORY只凭明确canonical定义及独立能量差证明，不声称作者文献/旧API已核验。",
+    "variants": [
+      {
+        "name": "canonical asynchronous bipolar",
+        "knowledge_level": "THEORY_GUIDE_REVIEWED"
+      },
+      {
+        "name": "source newhop internal / continuous TSP dynamics",
+        "knowledge_level": "INDEXED_ONLY",
+        "remaining": "权重构造/更新顺序/连续能量与动力的同版本映射未核验。"
+      }
+    ],
+    "theory_review": {
+      "checked_at": "2026-10-04",
+      "scope": "经典对称异步bipolar能量下降与同步反例；不覆盖所有来源newhop/连续变体",
+      "evidence_record": "research/parent_requested_theory_closure.json",
+      "check_ids": [
+        "hopfield-energy"
+      ],
+      "implementation_claim": "No reference implementation or real case upgrade"
+    }
+  },
+  {
+    "id": "ml-wavelet-network",
+    "name": "小波NN：本资料Morlet-like激活前馈变体",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "审查已见源码的非线性激活网络、尺度/平移和训练导数；不冒称唯一小波网络或正交变换。",
+    "minimum_data": [
+      "X/连续Y的真实训练与未来留出，M/N与层数、basis及输出偏置定义。",
+      "本资料scalar basis函数；多输出更新应按输出索引，不能复用来源广播错误。"
+    ],
+    "assumptions": [
+      "本卡仅已见Morlet-like激活前馈结构；其未零均值校正，不主张严格admissible/正交wavelet基。",
+      "梯度按明确训练损失推导；不能照抄源d_a；a避免0，时序数据按信息集划分。"
+    ],
+    "mathematics": {
+      "notation": [
+        "x∈R^M；w_j输入方向；a_j≠0尺度（可选择a_j>0重参数化）；b_j平移。",
+        "z_j=(w_jᵀx-b_j)/a_j；v_j输出权重；q输出偏置若选用。"
+      ],
+      "core": "h_j=ψ(z_j)，ψ(z)=exp(-z²/2)cos(1.75z)，ŷ=Σ_j v_j h_j（本来源无输出偏置）。ψ′=exp(-z²/2)[-1.75sin(1.75z)-zcos(1.75z)]；dz/da=-z/a，dz/db=-1/a，dz/dw=x/a。",
+      "objective_constraints": "采用明确的平方误差训练目标（原代码显示的绝对误差不是其更新对应的同一损失）；尺度远离0，训练内归一化及输出域。"
+    },
+    "algorithm_steps": [
+      "冻结psi、层维数、尺度/平移和损失；训练内fit归一化。",
+      "按前向式与链式导数原创实现，先验证尺度/平移/权重梯度；修正来源d_a分母与多输出索引。",
+      "独立保留时间/群组留出，检查0尺度/远场下溢、梯度和baseline。"
+    ],
+    "python": {
+      "apis": [
+        "numpy/PyTorch按该具体结构原创前向与导数方向"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "按已核验psi/导数原创scalar/elementwise实现或dlnetwork自定义激活，不执行原wavenn"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Deep Learning Toolbox（按所选方向）"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "原特征MLP/线性",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "先核验特征/激活定义与可重构性，再按网络验梯度/留出。",
+        "expected": "未完成结构核验保持INDEXED_ONLY。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "源d_a含不应出现的b分母，与dilation链式导数不符；源绝对误差记录与平方误差梯度混用。",
+      "a接近0、向量乘法/多输出广播、归一化/窗口泄漏；不可把此激活当零均值正交基。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn neural networks",
+        "url": "https://scikit-learn.org/stable/modules/neural_networks_supervised.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "小波NN：本资料Morlet-like激活前馈变体",
+      "小波神经网络",
+      "wavelet neural network"
+    ],
+    "materials": [
+      {
+        "source_label": "chapter32/wavenn.m",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "sha256": "0c03effe328b434bf0c9cd9d614c36cc5753ee9a44abd016c63d2ab5b6c5f236",
+        "bytes": 5472,
+        "encoding": "gb18030",
+        "line_count": 161,
+        "read_scope": "Full source text, static only",
+        "executed": false
+      },
+      {
+        "source_label": "chapter32/mymorlet.m",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "sha256": "37036e6b7a4250b0cde4e393f79dc77486e230bb1de105726954c78babe373e7",
+        "bytes": 90,
+        "encoding": "gb18030",
+        "line_count": 4,
+        "read_scope": "Full source text, static only",
+        "executed": false
+      },
+      {
+        "source_label": "chapter32/d_mymorlet.m",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "sha256": "160e94178e245bd92a655321bc523f7fa063107ab4de29b373579489d9d592f4",
+        "bytes": 97,
+        "encoding": "utf8",
+        "line_count": 3,
+        "read_scope": "Full source text, static only",
+        "executed": false
+      }
+    ],
+    "provenance_note": "本轮全文阅读三文件，核验basis及导数；源码训练/预测未运行，严格小波变换理论和其它网络架构不自动覆盖。",
+    "variants": [
+      {
+        "name": "source Morlet-like feedforward",
+        "knowledge_level": "THEORY_GUIDE_REVIEWED"
+      },
+      {
+        "name": "wavelet features+MLP / admissible wavelet network",
+        "knowledge_level": "INDEXED_ONLY",
+        "remaining": "需实际母小波、网络图与变换约定；不是本来源结构。"
+      }
+    ],
+    "theory_review": {
+      "checked_at": "2026-10-04",
+      "scope": "源码明确的Morlet-like scalar激活网络；链式导数/尺度域/实现错误",
+      "evidence_record": "research/parent_requested_theory_closure.json",
+      "check_ids": [
+        "morlet-like-chain"
+      ],
+      "implementation_claim": "No reference implementation or real case upgrade"
+    }
+  },
+  {
+    "id": "ml-collaborative-filtering",
+    "name": "协同过滤与评分矩阵分解",
+    "family": "machine-learning",
+    "kind": "model",
+    "aliases": [],
+    "purpose": "从稀疏评分/反馈为用户物品估计偏好。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "missing不是0分，显式/隐式反馈目标不同；按用户/物品/时间任务切分。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "Ω观察评分集合；u用户,i物品；p/q潜因子；λ≥0。"
+      ],
+      "core": "显式评分：r̂_ui=μ+b_u+b_i+p_uᵀq_i；minΣ_{(u,i)∈Ω}(r-r̂)²+λ(||P||²+||Q||²+||b||²)；邻域型另记录相似度。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "保留观测mask和信息时点并建均值baseline。",
+      "只对Ω内评分更新偏置/潜因子及正则。",
+      "独立用户/物品/时间留出与cold-start回退。"
+    ],
+    "python": {
+      "apis": [
+        "surprise.SVD；原创观测mask+SGD"
+      ],
+      "dependencies": [
+        "scikit-surprise"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "原创mask低秩最小二乘/SGD"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "全局/用户/物品均值",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "低秩小矩阵只在Ω核算损失；cold-start回退测试。",
+        "expected": "观测mask未丢，新用户/物品明确回退，避免随机评分拆分夸大冷启动能力。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "稀疏/偏置、曝光选择、未来评分泄漏、把SVD名称当普通完整矩阵分解。"
+    ],
+    "fallback": "流行度/内容基准，记录冷启动限制。",
+    "references": [
+      {
+        "title": "Surprise matrix factorization",
+        "url": "https://surprise.readthedocs.io/en/stable/matrix_factorization.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "协同过滤与评分矩阵分解",
+      "协同过滤",
+      "推荐系统",
+      "显式评分矩阵分解"
+    ]
+  },
+  {
+    "id": "ml-smote",
+    "name": "SMOTE训练内过采样",
+    "family": "machine-learning",
+    "kind": "method",
+    "aliases": [],
+    "purpose": "仅在训练内生成少数类插值样本。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "连续特征距离适用，少数类样本>邻居数；类别/混合特征需相应变体。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "δ插值比例；k邻居数；x_new合成训练点。"
+      ],
+      "core": "少数类邻居x_j，x_new=x_i+δ(x_j-x_i)，δ∈[0,1]；只对训练fold插值，之后再拟合分类器。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "先隔离训练/验证/测试。",
+      "训练fold内找少数类邻居并插值，再拟合模型。",
+      "原验证分布评估及检查合成样本身份。"
+    ],
+    "python": {
+      "apis": [
+        "imblearn.over_sampling.SMOTE",
+        "imblearn.pipeline.Pipeline"
+      ],
+      "dependencies": [
+        "scikit-learn",
+        "imbalanced-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "原创邻域插值，MATLAB接口不作承诺"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "类权重/不重采样",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "新点在线段内；保留验证/测试原始分布；不把生成点当新观测。",
+        "expected": "采样只训练内，评价原基率与业务代价。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "全数据SMOTE后再切分、噪声过采样、高维距离/稀有小类。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "imbalanced-learn Over-sampling",
+        "url": "https://imbalanced-learn.org/stable/over_sampling.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      },
+      {
+        "title": "scikit-learn Common pitfalls",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "SMOTE训练内过采样",
+      "SMOTE",
+      "训练内过采样"
+    ]
+  },
+  {
+    "id": "ml-preprocessing-validation",
+    "name": "学习管道与预测指标",
+    "family": "machine-learning",
+    "kind": "auxiliary",
+    "aliases": [],
+    "purpose": "构建不泄漏的学习管道和定义一致的预测指标。",
+    "minimum_data": [
+      "按任务组织的X与标签/无监督样本，独立验证单位及输入布局。",
+      "样本/时点/群组定义及变量单位；已有上层数据边界。"
+    ],
+    "assumptions": [
+      "数值/类别变换、缺失意义、对象/时点划分与零分母政策固定。",
+      "预测验证切分与实际使用匹配；预处理和调参仅用训练数据。"
+    ],
+    "mathematics": {
+      "notation": [
+        "TP/FP/FN事件计数；e=y-ŷ；T只训练估计。"
+      ],
+      "core": "训练fold拟合变换T；ŷ=f(T(X))；MAE=mean|e|，MSE=mean e²；precision=TP/(TP+FP)，recall=TP/(TP+FN)，F1=2TP/(2TP+FP+FN)。；AUC的排序定义为P(score_pos>score_neg)+0.5P(tie)，不是固定分类阈值accuracy；具体ROC实现/变体仍按接口核验。",
+      "objective_constraints": "估计目标与机制见core；无额外任务优化目标时不编造目标函数。"
+    },
+    "algorithm_steps": [
+      "核对输入域、口径、假设与baseline。",
+      "按core构造估计/求解，记录参数、停止状态与依赖版本。",
+      "按verification独立核验并在任务匹配的留出数据评估。"
+    ],
+    "python": {
+      "apis": [
+        "Pipeline",
+        "ColumnTransformer",
+        "sklearn.metrics"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口为实现方向，本卡未运行；需锁定实际版本、随机源和数据布局。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "训练内fit/apply参数及独立评估原创流程"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "DummyClassifier/Regressor与时间朴素",
+    "verification": [
+      {
+        "check": "核心数学/小例",
+        "method": "独立算混淆矩阵；只改测试数据不得改变训练变换参数；group/time泄漏检查。",
+        "expected": "所有指标含对象/阈值/样本集口径；调参/校准/最终评估分离。"
+      },
+      {
+        "check": "任务验收",
+        "method": "与baseline比较；留出/分组/时间边界由任务确定，报告不确定性及实际失败。",
+        "expected": "不使用训练拟合或资料旧输出冒充新验证，阈值预先按任务定义。"
+      }
+    ],
+    "failure_modes": [
+      "ID/未来变量、全样本缩放插补/PCA、未分离群组、零分母伪0。"
+    ],
+    "fallback": "简化到baseline，报告损失与未满足前提。",
+    "references": [
+      {
+        "title": "scikit-learn Cross-validation",
+        "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      },
+      {
+        "title": "scikit-learn Common pitfalls",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      },
+      {
+        "title": "scikit-learn Probability calibration",
+        "url": "https://scikit-learn.org/stable/modules/calibration.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "学习管道与预测指标",
+      "数据预处理",
+      "标准化",
+      "归一化",
+      "缺失插补",
+      "特征选择",
+      "CV",
+      "交叉验证",
+      "nested CV",
+      "时间/群组划分",
+      "预测指标",
+      "MAE",
+      "MSE",
+      "RMSE",
+      "accuracy",
+      "precision",
+      "recall",
+      "F1",
+      "ROC/AUC（排序指标，未新增实现）",
+      "训练测试泄漏"
+    ]
+  },
+  {
+    "id": "ml-boosting-components",
+    "name": "树提升组件、LambdaMART与RGF选型指南",
+    "family": "machine-learning",
+    "kind": "auxiliary",
+    "aliases": [
+      "GOSS",
+      "EFB",
+      "weighted quantile sketch",
+      "加权分位数草图",
+      "LambdaMART",
+      "RGF",
+      "Regularized Greedy Forest"
+    ],
+    "purpose": "区分加速组件、按query排序树与正则森林；给出可冻结的数学起点。",
+    "minimum_data": [
+      "监督任务X/y；排序任务还需query组和组内相关度标签；切分按实际时点/群组。",
+      "加速组件需原GBDT目标、梯度/Hessian、稀疏特征冲突与内存预算。"
+    ],
+    "assumptions": [
+      "GOSS/EFB/分位草图是实现组件，不能被报告成新增独立预测模型。",
+      "LambdaMART只在同一query内配对；NDCG的gain、discount、cutoff、全零标签约定要声明。",
+      "RGF必须声明损失与正则形式，不能和普通随机森林或不重估旧权重的GBDT混用。"
+    ],
+    "mathematics": {
+      "notation": [
+        "g_i负梯度；A为最大|g|的a*n个样本，B从其余样本抽b*n个，0<b≤1-a。",
+        "排序s_i=F(x_i)，y_i>y_j为同query偏好，D_ij=|交换i/j后的NDCG变化|，σ>0。",
+        "森林叶规则b_v(x)=I(x落在叶v)，系数α_v；λ_reg≥0。"
+      ],
+      "core": [
+        "GOSS切分统计：高梯度项权1，小梯度B项重权(1-a)/b；用于恢复被抽样小梯度部分的和。不可混用“抽余集比例”的b定义。",
+        "EFB将互斥/受限冲突的稀疏特征用不同bin偏移合并，保留原特征到bin区间的映射；发生冲突时按实际库规则处理。",
+        "加权分位定义F_w(z)=Σ_i w_i I(x_i≤z)/Σ_i w_i；w_i≥0且Σw_i>0，近似草图须另声明rank误差和merge/prune规则。",
+        "LambdaMART采用增加高相关项分数的负梯度约定：p_ij=1/(1+exp[σ(s_i-s_j)])，λ_i+=σ D_ij p_ij，λ_j-=同量；h_i,h_j+=σ² D_ij p_ij(1-p_ij)。",
+        "将各样本λ拟合为回归树，叶R的Newton值γ_R=Σ_R λ_i/Σ_R h_i；F←F+ηΣ_R γ_R I(x∈R)。分母为0要停止/声明正则策略；这是lambda伪梯度路线，不称NDCG的普通可导梯度或全局最优。",
+        "RGF选定叶L2变体：h_F=Σ_leaf α_v b_v；Q(F,α)=L(h_F(X),y)+(λ_reg/2)Σ_leaf α_v²。贪心比较分裂一叶或新增stump，再周期性对全部已有叶权重重优化。原论文更复杂的min-penalty正则是另一个变体。"
+      ],
+      "objective_constraints": [
+        "预测损失/排序指标由任务确定；query之间不构造配对。RGF固定结构下的权重优化不能证明全森林结构全局最优。"
+      ]
+    },
+    "algorithm_steps": [
+      "先选择组件或完整模型并冻结目标、组定义和具体变体。",
+      "仅训练数据建立bin/稀疏映射或迭代树；保留参数、随机源和训练预算。",
+      "排序每轮按当前分数计算组内D/λ/h，再拟合树和叶值；RGF交替结构贪心与全叶权重优化。",
+      "在独立query/时间留出和相同资源预算下与简单基准比较。"
+    ],
+    "python": {
+      "apis": [
+        "lightgbm.LGBMRanker (group/eval_group必须与实际组顺序一致)",
+        "RGF选定变体可按叶指示矩阵+权重优化原创实现；无包内RGF可运行程序承诺"
+      ],
+      "dependencies": [
+        "lightgbm",
+        "xgboost"
+      ],
+      "implementation_notes": [
+        "本卡为理论与实现指南，未运行LightGBM/XGBoost/RGF。当前API配置需按安装版本文档核对，组件开关不是独立模型。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "明确外部接口，未承诺内置支持"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "本轮无MATLAB运行证据；旧教材函数不视作当前推荐接口。"
+      ]
+    },
+    "baseline": "精确GBDT/每query排序基准",
+    "verification": [
+      {
+        "check": "GOSS/EFB/分位",
+        "method": "小精确统计对照抽样加权和；还原bundle bin映射；比较精确加权CDF及声明误差。",
+        "expected": "采样率定义和权重一致，冲突及近似误差明确。"
+      },
+      {
+        "check": "LambdaMART",
+        "method": "两项目高低相关小例，λ等量反号且高相关项向上；单query交换手核D，禁止跨query配对。",
+        "expected": "Σ_query λ≈0；全同相关或D=0不产生NaN；报告query留出NDCG而非训练拟合。"
+      },
+      {
+        "check": "RGF",
+        "method": "固定小树对照叶指示矩阵的L2权重目标；固定结构优化前后比较Q；加入叶分裂与新增stump的预算记录。",
+        "expected": "损失+正则定义一致，所有旧叶权重允许重估；只声明局部/贪心结果。"
+      }
+    ],
+    "failure_modes": [
+      "query切错或跨query泄漏；NDCG全零分母未处理；lambda符号相反；采样率重权失配；bundle冲突丢信息；把叶L2冒称全部RGF正则。"
+    ],
+    "fallback": "精确GBDT；每query固定规则排序；固定小树+L2叶权重优化。",
+    "references": [
+      {
+        "title": "Ke et al LightGBM",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      },
+      {
+        "title": "Chen and Guestrin XGBoost",
+        "url": "https://arxiv.org/pdf/1603.02754",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary"
+      },
+      {
+        "title": "Burges, From RankNet to LambdaRank to LambdaMART (MSR-TR-2010-82)",
+        "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/MSR-TR-2010-82.pdf",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "Targeted read of sections 3, 4.1 and 7; NDCG/lambda convention and algorithm.",
+        "execution_scope": "No implementation or real-case execution is claimed by this reference."
+      },
+      {
+        "title": "Johnson and Zhang, Learning Nonlinear Functions Using Regularized Greedy Forest",
+        "url": "https://arxiv.org/pdf/1109.0887",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "Targeted read of sections II and V, Algorithm 3 and leaf-only L2 regularizer. Other regularizers are not included as tested variants.",
+        "execution_scope": "No implementation or real-case execution is claimed by this reference."
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": "NOT_RUN",
+      "matlab": "NOT_RUN"
+    },
+    "related_families": [],
+    "covered_terms": [
+      "树提升变体与组件登记",
+      "GOSS",
+      "EFB",
+      "weighted quantile sketch",
+      "加权分位数草图",
+      "LambdaMART",
+      "RGF",
+      "Regularized Greedy Forest",
+      "quantile-sketch"
+    ],
+    "variants": [
+      {
+        "name": "GOSS",
+        "scope": "小梯度抽样重权组件；未实现/测试"
+      },
+      {
+        "name": "EFB",
+        "scope": "稀疏互斥特征bin组合；未实现/测试"
+      },
+      {
+        "name": "weighted quantile sketch",
+        "scope": "加权CDF及近似边界指南；未实现草图"
+      },
+      {
+        "name": "LambdaMART",
+        "scope": "NDCG加权pair lambdas、树拟合与Newton叶值；未运行"
+      },
+      {
+        "name": "RGF",
+        "scope": "明确的叶L2正则贪心森林指南；未运行，其余正则另核验"
+      }
+    ],
+    "guide_completion": {
+      "date": "2026-10-04",
+      "prior_level": "INDEXED_ONLY",
+      "scope": "Added source-backed target/gradient and explicit RGF leaf-L2 variant; neither runtime test nor original corpus reproduction."
+    }
+  }
+]

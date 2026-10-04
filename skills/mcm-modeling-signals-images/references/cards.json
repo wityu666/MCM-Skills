@@ -1,0 +1,1875 @@
+[
+  {
+    "id": "sig-dft-fft",
+    "name": "DFT与FFT频域分析",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "FFT",
+      "DFT"
+    ],
+    "purpose": "估计有限采样序列的离散频率成分",
+    "minimum_data": [
+      "等间隔采样、采样率fs、样本x与时间窗口"
+    ],
+    "assumptions": [
+      "采样已满足目标频段的抗混叠要求",
+      "窗口/去趋势与归一化已声明；DFT有限周期延拓"
+    ],
+    "mathematics": {
+      "notation": [
+        "x_n样本；N长度；X_k复幅；f_k=k*fs/N（负频按约定重排）"
+      ],
+      "core": [
+        "X_k=sum_(n=0)^(N-1) x_n exp(-2*pi*i*k*n/N)",
+        "x_n=(1/N)sum_k X_k exp(2*pi*i*k*n/N)",
+        "默认此归一化下sum |x|²=(1/N)sum |X|²"
+      ],
+      "objective_constraints": [
+        "无优化目标；频率可分辨范围受采样与观测时长限制"
+      ]
+    },
+    "algorithm_steps": [
+      "核对采样/单位/缺测",
+      "明确去趋势和窗",
+      "DFT/FFT并映射频率",
+      "重构、能量及已知频率验算"
+    ],
+    "python": {
+      "apis": [
+        "scipy.fft.fft",
+        "rfft",
+        "fftfreq"
+      ],
+      "dependencies": [
+        "SciPy"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fft",
+        "ifft"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "常量序列只有DC；整周期单正弦在对应bin出现",
+    "verification": [
+      {
+        "check": "逆变换",
+        "method": "与直接求和小N/ifft比较",
+        "expected": "复原到声明精度"
+      },
+      {
+        "check": "Parseval",
+        "method": "独立算时域能量和频域能量",
+        "expected": "符合选定归一化"
+      },
+      {
+        "check": "混叠",
+        "method": "已知高频采样例",
+        "expected": "不能把折叠频率当原信号"
+      }
+    ],
+    "failure_modes": [
+      "不规则采样直接FFT",
+      "泄漏峰误作真实单频",
+      "zero-padding误称提高物理分辨率"
+    ],
+    "fallback": [
+      "直接小N DFT",
+      "更长/更高率观测或适合非均匀方法"
+    ],
+    "references": [
+      {
+        "title": "SciPy FFT 官方本机文档",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.fft.fft.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机官方包文档/源元数据；网页本次未读，路径/hash/版本见local_primary_source_checks.json"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED"
+  },
+  {
+    "id": "sig-linear-filter",
+    "name": "FIR/IIR数字滤波",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "digital filter",
+      "FIR",
+      "IIR"
+    ],
+    "purpose": "抑制/保留有定义频段的信号成分",
+    "minimum_data": [
+      "采样率、带宽/截止、相位/延迟需求、边界与噪声"
+    ],
+    "assumptions": [
+      "滤波频段低于Nyquist并有业务依据",
+      "实时需因果，离线前后向滤波消费未来样本"
+    ],
+    "mathematics": {
+      "notation": [
+        "b_j/a_i系数；a0!=0；x/y同信号单位"
+      ],
+      "core": [
+        "a0*y_n=sum_(j=0)^M b_j*x_(n-j)-sum_(i=1)^P a_i*y_(n-i)",
+        "H(z)=(sum b_j z^-j)/(sum a_i z^-i)"
+      ],
+      "objective_constraints": [
+        "滤波器稳定性/频段/延迟约束来自任务"
+      ]
+    },
+    "algorithm_steps": [
+      "设计并核验频率归一化",
+      "选FIR或稳定SOS IIR",
+      "定义初状态/边界",
+      "评估频响和任务误差"
+    ],
+    "python": {
+      "apis": [
+        "scipy.signal.firwin",
+        "butter(output='sos')",
+        "sosfilt",
+        "sosfiltfilt"
+      ],
+      "dependencies": [
+        "SciPy"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。",
+        "离线sosfiltfilt不是实时实现"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "fir1",
+        "butter",
+        "filter",
+        "sosfilt",
+        "filtfilt"
+      ],
+      "dependencies": [
+        "Signal Processing Toolbox"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "长度3移动平均的常量与脉冲响应",
+    "verification": [
+      {
+        "check": "增益/频率",
+        "method": "对常量、单位脉冲和通带/阻带正弦比较",
+        "expected": "符合系数和设计口径"
+      },
+      {
+        "check": "稳定",
+        "method": "检查极点/长时间输入响应",
+        "expected": "无非物理发散"
+      },
+      {
+        "check": "因果边界",
+        "method": "截断未来样本重算实时输出",
+        "expected": "不能变化已发出的输出"
+      }
+    ],
+    "failure_modes": [
+      "极点/数值不稳定",
+      "过度平滑改变事件",
+      "边界伪影/未来泄漏"
+    ],
+    "fallback": [
+      "简单FIR/移动平均",
+      "减阶或改善采样"
+    ],
+    "references": [
+      {
+        "title": "SciPy sosfilt 官方本机文档",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.sosfilt.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机官方包文档/源元数据；网页本次未读，路径/hash/版本见local_primary_source_checks.json"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED"
+  },
+  {
+    "id": "sig-wavelet-dwt",
+    "name": "离散小波变换",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "DWT",
+      "wavelet"
+    ],
+    "purpose": "分解多尺度局部变化并按任务重构",
+    "minimum_data": [
+      "采样、母小波/滤波器、分解级数、边界延拓"
+    ],
+    "assumptions": [
+      "分析/合成滤波器成对适配",
+      "尺度和频带含义受采样与小波决定，能量结论需对应正交性"
+    ],
+    "mathematics": {
+      "notation": [
+        "c_j近似，d_j细节；h/g分析滤波器，ht/gt合成滤波器"
+      ],
+      "core": [
+        "c_(j+1)[k]=sum_n h[n-2k]c_j[n]；d_(j+1)[k]=sum_n g[n-2k]c_j[n]（声明滤波约定）",
+        "c_j[n]=sum_k ht[n-2k]c_(j+1)[k]+gt[n-2k]d_(j+1)[k]"
+      ],
+      "objective_constraints": [
+        "无固定优化目标；去噪阈值和输出任务另定义"
+      ]
+    },
+    "algorithm_steps": [
+      "核验采样与滤波约定",
+      "选小波/合法级数/边界",
+      "分解、必要处理及重构",
+      "重构/特例/参数敏感性验算"
+    ],
+    "python": {
+      "apis": [
+        "pywt.wavedec",
+        "waverec"
+      ],
+      "dependencies": [
+        "PyWavelets"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "wavedec",
+        "waverec"
+      ],
+      "dependencies": [
+        "Wavelet Toolbox"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "Haar两点变换：均值/差值与逆变换可手核",
+    "verification": [
+      {
+        "check": "完美重构",
+        "method": "未修改系数时重构原序列",
+        "expected": "误差仅数值/约定边界"
+      },
+      {
+        "check": "级数/边界",
+        "method": "比较不同延拓与尺度",
+        "expected": "边界结论不冒充内部特征"
+      },
+      {
+        "check": "去噪主张",
+        "method": "合成有真值与任务指标",
+        "expected": "不只凭曲线平滑评判"
+      }
+    ],
+    "failure_modes": [
+      "越界级数",
+      "将小波NN当纯小波变换",
+      "阈值过强删除信号"
+    ],
+    "fallback": [
+      "Haar/低级数",
+      "原数据与简单滤波baseline"
+    ],
+    "references": [
+      {
+        "title": "PyWavelets wavedec 官方本机文档",
+        "url": "https://pywavelets.readthedocs.io/en/latest/ref/dwt-discrete-wavelet-transform.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机官方包文档/源元数据；网页本次未读，路径/hash/版本见local_primary_source_checks.json"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "applications": [
+      {
+        "name": "小波特征/异常检测",
+        "note": "特征和阈值需任务验证；不等于小波神经网络模型已核验"
+      }
+    ],
+    "materials": [
+      {
+        "source_label": "4、Matlab 41种常用算法程序包（免调试）/小波特征提取算法代码【微信公众号：数模加油站】.txt",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  },
+  {
+    "id": "sig-emd",
+    "name": "经验模态分解",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "EMD"
+    ],
+    "purpose": "按数据局部振荡分解非平稳序列",
+    "minimum_data": [
+      "有序采样、极值定义、包络插值、边界及筛分停止政策"
+    ],
+    "assumptions": [
+      "IMF条件是算法约束，不保证各模态唯一/统计独立",
+      "至少足够极值支持包络；参数和端点延拓透明"
+    ],
+    "mathematics": {
+      "notation": [
+        "u/l上下包络；m=(u+l)/2；c_j模态；r余项"
+      ],
+      "core": [
+        "筛分h=x-(u+l)/2并重复到IMF条件/声明阈值",
+        "x=sum_j c_j+r；IMF零交叉数和极值数最多差1，局部包络均值近零"
+      ],
+      "objective_constraints": [
+        "无统一优化目标；筛分容差/最大次数/余项停止必须声明"
+      ]
+    },
+    "algorithm_steps": [
+      "找极值并构造上下包络",
+      "筛分而非仅一次减均值",
+      "提取模态与余项",
+      "检查重构、端点和模态混叠"
+    ],
+    "python": {
+      "apis": [
+        "原创find_peaks+CubicSpline筛分",
+        "受审阅EMD库（可选）"
+      ],
+      "dependencies": [
+        "SciPy"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "emd(可用版本先核验)",
+        "原创筛分"
+      ],
+      "dependencies": [
+        "Signal Processing Toolbox(可选)"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "单已知正弦与单调趋势的分解/重构对照",
+    "verification": [
+      {
+        "check": "重构",
+        "method": "独立相加模态和余项",
+        "expected": "恢复原数据"
+      },
+      {
+        "check": "IMF条件",
+        "method": "独立极值/零交叉和包络均值统计",
+        "expected": "符合声明筛分政策"
+      },
+      {
+        "check": "鲁棒",
+        "method": "端点/微噪声/参数变化",
+        "expected": "报告模态混叠/不唯一"
+      }
+    ],
+    "failure_modes": [
+      "少极值",
+      "端点效应",
+      "模式混叠",
+      "把分量当确定物理源"
+    ],
+    "fallback": [
+      "低阶趋势+频域分析",
+      "保留不确定分量，不强行命名"
+    ],
+    "references": [
+      {
+        "title": "Huang et al. 1998 EMD/Hilbert spectrum 原论文",
+        "url": "https://doi.org/10.1098/rspa.1998.0193",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "checked_scope": "已定位出版信息/摘要；完整算法论文未读取",
+        "metadata_recorded_at": "2026-10-04"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "materials": [
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/17.MATLAB工具箱-Matlab-EMD工具箱+最新版emd",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  },
+  {
+    "id": "sig-hilbert-analytic",
+    "name": "Hilbert解析信号与瞬时频率",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "analytic signal",
+      "Hilbert transform",
+      "HHT组件"
+    ],
+    "purpose": "对适当单分量信号估计包络、相位及局部频率",
+    "minimum_data": [
+      "有序采样、单分量假设、频率/幅值范围与边界"
+    ],
+    "assumptions": [
+      "幅值接近0处相位不可靠",
+      "多分量叠加的瞬时频率不能随意解释为各物理频率"
+    ],
+    "mathematics": {
+      "notation": [
+        "z=x+iH{x}；A=|z|；phi=unwrap(arg z)；f_inst[cycles/time]"
+      ],
+      "core": [
+        "f_inst=(1/(2*pi))*dphi/dt",
+        "频域解析信号保留DC并倍增正频，抑制负频（Nyquist按离散约定处理）"
+      ],
+      "objective_constraints": [
+        "无固定优化目标；有效幅值域/平滑求导政策需定义"
+      ]
+    },
+    "algorithm_steps": [
+      "核对采样/边界及单分量适用性",
+      "构造解析信号",
+      "unwrap并定义稳健导数",
+      "屏蔽未可靠幅值区间，检查特例"
+    ],
+    "python": {
+      "apis": [
+        "scipy.signal.hilbert",
+        "numpy.unwrap"
+      ],
+      "dependencies": [
+        "SciPy",
+        "NumPy"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "hilbert",
+        "unwrap"
+      ],
+      "dependencies": [
+        "Signal Processing Toolbox"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "x=cos(2*pi*f*t)整周期时A=1，频率f",
+    "verification": [
+      {
+        "check": "已知载波",
+        "method": "纯正弦对照幅值/相位导数",
+        "expected": "匹配采样误差"
+      },
+      {
+        "check": "负频抑制",
+        "method": "独立小N频域检查",
+        "expected": "符合解析约定"
+      },
+      {
+        "check": "无效幅值",
+        "method": "检查近零幅段",
+        "expected": "不输出确定频率解释"
+      }
+    ],
+    "failure_modes": [
+      "混合振荡",
+      "端点伪影",
+      "导数放大噪声"
+    ],
+    "fallback": [
+      "先任务适当的分解/滤波",
+      "只报告可靠频段/包络"
+    ],
+    "references": [
+      {
+        "title": "SciPy Hilbert官方文档（仅链接定位）",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.hilbert.html",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "metadata_recorded_at": "2026-10-04"
+      },
+      {
+        "title": "Huang et al. 1998",
+        "url": "https://doi.org/10.1098/rspa.1998.0193",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "metadata_recorded_at": "2026-10-04"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED"
+  },
+  {
+    "id": "sig-ica",
+    "name": "独立成分分析/FastICA",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "ICA",
+      "FastICA"
+    ],
+    "purpose": "在混合假设成立时分离潜在独立源",
+    "minimum_data": [
+      "多通道样本、源数候选、中心化/白化定义"
+    ],
+    "assumptions": [
+      "线性混合X=A*S；源相互独立、至多一个Gaussian，混合足够秩",
+      "尺度/符号/排列不唯一，不自动赋物理标签"
+    ],
+    "mathematics": {
+      "notation": [
+        "z白化样本；w投影；g非线性，g'导数"
+      ],
+      "core": [
+        "FastICA固定点w_new=E[z*g(w'z)]-E[g'(w'z)]w，再正交化/归一化",
+        "估计S=W*(X-mu)，存在排列/尺度等价"
+      ],
+      "objective_constraints": [
+        "非Gaussian对比函数/收敛政策需声明；无业务排序目标"
+      ]
+    },
+    "algorithm_steps": [
+      "核对通道/样本和独立性前提",
+      "训练内中心化/白化",
+      "固定点或审阅实现求分量",
+      "匹配不定性后验证"
+    ],
+    "python": {
+      "apis": [
+        "sklearn.decomposition.FastICA"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "受审阅FastICA实现",
+        "原创白化/固定点"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "两独立非Gaussian源的已知可逆混合",
+    "verification": [
+      {
+        "check": "恢复",
+        "method": "按排列/符号/尺度匹配已知合成源",
+        "expected": "不以逐元素原样相等作判据"
+      },
+      {
+        "check": "白化/收敛",
+        "method": "协方差/固定点残差、多初始化",
+        "expected": "满足声明条件"
+      },
+      {
+        "check": "独立性",
+        "method": "独立依赖统计与应用证据",
+        "expected": "相关低不等于完全独立"
+      }
+    ],
+    "failure_modes": [
+      "多Gaussian源",
+      "源数/混合秩不足",
+      "非线性混合"
+    ],
+    "fallback": [
+      "PCA降维主卡",
+      "保留混合分量并限制解释"
+    ],
+    "references": [
+      {
+        "title": "scikit-learn FastICA 官方本机文档",
+        "url": "https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机官方包文档/源元数据；网页本次未读，路径/hash/版本见local_primary_source_checks.json"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "materials": [
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/13.MATLAB工具箱-ICA独立成分分析",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  },
+  {
+    "id": "sig-gaussian-smoothing",
+    "name": "Gaussian平滑",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "Gaussian filter"
+    ],
+    "purpose": "以声明尺度抑制高频变化",
+    "minimum_data": [
+      "像素/采样间隔、sigma单位、边界与通道"
+    ],
+    "assumptions": [
+      "线性平滑对任务可接受；sigma不是任意去噪审美值",
+      "各轴尺度及有限核截断需说明"
+    ],
+    "mathematics": {
+      "notation": [
+        "d维坐标r；sigma与坐标同单位；G积分为1"
+      ],
+      "core": [
+        "G_sigma(r)=(2*pi*sigma²)^(-d/2) exp(-||r||²/(2sigma²))",
+        "输出y=G_sigma*x；离散截断核需重新归一化"
+      ],
+      "objective_constraints": [
+        "无固定优化目标；平滑尺度/边缘损失由任务评估"
+      ]
+    },
+    "algorithm_steps": [
+      "统一像素/物理尺度",
+      "声明通道、边界和截断",
+      "卷积平滑",
+      "常量/脉冲及任务误差核验"
+    ],
+    "python": {
+      "apis": [
+        "skimage.filters.gaussian",
+        "scipy.ndimage.gaussian_filter"
+      ],
+      "dependencies": [
+        "scikit-image",
+        "SciPy"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "imgaussfilt",
+        "imfilter"
+      ],
+      "dependencies": [
+        "Image Processing Toolbox"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "常量场在保持常量的边界下不变",
+    "verification": [
+      {
+        "check": "常量/归一化",
+        "method": "独立核查核sum=1与常量输出",
+        "expected": "不改变DC"
+      },
+      {
+        "check": "脉冲",
+        "method": "核形状与尺度对照",
+        "expected": "无错误轴/单位"
+      },
+      {
+        "check": "应用",
+        "method": "边缘/事件保真与baseline",
+        "expected": "不只追求更平滑"
+      }
+    ],
+    "failure_modes": [
+      "模糊有效边缘",
+      "不同轴单位忽略",
+      "边界伪影"
+    ],
+    "fallback": [
+      "小sigma或不平滑",
+      "任务特定保边模型"
+    ],
+    "references": [
+      {
+        "title": "scikit-image Gaussian 官方本机文档",
+        "url": "https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.gaussian",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机官方包文档/源元数据；网页本次未读，路径/hash/版本见local_primary_source_checks.json"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED"
+  },
+  {
+    "id": "sig-otsu",
+    "name": "Otsu灰度阈值分割",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "Otsu"
+    ],
+    "purpose": "从灰度分布选择两类划分阈值",
+    "minimum_data": [
+      "灰度图/直方图、bin与标签方向"
+    ],
+    "assumptions": [
+      "灰度可代表两类差异；空间/多类别信息不在此准则中",
+      "空类/常量图需单列处理"
+    ],
+    "mathematics": {
+      "notation": [
+        "p_l灰度概率；omega0/1类比例；mu0/1类均值"
+      ],
+      "core": [
+        "t*=argmax_t omega0(t)*omega1(t)*(mu0(t)-mu1(t))²（两类非空）"
+      ],
+      "objective_constraints": [
+        "最大类间方差，不等于所有任务的最优分割"
+      ]
+    },
+    "algorithm_steps": [
+      "核对灰度与直方图范围",
+      "扫描有效阈值计算类统计",
+      "确定并列阈值政策",
+      "以有标签或手核图检验"
+    ],
+    "python": {
+      "apis": [
+        "skimage.filters.threshold_otsu"
+      ],
+      "dependencies": [
+        "scikit-image"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "graythresh",
+        "imbinarize"
+      ],
+      "dependencies": [
+        "Image Processing Toolbox"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "等量0/1两灰度，任意有效间隔阈值分开两类，类间方差.25",
+    "verification": [
+      {
+        "check": "手核直方图",
+        "method": "直接计算小直方图目标",
+        "expected": "选到最大值"
+      },
+      {
+        "check": "边界",
+        "method": "常量/空类/偏斜直方图",
+        "expected": "不制造有效前景"
+      },
+      {
+        "check": "任务",
+        "method": "标签对照/空区域率",
+        "expected": "量化分割质量"
+      }
+    ],
+    "failure_modes": [
+      "光照不均",
+      "多模态或类别极不平衡",
+      "仅阈值不能表示语义"
+    ],
+    "fallback": [
+      "固定有依据阈值",
+      "局部或区域分割模型"
+    ],
+    "references": [
+      {
+        "title": "scikit-image threshold_otsu 官方本机文档",
+        "url": "https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.threshold_otsu",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机官方包文档/源元数据；网页本次未读，路径/hash/版本见local_primary_source_checks.json"
+      },
+      {
+        "title": "Otsu 1979 原论文",
+        "url": "https://doi.org/10.1109/TSMC.1979.4310076",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "metadata_recorded_at": "2026-10-04"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED"
+  },
+  {
+    "id": "sig-chan-vese",
+    "name": "Chan–Vese区域主动轮廓",
+    "family": "signals-images",
+    "kind": "model",
+    "aliases": [
+      "level-set segmentation",
+      "active contour without edges"
+    ],
+    "purpose": "按区域均匀强度与轮廓正则进行分割",
+    "minimum_data": [
+      "灰度图、像素尺度、初始level-set、mu/nu/lambda参数"
+    ],
+    "assumptions": [
+      "分割内/外可用分段常量强度近似",
+      "局部优化依初始条件，不能直接称全局最优"
+    ],
+    "mathematics": {
+      "notation": [
+        "C轮廓；c1/c2区域均值；phi>0为内部；mu长度权重"
+      ],
+      "core": [
+        "E=mu*Length(C)+nu*Area(in)+lambda1*integral_in(I-c1)²+lambda2*integral_out(I-c2)²",
+        "phi_t=delta(phi)[mu*div(grad phi/|grad phi|)-nu-lambda1(I-c1)²+lambda2(I-c2)²]（指定符号/平滑约定）"
+      ],
+      "objective_constraints": [
+        "最小化E；空区域、边界和离散尺度须处理"
+      ]
+    },
+    "algorithm_steps": [
+      "定义区域/符号和像素尺度",
+      "初始化level-set并交替均值/轮廓",
+      "按能量/迭代停止",
+      "独立能量与标签/初始化敏感性核验"
+    ],
+    "python": {
+      "apis": [
+        "skimage.segmentation.chan_vese"
+      ],
+      "dependencies": [
+        "scikit-image"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "activecontour(method='Chan-Vese')",
+        "原创level-set"
+      ],
+      "dependencies": [
+        "Image Processing Toolbox"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "已知两常值区域的区域残差可手算；Otsu作为简单baseline",
+    "verification": [
+      {
+        "check": "能量",
+        "method": "独立重算长度/区域残差",
+        "expected": "与采用离散式一致"
+      },
+      {
+        "check": "合成区域",
+        "method": "已知标签计算IoU/边界偏差",
+        "expected": "不能仅看轮廓漂亮"
+      },
+      {
+        "check": "敏感性",
+        "method": "多初始化/尺度/参数",
+        "expected": "报告局部解与空区域"
+      }
+    ],
+    "failure_modes": [
+      "区域强非均匀",
+      "初始化陷阱",
+      "参数/像素单位混淆"
+    ],
+    "fallback": [
+      "Otsu/已知阈值baseline",
+      "分区模型或限制解释"
+    ],
+    "references": [
+      {
+        "title": "scikit-image chan_vese 官方本机文档",
+        "url": "https://scikit-image.org/docs/stable/api/skimage.segmentation.html#skimage.segmentation.chan_vese",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机官方包文档/源元数据；网页本次未读，路径/hash/版本见local_primary_source_checks.json"
+      },
+      {
+        "title": "Chan & Vese 2001 原论文",
+        "url": "https://doi.org/10.1109/83.902291",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "metadata_recorded_at": "2026-10-04"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED"
+  },
+  {
+    "id": "sig-morphology",
+    "name": "形态学腐蚀、膨胀、开闭运算",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "morphology",
+      "opening",
+      "closing"
+    ],
+    "purpose": "按结构元素处理集合形状与尺度",
+    "minimum_data": [
+      "二值/灰度数据、结构元素、锚点/反射与边界"
+    ],
+    "assumptions": [
+      "结构元素代表真实目标尺度；二值集合和灰度定义不能混用",
+      "偶数核、边界/反射约定需固定"
+    ],
+    "mathematics": {
+      "notation": [
+        "A前景集合、B结构元素；B_z平移"
+      ],
+      "core": [
+        "A erode B={z:B_z subset A}；A dilate B={a+b:a∈A,b∈B}",
+        "opening=(A erode B) dilate B；closing=(A dilate B) erode B"
+      ],
+      "objective_constraints": [
+        "无固定优化目标；结构尺度/连通任务需验收"
+      ]
+    },
+    "algorithm_steps": [
+      "定义集合/灰度和结构元素",
+      "按固定反射/anchor实现",
+      "保留操作前后与像素尺度",
+      "独立小集合和不变量核验"
+    ],
+    "python": {
+      "apis": [
+        "skimage.morphology.opening",
+        "closing",
+        "erosion",
+        "dilation"
+      ],
+      "dependencies": [
+        "scikit-image"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "imerode",
+        "imdilate",
+        "imopen",
+        "imclose"
+      ],
+      "dependencies": [
+        "Image Processing Toolbox"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "一维单点与3点结构元素的腐蚀/膨胀可枚举",
+    "verification": [
+      {
+        "check": "集合手核",
+        "method": "枚举小集合平移",
+        "expected": "与定义一致"
+      },
+      {
+        "check": "开闭性质",
+        "method": "检查开反扩张/闭扩张及幂等（相同边界约定）",
+        "expected": "成立或解释有限边界差异"
+      },
+      {
+        "check": "尺度",
+        "method": "不同结构元素和标签",
+        "expected": "不把形状损失当噪声删除"
+      }
+    ],
+    "failure_modes": [
+      "边界或结构反射错位",
+      "删除有效小目标"
+    ],
+    "fallback": [
+      "更小结构/不处理",
+      "按任务重新定义形状尺度"
+    ],
+    "references": [
+      {
+        "title": "scikit-image morphology opening 官方本机文档",
+        "url": "https://scikit-image.org/docs/stable/api/skimage.morphology.html#skimage.morphology.opening",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机官方包文档/源元数据；网页本次未读，路径/hash/版本见local_primary_source_checks.json"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED"
+  },
+  {
+    "id": "sig-nurbs",
+    "name": "NURBS曲线与曲面表示",
+    "family": "signals-images",
+    "kind": "model",
+    "aliases": [
+      "NURBS",
+      "rational B-spline"
+    ],
+    "purpose": "以控制点/节点/权重表示几何形状",
+    "minimum_data": [
+      "控制点P_i、次数p、非降节点U_i、正权w_i及有效参数域"
+    ],
+    "assumptions": [
+      "节点/次数/控制点数相容",
+      "正权情况下使用凸组合性质；曲面是张量积扩展"
+    ],
+    "mathematics": {
+      "notation": [
+        "P_i几何坐标；u参数；N_i,p B样条基；w_i>0"
+      ],
+      "core": [
+        "C(u)=sum_i N_i,p(u)w_i P_i / sum_i N_i,p(u)w_i",
+        "N_i,0(u)=1_[U_i,U_(i+1))(u)",
+        "N_i,p=(u-U_i)/(U_(i+p)-U_i)*N_i,p-1 +(U_(i+p+1)-u)/(U_(i+p+1)-U_(i+1))*N_(i+1),p-1；零分母项定义0"
+      ],
+      "objective_constraints": [
+        "表示本身无优化目标；拟合另定义残差/约束；有效域和分母>0"
+      ]
+    },
+    "algorithm_steps": [
+      "验证节点/次数与权重",
+      "计算基或de Boor稳定评估",
+      "有理归一化与几何输出",
+      "端点/分割统一/凸包特例核验",
+      "右端节点按左连续极限/所采用库的端点约定评估，避免半开基础定义导致末端0/0。"
+    ],
+    "python": {
+      "apis": [
+        "scipy.interpolate.BSpline",
+        "原创有理归一化",
+        "geomdl(可选)"
+      ],
+      "dependencies": [
+        "SciPy",
+        "NumPy",
+        "geomdl(可选)"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "受审阅NURBS工具箱",
+        "原创B样条与有理归一化"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "次数1、等权、两个控制点给直线",
+    "verification": [
+      {
+        "check": "基函数",
+        "method": "核对非负与sum R_i=1",
+        "expected": "有效域内为凸组合"
+      },
+      {
+        "check": "几何",
+        "method": "线段/常控制点与clamped端点",
+        "expected": "符合表示定义"
+      },
+      {
+        "check": "权重/节点",
+        "method": "重复节点与域外参数",
+        "expected": "不出现未解释零除"
+      }
+    ],
+    "failure_modes": [
+      "节点尺寸/端点处理错",
+      "负权破坏凸包",
+      "拟合/表示混为一谈"
+    ],
+    "fallback": [
+      "低次等权B样条/折线",
+      "明确拟合任务再优化"
+    ],
+    "references": [
+      {
+        "title": "Piegl & Tiller The NURBS Book",
+        "url": "https://link.springer.com/book/10.1007/978-3-642-59223-2",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "metadata_recorded_at": "2026-10-04"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "materials": [
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/108MATLAB工具箱-nurbs工具箱",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      },
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/109MATLAB工具箱-Nurbs-surface工具箱",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  },
+  {
+    "id": "sig-delaunay-voronoi",
+    "name": "凸包/Delaunay/Voronoi计算几何",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "Delaunay triangulation",
+      "Voronoi",
+      "Qhull实现域",
+      "convex hull",
+      "凸包"
+    ],
+    "purpose": "建立点集邻域、剖分及最近站点分区",
+    "minimum_data": [
+      "点坐标、维数、距离/投影及重复/退化政策"
+    ],
+    "assumptions": [
+      "欧氏空间、尺度与物理距离明确",
+      "共圆/共面等退化可能无唯一剖分，扰动不等于真实数据"
+    ],
+    "mathematics": {
+      "notation": [
+        "p_i站点；V_i={x:||x-p_i||≤||x-p_j||,all j}"
+      ],
+      "core": [
+        "conv(P)={sum_i lambda_i*p_i:lambda_i>=0,sum_i lambda_i=1}；凸包边界不等于Voronoi无界单元边界。",
+        "Voronoi按最近站点划分；Delaunay单纯形外接球内部无其它点",
+        "一般位置下两结构对偶；边界与无界单元另处理"
+      ],
+      "objective_constraints": [
+        "无优化目标；数据维数和退化必须核验"
+      ]
+    },
+    "algorithm_steps": [
+      "统一坐标/投影和重复点",
+      "核验仿射维数",
+      "构造剖分/分区",
+      "空球/覆盖/面积和邻接核验"
+    ],
+    "python": {
+      "apis": [
+        "scipy.spatial.Delaunay",
+        "Voronoi",
+        "ConvexHull"
+      ],
+      "dependencies": [
+        "SciPy"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "delaunayTriangulation",
+        "voronoiDiagram",
+        "convhull"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "三点(0,0),(1,0),(0,1)：一三角形面积.5",
+    "verification": [
+      {
+        "check": "几何手核",
+        "method": "独立面积/外接圆",
+        "expected": "符合已知小例"
+      },
+      {
+        "check": "空球/覆盖",
+        "method": "查点与三角形/单元",
+        "expected": "无错误剖分重叠/缺口"
+      },
+      {
+        "check": "退化",
+        "method": "重复/共线输入",
+        "expected": "显式处理而非静默随机抖动"
+      },
+      {
+        "check": "凸包",
+        "method": "独立半空间/凸组合检查原点集覆盖及极点",
+        "expected": "包含全部输入点且不把内点误为必需极点"
+      }
+    ],
+    "failure_modes": [
+      "坐标尺度混乱",
+      "退化与精度错误",
+      "凸包边界误作无限范围"
+    ],
+    "fallback": [
+      "低维投影/网格",
+      "报告多重合法几何"
+    ],
+    "references": [
+      {
+        "title": "SciPy Delaunay 官方本机文档",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机官方包文档/源元数据；网页本次未读，路径/hash/版本见local_primary_source_checks.json"
+      },
+      {
+        "title": "Qhull维护者手册（未读链接）",
+        "url": "http://www.qhull.org/html/qhull.htm",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "metadata_recorded_at": "2026-10-04"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "materials": [
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/138MATLAB工具箱- Qhull(二维三维三角分解、泰森图)凸包工具箱 2019版",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  },
+  {
+    "id": "sig-camera-calibration",
+    "name": "针孔相机几何与标定",
+    "family": "signals-images",
+    "kind": "model",
+    "aliases": [
+      "pinhole camera",
+      "camera calibration"
+    ],
+    "purpose": "映射世界点到像素并估计内外参",
+    "minimum_data": [
+      "已知几何标定点、多视角像点、尺寸与畸变政策"
+    ],
+    "assumptions": [
+      "针孔/选定畸变模型适合设备",
+      "参数需非退化视角，重投影小不代表所有物理参数可识别"
+    ],
+    "mathematics": {
+      "notation": [
+        "K内参；R旋转；t平移；P世界坐标；s深度尺度"
+      ],
+      "core": [
+        "s*[u,v,1]'=K*[R|t]*[X,Y,Z,1]'",
+        "标定最小化sum reprojection_distance²；畸变在规范化坐标中另建式"
+      ],
+      "objective_constraints": [
+        "R'R=I, detR=1；有效点深度>0；约束来源由几何任务确定"
+      ]
+    },
+    "algorithm_steps": [
+      "确认世界/像素单位与点配对",
+      "初始线性/平面方法",
+      "带畸变非线性校准",
+      "留出图像/尺度与几何核验"
+    ],
+    "python": {
+      "apis": [
+        "cv2.calibrateCamera",
+        "projectPoints"
+      ],
+      "dependencies": [
+        "OpenCV(可选)"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "estimateCameraParameters",
+        "worldToImage"
+      ],
+      "dependencies": [
+        "Computer Vision Toolbox"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "已知K,R=I,t=0的针孔投影手核",
+    "verification": [
+      {
+        "check": "投影",
+        "method": "独立小点手算",
+        "expected": "轴/坐标/深度正确"
+      },
+      {
+        "check": "旋转",
+        "method": "正交与行列式检查",
+        "expected": "属于SO(3)"
+      },
+      {
+        "check": "外层",
+        "method": "留出视角重投影和尺度",
+        "expected": "不只报告训练残差"
+      }
+    ],
+    "failure_modes": [
+      "视角退化",
+      "世界尺度错",
+      "畸变模型/点配对错误"
+    ],
+    "fallback": [
+      "已知内参/低畸变模型",
+      "补多视角数据"
+    ],
+    "references": [
+      {
+        "title": "Zhang相机标定作者技术报告",
+        "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr98-71.pdf",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "metadata_recorded_at": "2026-10-04"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "materials": [
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/102. MATLAB工具箱-2维_3 维图像分割工具箱AOSLevelsetSegmentationToolboxM",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      },
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/105MATLAB工具箱-7图像分割质量评估工具包",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  },
+  {
+    "id": "sig-chirplet",
+    "name": "Gaussian Chirplet原子分析",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "chirplet transform"
+    ],
+    "purpose": "表示局部频率随时间线性变化的分量",
+    "minimum_data": [
+      "采样、时间/频率范围、字典tau/sigma/omega/c及匹配策略"
+    ],
+    "assumptions": [
+      "所需成分可由局部Gaussian包络线性chirp近似",
+      "原子分解不唯一，参数范围不能超采样可分辨域"
+    ],
+    "mathematics": {
+      "notation": [
+        "tau时间中心；sigma>0时间宽；omega[rad/time]；c[rad/time²]"
+      ],
+      "core": [
+        "g(t)=(pi*sigma²)^(-1/4)exp(-(t-tau)²/(2sigma²))*exp(i*(omega*(t-tau)+c*(t-tau)²/2))",
+        "匹配系数=<x,g>，可按声明字典/残差策略迭代；瞬时角频率omega+c*(t-tau)"
+      ],
+      "objective_constraints": [
+        "匹配/残差目标由算法定义；不能把每个字典原子算独立物理源"
+      ]
+    },
+    "algorithm_steps": [
+      "核对采样与参数单位",
+      "构造归一化字典",
+      "求相关/匹配或明确优化",
+      "已知chirp与残差/歧义验证"
+    ],
+    "python": {
+      "apis": [
+        "原创NumPy复原子/内积",
+        "scipy.signal.chirp(合成验收)"
+      ],
+      "dependencies": [
+        "NumPy",
+        "SciPy"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "原创复原子",
+        "chirp(合成验收)"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Signal Processing Toolbox(可选)"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "c=0退化为Gaussian窗正弦原子",
+    "verification": [
+      {
+        "check": "归一化",
+        "method": "解析Gaussian积分或高分辨求积",
+        "expected": "连续L2 norm=1（有限窗另归一）"
+      },
+      {
+        "check": "已知chirp",
+        "method": "从合成相位核对瞬时频率",
+        "expected": "符号/时间单位一致"
+      },
+      {
+        "check": "分解",
+        "method": "参数扰动与残差",
+        "expected": "报告非唯一而非硬标签"
+      }
+    ],
+    "failure_modes": [
+      "字典过大不可识别",
+      "混叠",
+      "边界截断"
+    ],
+    "fallback": [
+      "STFT或c=0原子",
+      "限制时间/频率范围"
+    ],
+    "references": [
+      {
+        "title": "Mann作者Chirplet研究入口（仅定位）",
+        "url": "https://wearcam.org/chirplet.htm",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "checked_scope": "未读取链接；原子归一/相位特例独立验算，不虚构论文DOI",
+        "metadata_recorded_at": "2026-10-04"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "materials": [
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/62.MATLAB工具箱-chirplet变换matlab工具箱大全1",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L0_NAME_REGISTERED",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      },
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/63.MATLAB工具箱-chirplet变换matlab工具箱大全2",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L0_NAME_REGISTERED",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  },
+  {
+    "id": "sig-frft",
+    "name": "连续分数阶傅里叶变换",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "FRFT",
+      "fractional Fourier"
+    ],
+    "purpose": "在声明连续变换 convention下旋转时频表示",
+    "minimum_data": [
+      "连续/离散定义、阶次、采样和单位",
+      "连续时频坐标的归一化尺度；不能把带秒/Hz单位的坐标直接代入同次平方核。"
+    ],
+    "assumptions": [
+      "本卡给连续unitary核；不同离散FRFT并非自动同一算法",
+      "核的分支、阶次周期/特殊值必须一致"
+    ],
+    "mathematics": {
+      "notation": [
+        "alpha角度；x(t)；0<alpha<pi的核K_alpha",
+        "核中t/u为经声明尺度归一的无量纲坐标；物理时间/频率需按对应尺度恢复。"
+      ],
+      "core": [
+        "K_alpha(t,u)=sqrt((1-i*cot alpha)/(2*pi))*exp(i*((t²+u²)cot alpha-2*t*u*csc alpha)/2)",
+        "F_alpha x(u)=integral K_alpha(t,u)x(t)dt；alpha=pi/2为unitary Fourier",
+        "alpha=0为恒等、alpha=pi为反转，特殊值不用奇异核直接计算",
+        "负角逆变换在本约定下由正角核的共轭转置定义；其它角域的周期/相位扩展须单独声明。"
+      ],
+      "objective_constraints": [
+        "无固定优化目标；离散实现需自述定义/误差"
+      ]
+    },
+    "algorithm_steps": [
+      "确定变换 convention及时间尺度",
+      "处理恒等/Fourier/反转特殊值",
+      "选审阅的离散近似",
+      "重构/能量/阶次特例核验"
+    ],
+    "python": {
+      "apis": [
+        "原创核求积baseline",
+        "受审阅FRFT实现"
+      ],
+      "dependencies": [
+        "NumPy",
+        "SciPy(求积)"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "原创核求积",
+        "受审阅FRFT工具箱"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "alpha=0恒等，pi/2与unitary FFT/FT约定核对",
+    "verification": [
+      {
+        "check": "特殊阶次",
+        "method": "核定义与恒等/傅里叶/反转对照",
+        "expected": "约定一致"
+      },
+      {
+        "check": "unitary",
+        "method": "独立能量和逆阶次重构",
+        "expected": "允许求积/离散误差"
+      },
+      {
+        "check": "分支",
+        "method": "不同阶次与采样细化",
+        "expected": "不以名称认定群性质已满足"
+      }
+    ],
+    "failure_modes": [
+      "连续/离散FRFT混用",
+      "奇异角度直接计算",
+      "单位/相位分支错"
+    ],
+    "fallback": [
+      "普通FT",
+      "保留低阶求积与限制"
+    ],
+    "references": [
+      {
+        "title": "Ozaktas作者分数阶傅里叶变换研究主页（仅定位）",
+        "url": "https://www.ee.bilkent.edu.tr/~haldun/",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "checked_scope": "作者入口未读取；本卡连续核约定与离散实现边界明确，未宣称某实现已核验",
+        "metadata_recorded_at": "2026-10-04"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "materials": [
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/128MATLAB工具箱- 分数阶傅里叶变换的程序FRFT",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  },
+  {
+    "id": "sig-box-counting",
+    "name": "盒计数分形维数估计",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "box-counting dimension",
+      "fractal dimension"
+    ],
+    "purpose": "描述在已定义尺度范围的集合复杂度",
+    "minimum_data": [
+      "二值几何/点集、空间单位、盒尺度与覆盖规则"
+    ],
+    "assumptions": [
+      "有限分辨率数据只支持有限尺度估计，不证明数学分形",
+      "需有可解释的近似线性尺度区间"
+    ],
+    "mathematics": {
+      "notation": [
+        "epsilon盒边长；N(epsilon)非空盒数；D斜率"
+      ],
+      "core": [
+        "D_B=lim_(epsilon->0) log N(epsilon)/log(1/epsilon)（若极限存在）",
+        "有限资料拟合log N≈a+D*log(1/epsilon)，声明尺度和误差"
+      ],
+      "objective_constraints": [
+        "估计区间/回归目标需固定；不是预测/因果模型"
+      ]
+    },
+    "algorithm_steps": [
+      "定义集合/像素尺度",
+      "多尺度和偏移盒计数",
+      "在有依据区间估计斜率",
+      "已知几何/网格/尺度敏感性核验"
+    ],
+    "python": {
+      "apis": [
+        "原创NumPy计数与线性拟合"
+      ],
+      "dependencies": [
+        "NumPy"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "原创盒计数",
+        "受审阅FracLab方法"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "点集单点D=0，线段≈1，平面方块≈2的尺度特例",
+    "verification": [
+      {
+        "check": "几何特例",
+        "method": "独立计数理论尺度",
+        "expected": "斜率趋近0/1/2"
+      },
+      {
+        "check": "尺度",
+        "method": "分辨率、偏移和区间变化",
+        "expected": "报告有限尺度依赖"
+      },
+      {
+        "check": "噪声",
+        "method": "阈值与孤点扰动",
+        "expected": "不把噪声复杂度当机制"
+      }
+    ],
+    "failure_modes": [
+      "区间太窄",
+      "阈值/分辨率支配",
+      "任意数据都拟合一条线"
+    ],
+    "fallback": [
+      "报告多尺度N表",
+      "普通面积/周长/粗糙度指标"
+    ],
+    "references": [
+      {
+        "title": "Falconer Fractal Geometry（出版定位）",
+        "url": "https://www.wiley.com/en-us/Fractal+Geometry%3A+Mathematical+Foundations+and+Applications%2C+3rd+Edition-p-9781119942399",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "metadata_recorded_at": "2026-10-04"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "materials": [
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/133MATLAB工具箱- 分形维数计算工具箱FracLab 2.2",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      },
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/72.MATLAB工具箱-matlab分形工具箱",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  },
+  {
+    "id": "sig-schwarz-christoffel",
+    "name": "Schwarz–Christoffel多边形保角映射",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "SC mapping",
+      "保角映射"
+    ],
+    "purpose": "把规定简单多边形域映射到标准域",
+    "minimum_data": [
+      "有序简单多边形顶点、内角、映射归一化与分支"
+    ],
+    "assumptions": [
+      "本卡半平面到有界简单多边形；预顶点参数问题需单独解",
+      "不能用未解参数的公式宣称已完成映射"
+    ],
+    "mathematics": {
+      "notation": [
+        "alpha_k*pi内角；z_k实预顶点；A平移、C非零复尺度"
+      ],
+      "core": [
+        "f(z)=A+C*integral^z product_k (zeta-z_k)^(alpha_k-1) d zeta",
+        "有界n边形sum alpha_k=n-2；分支按上半平面一致定义"
+      ],
+      "objective_constraints": [
+        "预顶点/尺度需满足指定顶点边长与归一化；无通用业务优化目标"
+      ]
+    },
+    "algorithm_steps": [
+      "核验多边形简单性/角度",
+      "选择标准域和固定Möbius自由度",
+      "解参数问题再求积",
+      "边/角/正逆映射与拥挤误差核验"
+    ],
+    "python": {
+      "apis": [
+        "scipy.integrate求积baseline",
+        "专门受审阅SC实现"
+      ],
+      "dependencies": [
+        "SciPy",
+        "专用SC实现(可选)"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "受审阅Schwarz–Christoffel Toolbox"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "专用工具箱"
+      ],
+      "implementation_notes": [
+        "接口方向未作为整卡运行通过证明。"
+      ]
+    },
+    "baseline": "半平面自身仿射映射；角度和为(n-2)pi的多边形检查",
+    "verification": [
+      {
+        "check": "角/分支",
+        "method": "独立检查角度和与边方向",
+        "expected": "不出现任意复分支跳变"
+      },
+      {
+        "check": "边与逆映射",
+        "method": "边界顶点/正逆复合/精度细化",
+        "expected": "满足归一化与声明误差"
+      },
+      {
+        "check": "参数",
+        "method": "核对真实边长和拥挤",
+        "expected": "未解参数不作为结果"
+      }
+    ],
+    "failure_modes": [
+      "自交域",
+      "预顶点拥挤病态",
+      "只写积分未解参数"
+    ],
+    "fallback": [
+      "标准/简化域",
+      "保持INDEXED工具边界直到实现核验"
+    ],
+    "references": [
+      {
+        "title": "Driscoll作者SC Toolbox入口（未读）",
+        "url": "https://tobydriscoll.net/project/sc-toolbox/",
+        "checked_at": null,
+        "evidence": "reference_only",
+        "metadata_recorded_at": "2026-10-04"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "implementation_evidence": {
+      "python": {
+        "status": "NOT_EXECUTED"
+      },
+      "matlab": {
+        "status": "NOT_EXECUTED",
+        "limitation": "资料仅静态索引；专用求积/参数算法未重现"
+      }
+    },
+    "materials": [
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/166MATLAB工具箱- Schwarz-Christoffel Toolbox",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "date": "2026-10-04",
+  "scope": "Portable MCM A-C bundle",
+  "models": 198,
+  "skill_modules": 26,
+  "python_tests": 183,
+  "entrypoints": [
+    "scripts/validate.py",
+    "scripts/run_tests.py",
+    "scripts/check_fresh_install.py"
+  ],
+  "original_material_files_required": false,
+  "matlab_runtime_status": "NOT_EXECUTED",
+  "remote_ci_status": "NOT_YET_RUN",
+  "module_cases": {
+    "mcm-modeling-time-series": 21,
+    "mcm-modeling-discrete": 12,
+    "mcm-suite": 31,
+    "mcm-modeling-evaluation": 14,
+    "mcm-modeling-optimization": 9,
+    "mcm-modeling-library": 10,
+    "mcm-modeling-paper-writing": 10,
+    "mcm-modeling-numerical": 13,
+    "mcm-modeling-mechanisms": 13,
+    "mcm-result-verifier": 28
+  }
+}

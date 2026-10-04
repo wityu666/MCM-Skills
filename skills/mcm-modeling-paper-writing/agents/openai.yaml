@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 数学建模论文行文"
+  short_description: "服务 MCM A–C 英文论文行文，以中文协作连接真实结果和论证"
+  default_prompt: "使用 $mcm-modeling-paper-writing，依据 MCM A–C 题面、模型与真实结果改进英文论文行文，并用中文说明修改依据。"

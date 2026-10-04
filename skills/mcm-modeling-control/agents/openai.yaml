@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 控制与系统辨识"
+  short_description: "服务 MCM A–C 控制建模，区分对象、观测与控制律并核验稳定性"
+  default_prompt: "使用 $mcm-modeling-control 设计当前 MCM A–C 系统的模型、估计器或控制策略，并制定独立验证，采用中文协作与英文论文表达。"

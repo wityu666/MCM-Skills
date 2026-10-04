@@ -1,0 +1,9 @@
+{
+  "freeze_id": "REPLACE_WITH_CURRENT_FREEZE",
+  "evidence": [
+    {"id": "E1", "file": "results/replace-with-actual-evidence.json", "sha256": "REPLACE_WITH_ACTUAL_SHA256", "type": "out_of_sample", "status": "DRAFT", "freeze_id": "REPLACE_WITH_CURRENT_FREEZE"}
+  ],
+  "claims": [
+    {"id": "C1", "statement": "REPLACE_WITH_FACTUAL_CLAIM", "location": "Summary / actual paragraph location", "strength": "validated", "scope": "REPLACE_WITH_TESTED_SAMPLE_AND_CONDITIONS", "evidence_ids": ["E1"], "reported": true}
+  ]
+}

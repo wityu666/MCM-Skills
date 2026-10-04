@@ -1,0 +1,95 @@
+[
+  {
+    "id": "sig-convex-hull",
+    "name": "有限点集凸包",
+    "family": "signals-images",
+    "kind": "method",
+    "aliases": [
+      "凸包",
+      "Convex hull",
+      "Qhull convex hull"
+    ],
+    "purpose": "给定点集求最小凸包并说明它无法保留凹边界。",
+    "minimum_data": [
+      "同坐标系的有限点",
+      "维数/退化点说明"
+    ],
+    "assumptions": [
+      "凸包是一种几何包络选择，不等于真实物体边界",
+      "非满维或重复/近共面点需显式处理"
+    ],
+    "mathematics": {
+      "notation": [
+        "P={p_i}；λ_i为组合权重"
+      ],
+      "core": "conv(P)={Σ_i λ_i p_i : λ_i≥0, Σ_i λ_i=1}；支撑函数h_P(u)=max_i uᵀp_i。",
+      "objective_constraints": "依具体应用设定；此方法本身不自动定义预算、控制或因果目标。"
+    },
+    "algorithm_steps": [
+      "清理坐标和重复点而不删关键极值",
+      "识别维数及共线/共面退化",
+      "计算顶点/面及面积体积并保留方向",
+      "独立检查点包含与尺度"
+    ],
+    "python": {
+      "apis": [
+        "scipy.spatial.ConvexHull"
+      ],
+      "dependencies": [
+        "按实际接口确认维护版本"
+      ],
+      "implementation_notes": [
+        "接口方向，不代表已运行当前问题；在训练/拟合范围内确定数据处理。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "convhull",
+        "convhulln"
+      ],
+      "dependencies": [
+        "按实际工具箱和版本确认"
+      ],
+      "implementation_notes": [
+        "本次未运行MATLAB；不把同名函数或外部工具箱视作已经可用。"
+      ]
+    },
+    "baseline": "二维方形/三角形手算面积和边界",
+    "verification": [
+      {
+        "check": "包含性",
+        "method": "对所有输入点测试面不等式",
+        "expected": "点全部在包内或容差边界"
+      },
+      {
+        "check": "极值",
+        "method": "支撑方向手算",
+        "expected": "包的线性投影极值与原点集相同"
+      },
+      {
+        "check": "退化",
+        "method": "共线点测试",
+        "expected": "维数/异常透明，不报告伪体积"
+      }
+    ],
+    "failure_modes": [
+      "凹形过度包络、坐标尺度失衡、近退化、Qhull扰动改变几何"
+    ],
+    "fallback": "退化到低维几何；凹边界需求改选明确假设的alpha-shape/轮廓方法",
+    "references": [
+      {
+        "title": "scipy.spatial.ConvexHull installed first-party documentation",
+        "url": "https://docs.scipy.org/doc/scipy-1.15.3/reference/generated/scipy.spatial.ConvexHull.html",
+        "url_scope": "Public upstream API entry; historical evidence came from an installed first-party docstring/source. This portability pass checked that this public page resolves; no new model-validation claim.",
+        "upstream_url_checked_at": "2026-10-04",
+        "historic_distribution_source": "scipy/spatial/_qhull.cpython-313-darwin.so",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "version": "1.15.3",
+        "inspection_scope": "Local first-party documentation read; web page not represented as visited.",
+        "doc_sha256": "fc5a8e68ba3632593afd5c886b764ddfe2f26e845defc795fa7c076adc07f329"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED"
+  }
+]

@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 统计模型与推断"
+  short_description: "服务 MCM A–C 统计建模，按响应与抽样结构选择方法并复核"
+  default_prompt: "请使用 $mcm-modeling-statistics 为当前 MCM A–C 数据选择可复核统计基准，并设计数学、假设和验证，采用中文协作与英文论文表达。"

@@ -1,0 +1,41 @@
+{
+  "status": "ALGEBRA_SPOT_CHECK_PASS",
+  "checked_at_utc": "2026-10-04T02:19:07.164956+00:00",
+  "scope": "Independent algebra checks on guide equations only; no GM(1,N), LambdaMART, RGF or AFSA implementation run, training or real-case reproduction. This does not grant REFERENCE_IMPL_TESTED.",
+  "checks": [
+    {
+      "card_id": "ts-gm1n",
+      "check": "Substitute the discrete recursion into its original background equation",
+      "input": {
+        "a": "1/5",
+        "b2": "3/5",
+        "driver_AGO": "5",
+        "previous_response_AGO": "10"
+      },
+      "response": "10/11",
+      "lhs_rhs": "3",
+      "result": "exact rational equality"
+    },
+    {
+      "card_id": "ml-boosting-components",
+      "check": "Two-item lambda negative-gradient signs and cancellation",
+      "lambda_high": 0.2642391233933647,
+      "lambda_low": -0.2642391233933647,
+      "hessian_each": 0.03149807562105199,
+      "result": "higher-relevance score increases; equal opposite lambdas and positive curvature"
+    },
+    {
+      "card_id": "ml-boosting-components",
+      "check": "RGF fixed one-leaf half-squared-error plus leaf-L2 stationary point",
+      "labels": [
+        1,
+        3
+      ],
+      "lambda_reg": 2,
+      "alpha": 1.0,
+      "derivative": 0.0,
+      "result": "weight derivative zero; this verifies a fixed-structure equation, not greedy forest training"
+    }
+  ],
+  "afsa_status": "THEORY_GUIDE_ONLY: no execution or performance validation; target direction and declared teaching choices reviewed statically."
+}

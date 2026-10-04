@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "test_count": 16,
+  "test_exit_code": 0,
+  "test_output": "test_history_unchanged (__main__.NaiveTests.test_history_unchanged) ... ok\ntest_invalid_period (__main__.NaiveTests.test_invalid_period) ... ok\ntest_multicycle (__main__.NaiveTests.test_multicycle) ... ok\ntest_nonfinite (__main__.NaiveTests.test_nonfinite) ... ok\ntest_nonseasonal (__main__.NaiveTests.test_nonseasonal) ... ok\ntest_short_history (__main__.NaiveTests.test_short_history) ... ok\ntest_zero_horizon (__main__.NaiveTests.test_zero_horizon) ... ok\ntest_forward_gap (__main__.SplitTests.test_forward_gap) ... ok\ntest_gap_too_small (__main__.SplitTests.test_gap_too_small) ... ok\ntest_group_isolation (__main__.SplitTests.test_group_isolation) ... ok\ntest_group_leakage (__main__.SplitTests.test_group_leakage) ... ok\ntest_missing_groups (__main__.SplitTests.test_missing_groups) ... ok\ntest_row_overlap (__main__.SplitTests.test_row_overlap) ... ok\ntest_same_time_is_not_future (__main__.SplitTests.test_same_time_is_not_future) ... ok\ntest_time_reversal (__main__.SplitTests.test_time_reversal) ... ok\ntest_unsorted_observations (__main__.SplitTests.test_unsorted_observations) ... ok\n\n----------------------------------------------------------------------\nRan 16 tests in 0.000s\n\nOK\n",
+  "checked_at": "2026-10-04",
+  "runtime_executable_name": "python3",
+  "historical_runtime_scope": "Recorded earlier runtime; the package uses the Python selected by its user.",
+  "python_version": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]",
+  "source_materials_executed": false,
+  "scope": [
+    "seasonal_naive hand-derived and boundary tests",
+    "numeric-time split row/time/gap/group checks"
+  ],
+  "limitations": [
+    "Does not verify feature availability times",
+    "No MATLAB execution",
+    "No real-case reproduction"
+  ],
+  "files": {
+    "seasonal_naive.py": "24e528d6b1de47e4b43ed6e9ac91806fe8570adf359f966d7e7fb150e709c5c3",
+    "test_seasonal_naive.py": "5b0120fb0811aaf74f7574e52e0fd4f93e205dc6548e7fb494a253f32cdd94eb"
+  },
+  "historical_report_sha256": "ec7ba2c3c6d48956e9d4f31bb886fc078897913a726f57cd8e9ce3308fcb531f",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

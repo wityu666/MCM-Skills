@@ -1,0 +1,95 @@
+[
+  {
+    "id": "num-cosine-similarity",
+    "name": "余弦相似度",
+    "family": "numerical",
+    "kind": "method",
+    "aliases": [
+      "余弦相似度",
+      "cosine similarity"
+    ],
+    "purpose": "比较非零向量方向，区别相似度和距离。",
+    "minimum_data": [
+      "同特征空间的非零有限向量",
+      "方向而非幅度的任务解释"
+    ],
+    "assumptions": [
+      "各维单位和尺度已定义",
+      "零向量没有定义方向，需明确处理而非默认高度相似",
+      "一般cosine距离不自动满足三角不等式"
+    ],
+    "mathematics": {
+      "notation": [
+        "x,y∈R^d且范数非零"
+      ],
+      "core": "sim(x,y)=xᵀy/(||x||₂||y||₂)，cosine distance=1-sim；实向量相似度在[-1,1]，非负向量通常[0,1]。",
+      "objective_constraints": "依具体应用设定；此方法本身不自动定义预算、控制或因果目标。"
+    },
+    "algorithm_steps": [
+      "确定特征和训练内尺度/文本表示",
+      "检查非零范数并在数值上稳健归一",
+      "计算内积与距离口径",
+      "与对象含义和其它距离对比"
+    ],
+    "python": {
+      "apis": [
+        "scipy.spatial.distance.cosine",
+        "sklearn.metrics.pairwise.cosine_similarity"
+      ],
+      "dependencies": [
+        "按实际接口确认维护版本"
+      ],
+      "implementation_notes": [
+        "接口方向，不代表已运行当前问题；在训练/拟合范围内确定数据处理。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "按定义点积和norm；必要时pdist接口"
+      ],
+      "dependencies": [
+        "按实际工具箱和版本确认"
+      ],
+      "implementation_notes": [
+        "本次未运行MATLAB；不把同名函数或外部工具箱视作已经可用。"
+      ]
+    },
+    "baseline": "正交、同向和反向单位向量手算",
+    "verification": [
+      {
+        "check": "范围",
+        "method": "单位向量手算",
+        "expected": "同向1、正交0、反向-1"
+      },
+      {
+        "check": "尺度",
+        "method": "正倍数缩放复核",
+        "expected": "相似度不变"
+      },
+      {
+        "check": "零值",
+        "method": "零向量边界",
+        "expected": "明确未定义，不偷偷给可比值"
+      }
+    ],
+    "failure_modes": [
+      "零范数、混合单位、把幅度差误作同一对象、余弦距离当万能度量"
+    ],
+    "fallback": "改为与任务相关的Euclidean/其它明确距离或报告不可比较",
+    "references": [
+      {
+        "title": "scipy.spatial.distance.cosine installed first-party documentation",
+        "url": "https://docs.scipy.org/doc/scipy-1.15.3/reference/generated/scipy.spatial.distance.cosine.html",
+        "url_scope": "Public upstream API entry; historical evidence came from an installed first-party docstring/source. This portability pass checked that this public page resolves; no new model-validation claim.",
+        "upstream_url_checked_at": "2026-10-04",
+        "historic_distribution_source": "scipy/spatial/distance.py",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "version": "1.15.3",
+        "inspection_scope": "Local first-party documentation read; web page not represented as visited.",
+        "doc_sha256": "a3922f148cae770f572429ebddd391cef59aed83c1f5325fa21ed4ea9431acf7"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED"
+  }
+]

@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "language": "Python",
+  "tests": 13,
+  "test_run_utc": "2026-10-04T00:52:01.792725+00:00",
+  "scope": "Python constant-C 1D CN/zero Dirichlet: sine/refinement, energy, one-interior-node arithmetic, complex/shape/range guards. MATLAB was not executed.",
+  "runtime": {
+    "executable_name": "python3",
+    "historical_runtime_scope": "Recorded earlier runtime; the package uses the Python selected by its user.",
+    "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]",
+    "numpy": "2.1.3",
+    "scipy": "1.15.3",
+    "pytest": "8.3.4"
+  },
+  "historical_command_sha256": "3a70a22f0f5562e2a05fb0b31175e53477f435738dfcc0d637c290088b68b03b",
+  "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+  "command_scope": "Module cases executed within the combined pytest command, not a separate module-only invocation",
+  "historical_environment_sha256": "1b5e421137e788d5e60ab69701e20937738b690f8ea49b889ba5e632cfc84860",
+  "historical_environment_scope": "Original machine environment is not a package dependency.",
+  "source_files": [
+    {
+      "path": "scripts/heat_cn.py",
+      "sha256": "5cb6427ed24f5d00d67bffee7131a1b8741214d39adb59b49557031753664bab",
+      "language": "Python"
+    },
+    {
+      "path": "scripts/heat_cn.m",
+      "sha256": "dec6411a8c5f87ae7a98aa63d9338a745eeee3a058cb198f22e6ba9850887b55",
+      "language": "MATLAB"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "tests/test_heat_cn.py",
+      "sha256": "9ed347e572d9801a39c670d59976d1cea83f74720503e059d34724e9b73c0891"
+    }
+  ],
+  "prior_reports": [
+    {
+      "path": "references/validation_report.json",
+      "sha256": "160759575a4a87a5a73c352a2bb1fe13ca7fe860696672bfa9b7021c9af4d6d4",
+      "scope": "Preserved original pre-code-review historical evidence; not current source bytes"
+    }
+  ],
+  "matlab_status": "STATIC_NOT_EXECUTED",
+  "source_material_code_executed": false,
+  "real_case_reproduced": false,
+  "matlab_attempt": {
+    "historical_command_sha256": "1b9eff0aff057c0abb67155195f8b5ed3600948d9cf31829361f2df3d765d038",
+    "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+    "exit_code": 137,
+    "test_body_executed": false,
+    "reason": "Qt incompatible processor: required neon; startup failed before MATLAB_VERSION or test PASS markers",
+    "test_file": {
+      "path": "tests/test_heat_cn.m",
+      "sha256": "d0f0fcce38408a3815129e06d17314d01ac678ab3e5c4157053f4750da9cb9a9"
+    }
+  },
+  "historical_report_sha256": "3cc1142d78cebe46b5c06ec4c059292b11fdb58cda1d47fd9b9f598e385ff786",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 时序模型与未来验证"
+  short_description: "服务 MCM A–C 时序建模，核验预测信息集、基准和滚动验证"
+  default_prompt: "请使用 $mcm-modeling-time-series 定义当前 MCM A–C 预测信息集，建立朴素基准并选择和验证时序模型，采用中文协作与英文论文表达。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 终审与交付"
+  short_description: "整合同版本MCM结果、论文和排版证据并区分本地交付与官方提交状态"
+  default_prompt: "请使用 $mcm-final-auditor 审核当前 MCM 的同版本证据链，生成准确的本地交付结论与提交状态。"

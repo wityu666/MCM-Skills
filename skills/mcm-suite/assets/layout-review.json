@@ -1,0 +1,20 @@
+{
+  "status": "INCOMPLETE",
+  "pdf_sha256": null,
+  "page_count": null,
+  "main_page_count": null,
+  "ai_report_start_page": null,
+  "ai_used": null,
+  "unresolved": [],
+  "evidence": [],
+  "main_pages_verified": false,
+  "summary_first_page_verified": false,
+  "english_verified": false,
+  "anonymous_verified": false,
+  "control_number_each_page_verified": false,
+  "minimum_font_verified": false,
+  "visual_all_pages_verified": false,
+  "ai_report_appropriate_verified": false,
+  "citations_verified": false,
+  "task_coverage_verified": false
+}

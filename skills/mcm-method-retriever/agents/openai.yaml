@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 方法匹配"
+  short_description: "匹配美赛任务的基线与候选方法，明确数据假设、验证办法和降级路线"
+  default_prompt: "使用 $mcm-method-retriever 为当前 MCM 任务比较 baseline 和候选方法，并说明适用边界。"

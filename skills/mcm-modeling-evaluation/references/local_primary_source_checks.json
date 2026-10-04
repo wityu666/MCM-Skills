@@ -1,0 +1,40 @@
+[
+  {
+    "title": "PCA official local distribution documentation",
+    "url": "https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "sklearn/decomposition/_pca.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "ed32a64c4d551016e7b029338a10c2b9f7e4e585b93f8495f0422c2d55eb5828",
+    "doc_chars": 10253,
+    "family": "evaluation",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  },
+  {
+    "title": "FactorAnalysis official local distribution documentation",
+    "url": "https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FactorAnalysis.html",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "sklearn/decomposition/_factor_analysis.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "20cec5b5acd05ecc3f0d208803d7456c1d6b89b10002be79c0136d479232d337",
+    "doc_chars": 4309,
+    "family": "evaluation",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  }
+]

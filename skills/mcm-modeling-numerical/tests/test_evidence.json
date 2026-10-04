@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "language": "Python",
+  "tests": 9,
+  "historical_command_sha256": "9bb31afb3d167f705b29d620930b2ed09cd259dddc969d31976dd994b95062ff",
+  "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+  "observed_at": "2026-10-04",
+  "python_version": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]",
+  "code_sha256": "1d673c06925123d6148b80328d48cd95c016f303fb032d8e840e27b043df39a7",
+  "test_sha256": "f4c97acbd08f5c926d14c735404815c750b5e531171d2fcdc1a4672d7b12ebff",
+  "matlab_status": "NOT_RUN",
+  "scope": "Only original routines and test cases in this module; no source-material code executed or real case reproduced.",
+  "historical_report_sha256": "bda82b965b9990e450158950eac3b30ae244dc82df00baf8658e5b5e37929c57",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

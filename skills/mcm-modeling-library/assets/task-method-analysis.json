@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "purpose": "Optional task-to-method working notes, not a second frozen contract or a correctness certificate",
+  "source_contract": {
+    "kind": "problem",
+    "path": null,
+    "sha256": null
+  },
+  "task_map": [
+    {
+      "task_id": "REPLACE_WITH_EXISTING_TASK_ID",
+      "subtask_id": "REPLACE_ONLY_IF_AN_INDEPENDENT_DELIVERABLE_EXISTS",
+      "source_anchor": null,
+      "request": null,
+      "answer_object": null,
+      "deliverable": null,
+      "acceptance": {
+        "mode": "manual_or_programmatic_as_applicable",
+        "criterion": null,
+        "basis": null
+      },
+      "data_requirements": [],
+      "observation_unit": null,
+      "response_domain": null,
+      "information_time": null,
+      "uncertainty": null,
+      "statements": [],
+      "dependencies": [],
+      "options": [
+        {
+          "method": null,
+          "card_id": null,
+          "kind": null,
+          "knowledge_level": null,
+          "role": "baseline_or_candidate_or_bound_or_fallback",
+          "disposition": "CONDITIONAL",
+          "fit_reason": null,
+          "prerequisites": [],
+          "rejection_or_gap": null,
+          "evidence_anchors": [],
+          "first_check": {
+            "object": null,
+            "method": null,
+            "criterion": null,
+            "budget": null,
+            "failure_action": null
+          },
+          "implementation": {
+            "language": null,
+            "runtime_status": "not_checked",
+            "dependencies": []
+          },
+          "handoff_inputs": [],
+          "handoff_outputs": [],
+          "switch_trigger": null,
+          "pattern_ids": []
+        }
+      ],
+      "next_action": null
+    }
+  ],
+  "global_restrictions": [],
+  "unresolved": []
+}

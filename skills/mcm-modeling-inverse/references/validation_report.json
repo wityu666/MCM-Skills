@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "family": "inverse",
+  "card_count": 4,
+  "ui_short_description_chars": 29,
+  "quick_validate": "Skill is valid! (exit 0)",
+  "card_ids": [
+    "inverse-tikhonov",
+    "inverse-tsvd",
+    "inverse-nonlinear-calibration",
+    "inverse-identifiability"
+  ],
+  "knowledge_counts": {
+    "THEORY_GUIDE_REVIEWED": 4
+  },
+  "references_scope_note": "verified_primary may mean explicitly documented local official source read; linked webpage is not thereby claimed read. reference_only links remain unverified.",
+  "issues": [],
+  "final_readback_checks": [
+    "JSON parsed",
+    "all relative SKILL links exist",
+    "same card count/IDs",
+    "quick_validate exit 0"
+  ],
+  "historical_report_sha256": "f50222616575d85b6f007c2cd354fea2364d7129ec7154f9f63b42d87c76b02b",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

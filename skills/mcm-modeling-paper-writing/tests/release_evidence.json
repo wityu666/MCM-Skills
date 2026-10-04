@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "scope": "Declared claim/evidence JSON/hash/relative-path and CLI protection checks; not prose scoring or validation of evidence semantics.",
+  "release": "github-portable-1.0.0",
+  "tests": 10,
+  "entrypoint": "scripts/run_tests.py",
+  "execution_context": "This repository; actual source and test hashes below",
+  "test_date": "2026-10-04",
+  "runtime": {
+    "python": "3.13.5",
+    "numpy": "2.1.3",
+    "scipy": "1.15.3"
+  },
+  "source_files": [
+    {
+      "path": "scripts/check_claims.py",
+      "sha256": "5b0795c2d0ec9f570b417a1920bde52483ede17d800c905fdc9dd3f7424c3a4f"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "tests/test_check_claims.py",
+      "sha256": "0aaafd39b5e58966575728a94f3c337e9c3e9e429f807afff6f7f226076758af"
+    }
+  ],
+  "previous_report_sha256": "99ef71700bf72641b3e70813ebfebd01e96abb4742ec6a0078cc3085c65bac4e",
+  "matlab_status": "NOT_EXECUTED",
+  "real_case_reproduced": false
+}

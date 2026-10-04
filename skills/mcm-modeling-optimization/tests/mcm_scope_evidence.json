@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "language": "Python",
+  "tests": 9,
+  "test_run_utc": "2026-10-04T01:49:01.888040+00:00",
+  "scope": "Independent linear candidate checks and finite integer-box enumeration, including hand-derived optimum, one-shot constraints and arithmetic overflow; not a general MILP solver.",
+  "historical_command_sha256": "be0225d99f829a6a886396e39d33a0cfa3dc5e66b663180b3e140b6a271061b8",
+  "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+  "command_scope": "Module cases within the MCM-only combined command",
+  "historical_environment_sha256": "8991725670c1a83c71014a8258b8761c77cefda67ecfac89ce35a61b7647ff2a",
+  "historical_environment_scope": "Original machine environment is not a package dependency.",
+  "source_files": [
+    {
+      "path": "assets/optimization_reference.py",
+      "sha256": "949e9873f7366c10e4d183ff198fd7091e7af452636a57c7cd7896a7df590486"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "tests/test_reference.py",
+      "sha256": "4bee382df9927c1b8b3bb6a641fd24d866bea4bdd13b711685349aaaf0edde19"
+    }
+  ],
+  "prior_reports": [
+    {
+      "path": "tests/code_review_evidence.json",
+      "sha256": "8698843d5c0d78f5c1574ffd7b366bfa404a46150d5f46730206db488010c4e8",
+      "scope": "Historical original report; original paths retained"
+    }
+  ],
+  "matlab_status": "NOT_RUN",
+  "real_case_reproduced": false,
+  "historical_report_sha256": "efb20c3554332602890a614c0b7f5fb5e991a283fb9fbe5b3db8f50accb1181f",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 数据研究"
+  short_description: "核验美赛题设与外部资料，保留来源、时间口径、单位许可及数据缺口"
+  default_prompt: "使用 $mcm-data-researcher 核验这道 MCM 题的数据与外部资料，建立可复查的来源清单。"

@@ -1,0 +1,31 @@
+name: Validate portable MCM skills
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package-and-python:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install regression-test dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Validate self-contained resources and model-card hashes
+        run: python scripts/validate.py
+      - name: Run bundled and repository regression tests
+        run: python scripts/run_tests.py
+      - name: Install fresh into a temporary folder and read back
+        run: python scripts/check_fresh_install.py

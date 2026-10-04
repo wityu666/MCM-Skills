@@ -1,0 +1,59 @@
+{
+  "status": "PASS",
+  "family": "evaluation",
+  "card_count": 11,
+  "ui_short_description_chars": 29,
+  "quick_validate": "Skill is valid! (exit 0)",
+  "card_ids": [
+    "eval-indicator-transforms",
+    "eval-ahp",
+    "eval-topsis",
+    "eval-entropy-weights",
+    "eval-pca",
+    "eval-factor-analysis",
+    "eval-grey-relation",
+    "eval-fuzzy-comprehensive",
+    "eval-dea",
+    "eval-rank-sum-ratio",
+    "eval-fuzzy-relation-closure"
+  ],
+  "knowledge_counts": {
+    "REFERENCE_IMPL_TESTED": 2,
+    "THEORY_GUIDE_REVIEWED": 9
+  },
+  "references_scope_note": "verified_primary may mean explicitly documented local official source read; linked webpage is not thereby claimed read. reference_only links remain unverified.",
+  "issues": [],
+  "runtime": {
+    "executable_name": "python",
+    "historical_runtime_scope": "Recorded earlier runtime; the package uses the Python selected by its user.",
+    "numpy": "2.1.3",
+    "scipy": "1.15.3"
+  },
+  "python_tests": {
+    "historical_command_sha256": "2a50f54281e6d9b2ae8fe3ef82116571ce6fe82084de209742c0f94c8d28acaf",
+    "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+    "result": "10 passed in 0.07s",
+    "coverage": "declared minmax+L2 entropy/TOPSIS; hand score/entropy, zero/constants, units/permutation, huge finite weights, invalid inputs"
+  },
+  "matlab_status": "NOT_EXECUTED",
+  "implementation_files": [
+    {
+      "source_label": "scripts/entropy_topsis.py",
+      "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+      "sha256": "9b9687cce0e0260acfa823d285a42ec992b93e11b81d46febfd384eca7193527"
+    },
+    {
+      "source_label": "tests/test_entropy_topsis.py",
+      "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+      "sha256": "badf9873d7562a007e8b6ccbc88ec23262906aa8abca45b0eb76afbf60eaab11"
+    }
+  ],
+  "final_readback_checks": [
+    "JSON parsed",
+    "all relative SKILL links exist",
+    "same card count/IDs",
+    "quick_validate exit 0"
+  ],
+  "historical_report_sha256": "f5c4d3ae7187db8f8a321f8ca55cc778a0ab8034e4b93c9b8c5223dace8151d9",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

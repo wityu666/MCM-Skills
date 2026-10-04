@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 问题分析"
+  short_description: "拆解美赛题面、核验年度规则与附件，冻结可交接的任务和交付合同"
+  default_prompt: "使用 $mcm-problem-analyst 分析这道 MCM 题及其附件，建立任务、规则证据和交付合同。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 信号图像与计算几何"
+  short_description: "服务 MCM A–C 信号图像建模，核对采样、变换和输出解释"
+  default_prompt: "使用 $mcm-modeling-signals-images 分析当前 MCM A–C 信号或图像任务，说明方法前提、输出与独立检查，采用中文协作与英文论文表达。"

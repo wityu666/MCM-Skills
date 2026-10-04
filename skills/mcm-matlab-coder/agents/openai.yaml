@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM MATLAB 编码"
+  short_description: "把 MCM 冻结模型实现为 MATLAB 批处理求解、结果与论文图"
+  default_prompt: "使用 $mcm-matlab-coder 按当前 MCM A/B/C 模型合同实现 MATLAB 批处理求解，并交付可复现结果与复核输入。"

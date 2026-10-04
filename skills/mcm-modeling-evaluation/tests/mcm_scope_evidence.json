@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "language": "Python",
+  "tests": 14,
+  "test_run_utc": "2026-10-04T01:49:01.888040+00:00",
+  "scope": "Direction-aware minmax entropy/L2 TOPSIS: hand scores, constant/zero columns, invariance, complex/finite-range and tiny-distance checks.",
+  "historical_command_sha256": "be0225d99f829a6a886396e39d33a0cfa3dc5e66b663180b3e140b6a271061b8",
+  "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+  "command_scope": "Module cases within the MCM-only combined command",
+  "historical_environment_sha256": "8991725670c1a83c71014a8258b8761c77cefda67ecfac89ce35a61b7647ff2a",
+  "historical_environment_scope": "Original machine environment is not a package dependency.",
+  "source_files": [
+    {
+      "path": "scripts/entropy_topsis.py",
+      "sha256": "da515bfc6d1a765447f8814a57023e793c7a52621e0c7cce7f01c2585576b43a"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "tests/test_entropy_topsis.py",
+      "sha256": "39222d4855bec5915e92dac2c46dcfed5f8a1199fd99fe9f027d4baba29b16e6"
+    }
+  ],
+  "prior_reports": [
+    {
+      "path": "tests/code_review_evidence.json",
+      "sha256": "a52ededc280eaf5d2292d41e6acb582e41b0db1df1a73b1860ad047a8958da25",
+      "scope": "Historical original report; original paths retained"
+    }
+  ],
+  "matlab_status": "NOT_RUN",
+  "real_case_reproduced": false,
+  "historical_report_sha256": "0e89825b0c8a3189a4309202268e59feb8680e7996ea9c5bd96ab80b9113b57f",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

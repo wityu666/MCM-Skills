@@ -1,0 +1,488 @@
+[
+  {
+    "id": "inverse-tikhonov",
+    "name": "Tikhonov二次正则化逆问题",
+    "family": "inverse",
+    "kind": "method",
+    "aliases": [
+      "Tikhonov",
+      "regularization",
+      "ridge inverse"
+    ],
+    "purpose": "为病态/欠定线性反演加入明确的平滑或先验约束",
+    "minimum_data": [
+      "观测b、算子A、噪声尺度、L、参考x0与lambda选择政策"
+    ],
+    "assumptions": [
+      "先验/正则约束确有依据，不能以低残差证明真值",
+      "归一尺度或lambda单位配平数据与惩罚"
+    ],
+    "mathematics": {
+      "notation": [
+        "x未知状态；A前向算子；L正则；lambda>=0"
+      ],
+      "core": [
+        "min_x ||Ax-b||2²+lambda²||L(x-x0)||2²",
+        "增广LS：[A;lambda L]x≈[b;lambda Lx0]，用QR/SVD",
+        "L=I,x0=0时x=sum_i sigma_i/(sigma_i²+lambda²)*(u_i'b)*v_i",
+        "lambda>0且null(A)∩null(L)={0}时目标严格凸、解唯一"
+      ],
+      "objective_constraints": [
+        "目标如上；附加物理界须显式加入，不能求解后剪裁冒充原问题"
+      ]
+    },
+    "algorithm_steps": [
+      "定义算子/噪声与单位",
+      "冻结L/x0和lambda选择依据",
+      "解增广LS并保存残差/惩罚",
+      "合成恢复、独立前向/扰动核验"
+    ],
+    "python": {
+      "apis": [
+        "scipy.linalg.lstsq",
+        "numpy.linalg.svd",
+        "原创增广系统"
+      ],
+      "dependencies": [
+        "SciPy",
+        "NumPy"
+      ],
+      "implementation_notes": [
+        "实现方向；本卡未有独立运行复现证据。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "[A;lambda*L]\\[b;lambda*L*x0]",
+        "svd"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "实现方向；本卡未有独立运行复现证据。"
+      ]
+    },
+    "baseline": "标量A=a,L=1,x0=0时x=a*b/(a²+lambda²)",
+    "verification": [
+      {
+        "check": "标量解析",
+        "method": "与手解驻点对照",
+        "expected": "满足正则目标"
+      },
+      {
+        "check": "驻点/前向",
+        "method": "独立算A'(Ax-b)+lambda²L'L(x-x0)与Ax",
+        "expected": "与容差/数据误差一致"
+      },
+      {
+        "check": "噪声和选择",
+        "method": "扰动b、留出/已知噪声准则",
+        "expected": "说明偏差-稳定权衡而非挑最好结果"
+      }
+    ],
+    "failure_modes": [
+      "惩罚错量纲",
+      "先验不合理",
+      "lambda事后选",
+      "只报告拟合"
+    ],
+    "fallback": [
+      "低维/可识别子空间",
+      "报告解区间/先验依赖"
+    ],
+    "references": [
+      {
+        "title": "Per Christian Hansen Regularization Tools 4.1 原作者报告",
+        "url": "https://www.imm.dtu.dk/~pcha/Regutools/RTv4manual.pdf",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已打开作者128页报告并读病态、正则化定义与相关目录；卡中公式/手核独立验算，不称整报告所有变体已读"
+      },
+      {
+        "title": "SciPy lstsq 官方本机文档",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.lstsq.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机SciPy 1.15.3文档；网页未读取，路径/hash留local_primary_source_checks.json"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "applications": [
+      {
+        "name": "线性Gaussian MAP解释",
+        "note": "Gaussian似然/先验下用对应协方差白化可得到同类二次目标；不把任意Tikhonov结果称通用Bayesian后验"
+      }
+    ],
+    "related_families": [
+      "statistics",
+      "numerical"
+    ],
+    "materials": [
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/151MATLAB工具箱- Regularization Tools Version 4.1",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  },
+  {
+    "id": "inverse-tsvd",
+    "name": "截断奇异值分解反演",
+    "family": "inverse",
+    "kind": "method",
+    "aliases": [
+      "TSVD",
+      "truncated SVD"
+    ],
+    "purpose": "在明确子空间内抑制小奇异值导致的噪声放大",
+    "minimum_data": [
+      "A/b、奇异值、噪声或截断选择依据"
+    ],
+    "assumptions": [
+      "小奇异方向可牺牲的信息需有理由",
+      "截断与PCA方差保留不是同一目标"
+    ],
+    "mathematics": {
+      "notation": [
+        "A=U diag(sigma) V'；sigma1>=...；k<=有效秩"
+      ],
+      "core": [
+        "x_k=sum_(i=1)^k (u_i'b/sigma_i)*v_i",
+        "等价于在span(v1..vk)内最小化||Ax-b||2",
+        "滤波因子i<=k为1，i>k为0"
+      ],
+      "objective_constraints": [
+        "子空间LS目标；截断维数预声明，不除零奇异值"
+      ]
+    },
+    "algorithm_steps": [
+      "核对算子/数据单位",
+      "SVD与谱/Picard诊断",
+      "按噪声/留出政策选k",
+      "独立前向/扰动与被删方向核验"
+    ],
+    "python": {
+      "apis": [
+        "numpy.linalg.svd",
+        "scipy.linalg.svd"
+      ],
+      "dependencies": [
+        "NumPy",
+        "SciPy"
+      ],
+      "implementation_notes": [
+        "实现方向；本卡未有独立运行复现证据。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "svd",
+        "原创截断组合"
+      ],
+      "dependencies": [
+        "MATLAB"
+      ],
+      "implementation_notes": [
+        "实现方向；本卡未有独立运行复现证据。"
+      ]
+    },
+    "baseline": "A=diag(1,1e-6),b=(1,1e-3)：全解(1,1000)，k1解(1,0)",
+    "verification": [
+      {
+        "check": "解析对角",
+        "method": "逐方向手算",
+        "expected": "展示噪声放大和信息损失"
+      },
+      {
+        "check": "子空间残差",
+        "method": "独立投影/前向重算",
+        "expected": "符合所选子空间"
+      },
+      {
+        "check": "截断选择",
+        "method": "噪声/真值小例与多k",
+        "expected": "不能因解小就判更真实"
+      }
+    ],
+    "failure_modes": [
+      "真实信号位于被删方向",
+      "有效秩阈值随结果改",
+      "病态和结构缺失混用"
+    ],
+    "fallback": [
+      "较低维可信解",
+      "Tikhonov/新增观测"
+    ],
+    "references": [
+      {
+        "title": "Per Christian Hansen Regularization Tools 4.1 原作者报告",
+        "url": "https://www.imm.dtu.dk/~pcha/Regutools/RTv4manual.pdf",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已打开作者128页报告并读病态、正则化定义与相关目录；卡中公式/手核独立验算，不称整报告所有变体已读"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "related_families": [
+      "numerical",
+      "statistics"
+    ],
+    "materials": [
+      {
+        "source_label": "38-1 数学建模工具箱【微信公众号：数模加油站】/151MATLAB工具箱- Regularization Tools Version 4.1",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_type": "prior_material_catalogue",
+        "review_level": "L1_AUTOMATIC_TEXT",
+        "role": "source/index evidence, not proof this model or all variants ran",
+        "notes": "此前名称/自动读取/局部精读的范围；本卡数学指南与坏码/未核验容器分开。"
+      }
+    ]
+  },
+  {
+    "id": "inverse-nonlinear-calibration",
+    "name": "带界非线性校准与Gaussian MAP组件",
+    "family": "inverse",
+    "kind": "method",
+    "aliases": [
+      "nonlinear inverse",
+      "parameter calibration",
+      "Gaussian MAP"
+    ],
+    "purpose": "从观测反推有定义域的前向模型参数",
+    "minimum_data": [
+      "F(theta)、观测/噪声、参数界、初值/先验及留出"
+    ],
+    "assumptions": [
+      "噪声/观测结构有依据；F输出与数据同单位",
+      "局部优化不证明参数唯一或全局最优",
+      "MAP仅在明确似然/先验时称MAP"
+    ],
+    "mathematics": {
+      "notation": [
+        "r_i=(F_i(theta)-y_i)/sigma_i；theta参数；Sigma噪声协方差"
+      ],
+      "core": [
+        "基础min_(lb<=theta<=ub) .5 sum_i rho(r_i²)",
+        "Gaussian prior theta~N(mu0,C0)时加.5||C0^(-1/2)(theta-mu0)||²；相关噪声用Sigma白化",
+        "线性Gaussian时与适当Tikhonov同类，统计Bayesian泛类由statistics引用"
+      ],
+      "objective_constraints": [
+        "参数界、正值/对数域和loss必须声明"
+      ]
+    },
+    "algorithm_steps": [
+      "确认观察/误差和参数单位",
+      "冻结界、loss/先验及切分",
+      "用审阅最小二乘方法/多初值校准",
+      "独立前向、梯度、剖面和留出核验"
+    ],
+    "python": {
+      "apis": [
+        "scipy.optimize.least_squares",
+        "scipy.linalg.solve_triangular"
+      ],
+      "dependencies": [
+        "SciPy"
+      ],
+      "implementation_notes": [
+        "实现方向；本卡未有独立运行复现证据。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "lsqnonlin",
+        "lsqcurvefit"
+      ],
+      "dependencies": [
+        "Optimization Toolbox"
+      ],
+      "implementation_notes": [
+        "实现方向；本卡未有独立运行复现证据。"
+      ]
+    },
+    "baseline": "一参数F(theta)=2theta、sigma=1的有界LS可手解",
+    "verification": [
+      {
+        "check": "解析特例",
+        "method": "手解线性/一参数模型",
+        "expected": "符合界与驻点"
+      },
+      {
+        "check": "前向/雅可比",
+        "method": "独立重算F与有限差分导数",
+        "expected": "无错单位/索引"
+      },
+      {
+        "check": "泛化/先验",
+        "method": "留出/多初值/先验扰动",
+        "expected": "报告多解与先验依赖"
+      }
+    ],
+    "failure_modes": [
+      "目标项断行遗漏",
+      "分母/对数域错",
+      "残差小但不可识别",
+      "鲁棒loss未解释"
+    ],
+    "fallback": [
+      "固定有依据参数",
+      "减少自由度/报告可行集合"
+    ],
+    "references": [
+      {
+        "title": "SciPy least_squares 官方本机文档",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.least_squares.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机SciPy 1.15.3文档；网页未读取，路径/hash留local_primary_source_checks.json"
+      },
+      {
+        "title": "Per Christian Hansen Regularization Tools 4.1 原作者报告",
+        "url": "https://www.imm.dtu.dk/~pcha/Regutools/RTv4manual.pdf",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已打开作者128页报告并读病态、正则化定义与相关目录；卡中公式/手核独立验算，不称整报告所有变体已读"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "related_families": [
+      "statistics",
+      "mechanisms",
+      "control"
+    ],
+    "materials": [
+      {
+        "source_label": "优化类赛题——混合整数规划/混合整数规划Matlab代码.txt",
+        "source_content_sha256": "unknown",
+        "source_label_scope": "Historical metadata only; the original source is not included or needed at runtime.",
+        "evidence_lines": [
+          10,
+          30,
+          31
+        ],
+        "role": "definition-domain/objective warning",
+        "notes": "该例目标断行和零分母定义域风险；本卡不复制原例。"
+      }
+    ]
+  },
+  {
+    "id": "inverse-identifiability",
+    "name": "局部/实际可识别性与参数剖面",
+    "family": "inverse",
+    "kind": "method",
+    "aliases": [
+      "identifiability",
+      "profile objective"
+    ],
+    "purpose": "区分能拟合、数值稳定和参数可识别",
+    "minimum_data": [
+      "前向F、参数域、观测/噪声、参数尺度"
+    ],
+    "assumptions": [
+      "Jacobian满列秩只支持适当光滑条件下局部可识别，不保证全球唯一",
+      "置信阈值依统计假设，不能套固定百分比"
+    ],
+    "mathematics": {
+      "notation": [
+        "J_ij=partial F_i/partial theta_j；W噪声权；L(theta)损失"
+      ],
+      "core": [
+        "局部信息候选I=J' W J；小奇异值/零空间表示弱或未识别方向",
+        "参数剖面L_i(p)=min_(theta_-i) L(theta_i=p,theta_-i)",
+        "F(theta1,theta2)=theta1+theta2只识别和；F(theta)=theta²在theta≠0可局部满秩但全域有±二解"
+      ],
+      "objective_constraints": [
+        "无新拟合目标；检查既有目标与参数域/尺度"
+      ]
+    },
+    "algorithm_steps": [
+      "校验前向/参数单位",
+      "独立差分/解析Jacobian并尺度化",
+      "检查谱/等价解与多初值",
+      "求相关剖面，记录未识别方向"
+    ],
+    "python": {
+      "apis": [
+        "numpy.linalg.svd",
+        "scipy.optimize.least_squares",
+        "原创profile循环"
+      ],
+      "dependencies": [
+        "NumPy",
+        "SciPy"
+      ],
+      "implementation_notes": [
+        "实现方向；本卡未有独立运行复现证据。"
+      ]
+    },
+    "matlab": {
+      "apis": [
+        "svd",
+        "lsqnonlin",
+        "原创profile"
+      ],
+      "dependencies": [
+        "MATLAB",
+        "Optimization Toolbox(可选)"
+      ],
+      "implementation_notes": [
+        "实现方向；本卡未有独立运行复现证据。"
+      ]
+    },
+    "baseline": "两个参数只以和进入观察，零空间(1,-1)可手核",
+    "verification": [
+      {
+        "check": "结构反例",
+        "method": "代入多个同和参数",
+        "expected": "观测完全相同"
+      },
+      {
+        "check": "局部/全球区别",
+        "method": "theta²的±二解",
+        "expected": "不把局部rank冒充全球唯一"
+      },
+      {
+        "check": "实际识别",
+        "method": "噪声/采样/参数尺度变化及剖面",
+        "expected": "报告可信区间或集合"
+      }
+    ],
+    "failure_modes": [
+      "直接求逆信息阵忽略病态",
+      "参数尺度让rank阈值误导",
+      "剖面只取一次局部解"
+    ],
+    "fallback": [
+      "合并/固定不可识别参数",
+      "设计新增观测，保留多解"
+    ],
+    "references": [
+      {
+        "title": "Per Christian Hansen Regularization Tools 4.1 原作者报告",
+        "url": "https://www.imm.dtu.dk/~pcha/Regutools/RTv4manual.pdf",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已打开作者128页报告并读病态、正则化定义与相关目录；卡中公式/手核独立验算，不称整报告所有变体已读"
+      },
+      {
+        "title": "SciPy least_squares 官方本机文档",
+        "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.least_squares.html",
+        "checked_at": "2026-10-04",
+        "evidence": "verified_primary",
+        "checked_scope": "已读本机SciPy 1.15.3文档；网页未读取，路径/hash留local_primary_source_checks.json"
+      }
+    ],
+    "knowledge_level": "THEORY_GUIDE_REVIEWED",
+    "related_families": [
+      "statistics",
+      "control",
+      "mechanisms"
+    ]
+  }
+]

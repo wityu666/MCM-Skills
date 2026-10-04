@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "language": "Python",
+  "tests": 10,
+  "test_run_utc": "2026-10-04T01:49:01.888040+00:00",
+  "scope": "Declared claim/evidence JSON/hash/relative-path and CLI protection checks; not prose scoring or validation of evidence semantics.",
+  "historical_command_sha256": "be0225d99f829a6a886396e39d33a0cfa3dc5e66b663180b3e140b6a271061b8",
+  "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+  "command_scope": "Module cases within the MCM-only combined command",
+  "historical_environment_sha256": "8991725670c1a83c71014a8258b8761c77cefda67ecfac89ce35a61b7647ff2a",
+  "historical_environment_scope": "Original machine environment is not a package dependency.",
+  "source_files": [
+    {
+      "path": "scripts/check_claims.py",
+      "sha256": "5b0795c2d0ec9f570b417a1920bde52483ede17d800c905fdc9dd3f7424c3a4f"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "tests/test_check_claims.py",
+      "sha256": "0aaafd39b5e58966575728a94f3c337e9c3e9e429f807afff6f7f226076758af"
+    }
+  ],
+  "prior_reports": [
+    {
+      "path": "tests/code_review_evidence.json",
+      "sha256": "0d48ee600398aac15fa0530fd37030cc325bed6cac32caae967f7fe5a573597e",
+      "scope": "Historical original report; original paths retained"
+    }
+  ],
+  "matlab_status": "NOT_RUN",
+  "real_case_reproduced": false,
+  "historical_report_sha256": "3d4c326f5beeedd8ecfcb6c0e2d96b967e2888554b270e844e46443730a44ffe",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

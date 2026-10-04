@@ -1,0 +1,6 @@
+interface:
+  display_name: "MCM 优化建模"
+  short_description: "服务 MCM A–C 优化建模，核对目标、硬约束和最优性主张"
+  default_prompt: "使用 $mcm-modeling-optimization 为当前 MCM A–C 任务选择可复核的baseline与模型，写清数学、适用条件和独立验证，采用中文协作与英文论文表达。"
+policy:
+  allow_implicit_invocation: true

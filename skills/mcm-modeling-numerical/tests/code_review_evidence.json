@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "language": "Python",
+  "tests": 13,
+  "test_run_utc": "2026-10-04T00:52:01.792725+00:00",
+  "scope": "Newton divided differences and bracketed bisection: exact polynomial/node cases, analytic roots, arithmetic range and invalid inputs.",
+  "runtime": {
+    "executable_name": "python3",
+    "historical_runtime_scope": "Recorded earlier runtime; the package uses the Python selected by its user.",
+    "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]",
+    "numpy": "2.1.3",
+    "scipy": "1.15.3",
+    "pytest": "8.3.4"
+  },
+  "historical_command_sha256": "3a70a22f0f5562e2a05fb0b31175e53477f435738dfcc0d637c290088b68b03b",
+  "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+  "command_scope": "Module cases executed within the combined pytest command, not a separate module-only invocation",
+  "historical_environment_sha256": "1b5e421137e788d5e60ab69701e20937738b690f8ea49b889ba5e632cfc84860",
+  "historical_environment_scope": "Original machine environment is not a package dependency.",
+  "source_files": [
+    {
+      "path": "assets/numerical_reference.py",
+      "sha256": "7792835503b3014046eadc7ea5f84c6371045591a9c7c173b8aa3b431c091a96",
+      "language": "Python"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "tests/test_reference.py",
+      "sha256": "c06ada7942f094b7a0834c47ba2f205f0adbdb6a301264d3d9392740f3570360"
+    }
+  ],
+  "prior_reports": [
+    {
+      "path": "tests/test_evidence.json",
+      "sha256": "bda82b965b9990e450158950eac3b30ae244dc82df00baf8658e5b5e37929c57",
+      "scope": "Preserved original pre-code-review historical evidence; not current source bytes"
+    }
+  ],
+  "matlab_status": "NOT_RUN",
+  "source_material_code_executed": false,
+  "real_case_reproduced": false,
+  "historical_report_sha256": "005113efb55d9a54f8095b149ec12d5d078ed5d1278f5f9299aad77e512c2b68",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

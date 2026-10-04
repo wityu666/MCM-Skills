@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "status": "DRAFT",
+  "freeze_id": null,
+  "task": {
+    "request": null,
+    "outputs": [],
+    "acceptance": []
+  },
+  "problem_evidence": [],
+  "allowed_data": {
+    "model_inputs": [],
+    "background_only": [],
+    "excluded": [],
+    "evidence": []
+  },
+  "variables": [],
+  "assumptions": [],
+  "models": [],
+  "validation_plan": [],
+  "uncertainty": [],
+  "handoffs": [],
+  "limits": []
+}

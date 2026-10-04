@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM Python 编码"
+  short_description: "把 MCM 冻结模型实现为 Python 可复现求解、结果与论文图"
+  default_prompt: "使用 $mcm-python-coder 按当前 MCM A/B/C 模型合同实现 Python 求解，并交付可复现结果与复核输入。"

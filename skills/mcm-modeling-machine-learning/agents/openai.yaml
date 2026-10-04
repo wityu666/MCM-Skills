@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 机器学习模型与验证"
+  short_description: "服务 MCM A–C 机器学习建模，核对目标、分割和样本外验证"
+  default_prompt: "请使用 $mcm-modeling-machine-learning 为当前 MCM A–C 任务设计基准与候选模型，明确损失、分割和独立验证，采用中文协作与英文论文表达。"

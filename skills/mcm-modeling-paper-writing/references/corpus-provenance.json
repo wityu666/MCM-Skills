@@ -1,0 +1,200 @@
+{
+  "study_date": "2026-10-04",
+  "dataset": "User-authorized historical award-paper material in2026美赛资料; labels, editions and genres retained",
+  "visible_source_files": 789,
+  "loose_units_before_archive_supplement": 624,
+  "archive_supplement_editions": 11,
+  "reading_unit_count": 635,
+  "unit_count_is_not_independent_paper_count": true,
+  "all_full_papers_semantically_read": false,
+  "access_policy": "Metadata only; no automatic opening of source corpus or current-contest answers",
+  "examples": [
+    {
+      "unit_id": "0883cac670952179",
+      "year": 2024,
+      "control_number": "2400996",
+      "source_sha256": "31ede66cf16cfad28c6bc25a73c63a8c6d6785d4069702aa3f62c6ca36e0c214",
+      "source_file_name": "2400996.pdf",
+      "source_pages": [
+        1,
+        8,
+        9,
+        21,
+        22
+      ],
+      "coordinate": "original_pdf_physical",
+      "reading_scope": "Targeted argument/structure reading, not full model reproduction",
+      "award_identity": "2024/2025 official number match only; other years not exhaustively verified"
+    },
+    {
+      "unit_id": "1d055d6a8ff8ca6d",
+      "year": 2024,
+      "control_number": "2407038",
+      "source_sha256": "4188ad1d0467b0543269e6d27b7ac19e852ebb3f7205a9d91ed4e78d60099da0",
+      "source_file_name": "2407038.pdf",
+      "source_pages": [
+        1,
+        6,
+        7,
+        8,
+        9,
+        10,
+        22
+      ],
+      "coordinate": "original_pdf_physical",
+      "reading_scope": "Targeted argument/structure reading, not full model reproduction",
+      "award_identity": "2024/2025 official number match only; other years not exhaustively verified"
+    },
+    {
+      "unit_id": "cd9f4f4dae3dd339",
+      "year": 2024,
+      "control_number": "2401298",
+      "source_sha256": "3e6fdedcd3596caff48df68750acd11fc1546f15479002026b7459c8a9a4e0bf",
+      "source_file_name": "2401298.pdf",
+      "source_pages": [
+        1,
+        4,
+        5,
+        22,
+        23
+      ],
+      "coordinate": "original_pdf_physical",
+      "reading_scope": "Targeted argument/structure reading, not full model reproduction",
+      "award_identity": "2024/2025 official number match only; other years not exhaustively verified"
+    },
+    {
+      "unit_id": "b2958b28f5f86adc",
+      "year": 2025,
+      "control_number": "2500836",
+      "source_sha256": "c409a2584804f74fde54580d2169ddc35169129b48bf79da79f721d8eb5716b4",
+      "source_file_name": "2500836.pdf",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        23
+      ],
+      "coordinate": "original_pdf_physical",
+      "reading_scope": "Targeted argument/structure reading, not full model reproduction",
+      "award_identity": "2024/2025 official number match only; other years not exhaustively verified"
+    },
+    {
+      "unit_id": "04693183d458420f",
+      "year": 2025,
+      "control_number": "2501687",
+      "source_sha256": "465e52f795fd36f31df25b2a6592b11b0a1286b0a11e2424b6727973128d27fe",
+      "source_file_name": "2501687.pdf",
+      "source_pages": [
+        5,
+        7,
+        17,
+        18,
+        23
+      ],
+      "coordinate": "original_pdf_physical",
+      "reading_scope": "Targeted argument/structure reading, not full model reproduction",
+      "award_identity": "2024/2025 official number match only; other years not exhaustively verified"
+    },
+    {
+      "unit_id": "df85455c6c938f3a",
+      "year": 2025,
+      "control_number": "2500759",
+      "source_sha256": "7adf8937fc73635bb5159618d633763072d379f6e39601616f5a651186b3eb3c",
+      "source_file_name": "2500759.pdf",
+      "source_pages": [
+        6,
+        7,
+        8,
+        9,
+        21,
+        22,
+        23,
+        24
+      ],
+      "coordinate": "original_pdf_physical",
+      "reading_scope": "Targeted argument/structure reading, not full model reproduction",
+      "award_identity": "2024/2025 official number match only; other years not exhaustively verified"
+    },
+    {
+      "unit_id": "e143181b1360fd8b",
+      "year": 2013,
+      "control_number": "21185",
+      "source_sha256": "ee875bc1bc36ae712df038b745cb7764448a85feda978614a01921352843b192",
+      "source_file_name": "paper.pdf",
+      "source_pages": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "coordinate": "original_pdf_physical",
+      "reading_scope": "Targeted argument/structure reading, not full model reproduction",
+      "award_identity": "2024/2025 official number match only; other years not exhaustively verified"
+    },
+    {
+      "unit_id": "2742cefffb7a0c1c",
+      "year": 2017,
+      "control_number": "55261",
+      "source_sha256": "f877d0a02e332e8c2a991e49398896de946c8618f5c1d4c6764eeb73772c9d13",
+      "archive_member": "55261.pdf",
+      "source_pages": [
+        3,
+        16,
+        22
+      ],
+      "coordinate": "original_pdf_physical",
+      "reading_scope": "Complete selected pages plus2selected visual checks across both examples; not full paper",
+      "award_identity": "unverified"
+    },
+    {
+      "unit_id": "41298e8cbcac9ca0",
+      "year": 2006,
+      "control_number": null,
+      "source_sha256": "0ffc2a16a1a06c1a8ac09003c0d74afdf80fe228890f9c7085c9912f86ee6c8b",
+      "archive_member": "Managing the HIVADIS Pandemic 2006-2055/Managing the HIVADIS Pandemic 2006-2055 2.pdf",
+      "source_pages": [
+        14,
+        15
+      ],
+      "coordinate": "original_pdf_physical",
+      "reading_scope": "Complete selected pages plus2selected visual checks across both examples; not full paper",
+      "award_identity": "unverified"
+    },
+    {
+      "unit_id": "a90fc7a5ef21fffe",
+      "year": 2009,
+      "year_basis": "path_component_hint_unverified",
+      "control_number": null,
+      "source_sha256": "d9c4a3390e6e933d12cfb1581963f31e1a79a7b4ecb11482495090b8a5734fb8",
+      "source_file_name": "2009 MCM 227 AA（请双击文章里面的黄色符号）.pdf",
+      "source_pages": [
+        14,
+        15,
+        16
+      ],
+      "coordinate": "original_pdf_physical",
+      "reading_scope": "Chapter-targeted text and selected visual review; not full model reproduction",
+      "award_identity": "unverified"
+    },
+    {
+      "unit_id": "9f6f5ccb501b4984",
+      "year": 2019,
+      "year_basis": "path_component_hint_unverified",
+      "control_number": "1908810",
+      "source_sha256": "d70ee4be10b317115aa160bc044c35e3430c7cf33cf122a10715da8c42537117",
+      "source_file_name": "1908810.pdf",
+      "source_pages": [
+        14,
+        15,
+        16,
+        17
+      ],
+      "coordinate": "original_pdf_physical",
+      "reading_scope": "Chapter-targeted text and selected visual review; not full model reproduction",
+      "award_identity": "unverified"
+    }
+  ]
+}

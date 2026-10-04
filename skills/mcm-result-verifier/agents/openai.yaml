@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 结果复核"
+  short_description: "独立复核 MCM 关键结果、约束与鲁棒性，并追踪论文数字来源"
+  default_prompt: "使用 $mcm-result-verifier 对当前 MCM A/B/C 冻结结果做风险定向独立检查，生成复核报告与真实文件数字追踪证据。"

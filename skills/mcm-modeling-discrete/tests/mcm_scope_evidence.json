@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "language": "Python",
+  "tests": 12,
+  "test_run_utc": "2026-10-04T01:49:01.888040+00:00",
+  "scope": "0-1 knapsack and nonnegative-weight Dijkstra: small independent optimum/path, overflow alternatives, invalid input and NumPy integer cases.",
+  "historical_command_sha256": "be0225d99f829a6a886396e39d33a0cfa3dc5e66b663180b3e140b6a271061b8",
+  "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+  "command_scope": "Module cases within the MCM-only combined command",
+  "historical_environment_sha256": "8991725670c1a83c71014a8258b8761c77cefda67ecfac89ce35a61b7647ff2a",
+  "historical_environment_scope": "Original machine environment is not a package dependency.",
+  "source_files": [
+    {
+      "path": "assets/discrete_reference.py",
+      "sha256": "c55f9fe9716fc689bff68146766bc6fd2ff8dc8641326bdcd8f70b402d48fa09"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "tests/test_reference.py",
+      "sha256": "6ac475b531ab338a7de5688cdd7075aad8e764d085ed7b6f79c8a6ae04c7bc52"
+    }
+  ],
+  "prior_reports": [
+    {
+      "path": "tests/code_review_evidence.json",
+      "sha256": "b1e223c8d3b42e294032466ad5f5e107fc26285ca8235dc093175d48b26ae321",
+      "scope": "Historical original report; original paths retained"
+    }
+  ],
+  "matlab_status": "NOT_RUN",
+  "real_case_reproduced": false,
+  "historical_report_sha256": "ca3844af4571c1ccd8fb0a7ae9986d0caab315c9fa52659f9f05a2cd52184062",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

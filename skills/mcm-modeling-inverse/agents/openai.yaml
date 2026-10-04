@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 逆问题与可识别性"
+  short_description: "服务 MCM A–C 逆问题与校准，核验稳定性、识别和预测范围"
+  default_prompt: "使用 $mcm-modeling-inverse 建立当前 MCM A–C 逆问题或校准合同，并核验稳定性、可识别性与独立预测，采用中文协作与英文论文表达。"

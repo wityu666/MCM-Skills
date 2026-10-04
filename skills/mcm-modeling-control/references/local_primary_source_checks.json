@@ -1,0 +1,40 @@
+[
+  {
+    "title": "StateSpace official local distribution documentation",
+    "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.StateSpace.html",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "scipy/signal/_ltisys.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "b0ec44304ddee36d7bc7a80583b6a7634f29e025a84d2d239ba369f48a6c4cce",
+    "doc_chars": 2127,
+    "family": "control",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  },
+  {
+    "title": "DARE official local distribution documentation",
+    "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.solve_discrete_are.html",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "scipy/linalg/_solvers.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "cf086bcf40db27ac1ff5f63b074a5932f3280be707a355585dddc3c8793ba538",
+    "doc_chars": 3577,
+    "family": "control",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "family": "signals-images",
+  "card_count": 17,
+  "ui_short_description_chars": 32,
+  "quick_validate": "Skill is valid! (exit 0)",
+  "card_ids": [
+    "sig-dft-fft",
+    "sig-linear-filter",
+    "sig-wavelet-dwt",
+    "sig-emd",
+    "sig-hilbert-analytic",
+    "sig-ica",
+    "sig-gaussian-smoothing",
+    "sig-otsu",
+    "sig-chan-vese",
+    "sig-morphology",
+    "sig-nurbs",
+    "sig-delaunay-voronoi",
+    "sig-camera-calibration",
+    "sig-chirplet",
+    "sig-frft",
+    "sig-box-counting",
+    "sig-schwarz-christoffel"
+  ],
+  "knowledge_counts": {
+    "THEORY_GUIDE_REVIEWED": 17
+  },
+  "references_scope_note": "verified_primary may mean explicitly documented local official source read; linked webpage is not thereby claimed read. reference_only links remain unverified.",
+  "issues": [],
+  "final_readback_checks": [
+    "JSON parsed",
+    "all relative SKILL links exist",
+    "same card count/IDs",
+    "quick_validate exit 0"
+  ],
+  "historical_report_sha256": "ec5a764b1ddfb40da24a631fb2675c316014eaf9668de638a26641fb6baea555",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

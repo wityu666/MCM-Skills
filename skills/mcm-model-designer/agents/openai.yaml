@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM 模型设计"
+  short_description: "比较美赛基线和主模型，冻结公式约束、来源假设与风险驱动验证合同"
+  default_prompt: "使用 $mcm-model-designer 为当前 MCM 任务设计并冻结可实现、可验证、有降级方案的模型合同。"

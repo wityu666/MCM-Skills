@@ -1,0 +1,4 @@
+interface:
+  display_name: "MCM PDF 排版复核"
+  short_description: "逐页检查MCM英文PDF的页数、匿名、字体与图表并绑定最终文件证据"
+  default_prompt: "请使用 $mcm-layout-verifier 逐页检查当前 MCM 最终 PDF，并把真实检查证据绑定到该文件哈希。"

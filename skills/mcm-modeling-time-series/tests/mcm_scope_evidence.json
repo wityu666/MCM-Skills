@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "language": "Python",
+  "tests": 21,
+  "test_run_utc": "2026-10-04T01:49:01.888040+00:00",
+  "scope": "Seasonal-naive hand predictions and observation-time/selected-group split helper boundaries, including iterable/NumPy index cases; feature availability not validated.",
+  "historical_command_sha256": "be0225d99f829a6a886396e39d33a0cfa3dc5e66b663180b3e140b6a271061b8",
+  "historical_command_scope": "Exact earlier command retained in the private working archive; omitted from this portable package. This is a historic record, not a runnable command or new test run.",
+  "command_scope": "Module cases within the MCM-only combined command",
+  "historical_environment_sha256": "8991725670c1a83c71014a8258b8761c77cefda67ecfac89ce35a61b7647ff2a",
+  "historical_environment_scope": "Original machine environment is not a package dependency.",
+  "source_files": [
+    {
+      "path": "scripts/seasonal_naive.py",
+      "sha256": "27ffb3bd87a959113628e6134f973ae6d8c6fb4a2470539c40e9731eea208498"
+    }
+  ],
+  "test_files": [
+    {
+      "path": "scripts/test_seasonal_naive.py",
+      "sha256": "d119f6314b3d2f97e19dee59613f49485b8da509cfeb0c645466c4b67d409684"
+    }
+  ],
+  "prior_reports": [
+    {
+      "path": "tests/code_review_evidence.json",
+      "sha256": "2a2e8ebd4c85055a0fea4babaf5d22d652967c4ad8950bc7f629eb47639dd925",
+      "scope": "Historical original report; original paths retained"
+    }
+  ],
+  "matlab_status": "NOT_RUN",
+  "real_case_reproduced": false,
+  "historical_report_sha256": "8c463883f6ac85e3de0168f96f99448d421c2d03caa086e3032523c588468d00",
+  "record_scope": "HISTORICAL_METADATA_ONLY: earlier declared test or structural-validation evidence. Fresh portable execution evidence is generated separately; this record does not certify modified package bytes."
+}

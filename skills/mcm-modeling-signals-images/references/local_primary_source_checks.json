@@ -1,0 +1,172 @@
+[
+  {
+    "title": "FFT official local distribution documentation",
+    "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.fft.fft.html",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "scipy/fft/_basic.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "94627ca904cc5d42446eaff6bf07cf3cf957edbe23df9f24b3d2cbadeb4eb446",
+    "doc_chars": 5598,
+    "family": "signals-images",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  },
+  {
+    "title": "filter official local distribution documentation",
+    "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.sosfilt.html",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "scipy/signal/_signaltools.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "1e2a03b3ba5a5c8d5c52ef605ac450e9990bea1ff1dbcab8352dd627838036f6",
+    "doc_chars": 2298,
+    "family": "signals-images",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  },
+  {
+    "title": "wavelet official local distribution documentation",
+    "url": "https://pywavelets.readthedocs.io/en/latest/ref/dwt-discrete-wavelet-transform.html",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "pywt/_multilevel.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "0d78838c83cde7da02e0221c5586598ec1913c78f00069f2e7bcf6863a915e9f",
+    "doc_chars": 1078,
+    "family": "signals-images",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  },
+  {
+    "title": "FastICA official local distribution documentation",
+    "url": "https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "sklearn/decomposition/_fastica.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "1171461c7c974b97f88c7eb15bdf12e54d4aa0556109591bbdc5f63e55e207dd",
+    "doc_chars": 4696,
+    "family": "signals-images",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  },
+  {
+    "title": "Otsu official local distribution documentation",
+    "url": "https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.threshold_otsu",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "skimage/filters/thresholding.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "d0db935f85506c0daf44337c56a01d20de07953901f88b61059d5db12a1a65fd",
+    "doc_chars": 1018,
+    "family": "signals-images",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  },
+  {
+    "title": "ChanVese official local distribution documentation",
+    "url": "https://scikit-image.org/docs/stable/api/skimage.segmentation.html#skimage.segmentation.chan_vese",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "skimage/segmentation/_chan_vese.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "1c7827ee08c4f1d3aa740b7a40cf33cb2619b75484fc4403b69ef773d19dd3d2",
+    "doc_chars": 5191,
+    "family": "signals-images",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  },
+  {
+    "title": "Gaussian official local distribution documentation",
+    "url": "https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.gaussian",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "skimage/_shared/filters.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "05136473e2d30c2499c918cb0d0f70853f3fb93006c4610385e09a585fdc3357",
+    "doc_chars": 3234,
+    "family": "signals-images",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  },
+  {
+    "title": "Morphology official local distribution documentation",
+    "url": "https://scikit-image.org/docs/stable/api/skimage.morphology.html#skimage.morphology.opening",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "distribution_source": "skimage/morphology/gray.py",
+    "distribution_source_scope": "Historic first-party installed source inspection; package-relative name, not a runtime file dependency.",
+    "sha256": "682055955afc99b14e86451cdafd3925a771637513168eb914b790a0a73cb202",
+    "doc_chars": 2694,
+    "family": "signals-images",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  },
+  {
+    "title": "Delaunay official local distribution documentation",
+    "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html",
+    "checked_at": "2026-10-04",
+    "evidence": "verified_primary",
+    "checked_via": "local package docstring and source metadata; linked website was not fetched",
+    "local_path": null,
+    "sha256": null,
+    "doc_chars": 6303,
+    "family": "signals-images",
+    "versions": {
+      "numpy": "2.1.3",
+      "scipy": "1.15.3",
+      "sklearn": "1.6.1",
+      "pywt": "1.8.0",
+      "skimage": "0.25.0"
+    }
+  }
+]

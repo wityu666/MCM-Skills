@@ -1,0 +1,23 @@
+{
+  "status": "INCOMPLETE",
+  "pdf_sha256": null,
+  "page_count": null,
+  "main_page_count": null,
+  "ai_report_start_page": null,
+  "main_pages_verified": false,
+  "summary_first_page_verified": false,
+  "english_verified": false,
+  "anonymous_verified": false,
+  "control_number_each_page_verified": false,
+  "minimum_font_verified": false,
+  "visual_all_pages_verified": false,
+  "ai_report_appropriate_verified": false,
+  "citations_verified": false,
+  "task_coverage_verified": false,
+  "unresolved": [
+    "Review has not been performed; populate actual PDF metadata and evidence before changing checks.",
+    "Narrative consistency and claim-strength review of the current PDF has not been performed; record page-bound evidence and unresolved reasoning issues."
+  ],
+  "evidence": [],
+  "ai_used": null
+}

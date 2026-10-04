@@ -1,0 +1,6 @@
+# Dependencies for the bundled reference implementations and PDF precheck.
+# Model cards name any additional libraries/toolboxes needed by optional methods.
+numpy>=1.26,<3
+scipy>=1.11,<2
+pypdf>=5,<7
+PyYAML>=6,<7
