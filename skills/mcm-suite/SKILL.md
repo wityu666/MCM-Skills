@@ -49,4 +49,6 @@ description: 协调 MCM 美赛 A、B、C 题的选题、建模、数据检索、
 
 ## 论文论证与行文
 
+正式比赛论文默认采用用户提供框架提炼的[行文结构](../mcm-paper-writer/references/user-preferred-structure.md)，从准备阶段即按其章节功能安排材料。各模型任务保留准备、建立、结果与结果分析，实际问数和专项交付由题面决定；框架中的旧格式说明不覆盖当届规则。完整结构和大纲在包内，不需要原 Word 文件。
+
 摘要、方法说明、结果解释、结论或memo/letter的起草与修订可由[$mcm-modeling-paper-writing](../mcm-modeling-paper-writing/SKILL.md)辅助；正式论文仍走本套件writer、layout与final链。它连接当前任务与真实证据，保持中文协作、英文交付及A–C范围；不因历史样稿改变本届规则或当前模型。普通语言修改同步母版/导出，数学含义变化回传上游，旧PDF审查不能覆盖新稿。

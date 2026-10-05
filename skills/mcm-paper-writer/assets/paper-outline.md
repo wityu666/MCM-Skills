@@ -1,86 +1,148 @@
-<!-- Content prompts, not reusable prose. Choose headings from the actual tasks and evidence. Remove every drafting note before export. This is not an official COMAP form or a fixed section/page-count requirement. -->
+<!-- User-selected formal MCM structure. Read ../references/user-preferred-structure.md.
+Use actual tasks and current rules. Remove all prompts before export. -->
 
 Problem Chosen: [actual A, B, or C]
 Contest Year: [actual year]
-Team Control Number: [assigned number; no invented number for practice]
+Team Control Number: [assigned number; do not invent one in practice]
 
 # Summary Sheet
 
-## [Title consistent with the strength of the evidence]
+## [Evidence-consistent Title]
 
-[Principal answer to the actual objective; object, value or direction, unit, comparison, and scope.]
+### Summary
 
-[Essential mechanism or method that makes that answer understandable; how the actual task outputs connect. Avoid an algorithm list.]
+[Objective and principal answer: object, quantity/direction, unit, comparison and scope.]
 
-[Material validation actually performed; its outcome, prediction or calibration range, uncertainty, and failure conditions.]
+[Essential mechanism and task connections, actual verification, important uncertainty and supported implication.]
 
-[Supported implication or recommendation for the required audience, including the condition that limits its use. Do not add an innovation or superiority claim without evidence.]
+Keywords: [terms describing the actual problem and methods]
 
-<!-- Finish this page after the body is stable. Exactly one physical page, first in the final PDF. Use the actual annual Summary Sheet and readable required font size. Put the assigned Control Number and page number at the top of every solution page. -->
+<!-- Exactly one first physical page. Finalize after the body. Current annual
+Summary Sheet, font, Control Number and header rules govern formatting. -->
 
-<!-- Begin the solution on the next physical page. Arrange, combine or omit the following content blocks according to actual task dependencies; do not mechanically duplicate them for every subquestion. Contents, references, appendices, code and task-specific material count toward the annual solution limit. -->
+# Contents
 
-# [Contents, if useful]
+[Generate from final headings; verify actual PDF page references.]
 
-[Generate from the final headings; verify final PDF page references.]
+# I Introduction
 
-# [Problem, Scope, and Task Map]
+## 1.1 Problem Background
 
-[Concrete objective, requested outputs, constraints and dependencies. Include a problem-specific memo or letter only when required.]
+[Background needed for the current objective, scale and modeling scope.]
 
-| Task | Output required by the actual statement | Supporting section / evidence |
+## 1.2 Our Work
+
+[Overall solution route, dependencies, actual contributions and concise roadmap.]
+
+# II Problem Description and Analysis
+
+## 2.1 Problem Statement
+
+[Restate the actual objective, requested outputs and hard constraints once.]
+
+## 2.2 Analysis of Specific Issues
+
+### 2.2.i Analysis of Task i
+
+[Map each actual question: input, output, difficulty and dependencies.]
+
+| Actual task | Requested output | Supporting model section or communication |
 |---|---|---|
-| [Task ID] | [Actual request] | [Actual section / evidence] |
+| [Task ID] | [Actual request] | [Section / required memo or letter] |
 
-# [Data, Assumptions, and Notation]
+# III Basic Assumptions
 
-[Separate stated facts, observations, cited parameters, estimated parameters, modeling assumptions and scenarios. Record time, measurement scale, units, transformations and missingness. Explain why each necessary assumption is reasonable and what conclusion it limits.]
+[Each necessary assumption: basis, purpose, affected conclusion and validation where possible. Separate observations and cited parameters from assumptions.]
+
+# IV Glossary and Symbols
+
+## 4.1 Glossary
+
+[Explain terms the reader needs.]
+
+## 4.2 Symbols
 
 | Symbol | Meaning | Unit / domain |
 |---|---|---|
-| [Symbol] | [Definition] | [Unit or dimensionless] |
+| [Symbol] | [Definition consistent with equations] | [Unit or domain] |
 
-# [Task-appropriate Model and Argument]
+# V Models
 
-[Problem interface and baseline; reason for selecting this mechanism/model; necessary changes to a standard model; variables, equations, objective and constraints; parameter sources; actual solution method and termination.]
+[Explain shared data preparation and common components once; later tasks reference them.]
 
-[How the output from this model becomes an input to another task, if applicable. A new model name alone does not justify adding a module.]
+## 5.i Analysis and Solution of Task i
 
-[Verified results with object, unit, scenario and comparison; explanation of what they support. Identify observation, fit, prediction, simulation, inverse estimate or feasible candidate correctly. Keep internal result IDs in the paper manifest; use real quantities and figure/equation references in the paper.]
+### 5.i.1 Model Preparation
 
-[Actual figure or table; caption stating object and conditions; body discussion of the supported conclusion and any contrary evidence.]
+[Problem interface, actual data and transformations, parameter sources, assumptions and baseline.]
 
-# [Validation, Uncertainty, and Sensitivity]
+### 5.i.2 Model Establishment
 
-[Checks actually performed, expected and observed outcomes, sample/weight/metric definitions and relevant tolerances. Separate reruns, independent checks, calibration fit, prediction tests and numerical convergence.]
+[Reason for this model; variables, equations, objectives and constraints; estimation/solution method and computational settings. Explain task interfaces.]
 
-[Prediction origin and information available at that time; training/validation/test separation, where relevant. Name confidence, prediction, credible or empirical intervals correctly; give scope, actual coverage and width when evaluated.]
+### 5.i.3 Results
 
-[Risk-driven perturbation: input changed, reason and range, what stayed fixed, outputs recomputed, resulting change and its implication. Parameter grids and random experiments are different procedures. Preserve failures and unresolved numerical or semantic conflicts.]
+[Verified results with object, units, scenario, comparison and range. Distinguish observation, estimate, prediction, simulation or feasible candidate. Use real figure/table references.]
 
-# [Limitations and Conclusions]
+### 5.i.4 Analysis of Results
 
-[Which data gap, assumption, objective, parameter, observation process or computational approximation affects which result or recommendation? What additional evidence would reduce that limitation?]
+[How the results answer the task, what they support, contrary evidence or limitations, and what feeds the next task.]
 
-[Answers supported by this paper, their conditions and decision implications. No new experiment, model or numerical result in the conclusion. Label unperformed improvements as suggestions.]
+<!-- Repeat for actual model tasks, not a fixed number of questions or models.
+Do not rebuild a shared model or invent one for a communication-only task. -->
 
-# [Memo or Letter Required by the Actual Problem]
+# VI Error Analysis and Sensitivity Analysis
 
-To: [required recipient]
-Subject: [decision addressed]
+## 6.1 Error Analysis
 
-[Audience-specific actions supported by the body; expected consequences, costs, risks and conditions. Follow the actual required format and length.]
+[Actual relevant checks: residuals, out-of-sample tests, independent calculations, feasibility/conservation or numerical error. Describe evidence limits; do not invent ground truth.]
 
-Team [assigned Control Number]
+## 6.2 Sensitivity Analysis
 
-<!-- No student, advisor, institutional or geographical signature. Delete this block when the problem does not require it. -->
+[What changed, why and over what range; fixed components; recomputed outputs; observed effects. Organize by relevant models.]
 
-# References
+# VII Model Evaluation and Extensions
 
-[Actual source details and citations at their use. Verify authors, titles, years, URLs/DOIs and access dates; do not invent missing metadata. Include AI tools actually used according to the annual policy.]
+## 7.1 Strengths and Weaknesses
 
-# [Supporting Appendix, Only if Needed and Within the Page Budget]
+### 7.1.1 Strengths
 
-[Derivations or code excerpts that support the solution. Keep the internal reproducibility package separate from the single upload PDF.]
+[Evidence-supported advantages and scope.]
 
-<!-- Append a truthful Report on Use of AI Tools in the same PDF only as the applicable annual policy requires. Only the genuine AI report may be excluded where confirmed by that policy. -->
+### 7.1.2 Weaknesses
+
+[Specific limitations and affected results or recommendations.]
+
+## 7.2 Extensions
+
+[Use conditions, new data/validation needed, and proposed improvements clearly marked as unperformed.]
+
+# VIII Conclusions
+
+## 8.1 Conclusions of the Problem
+
+[Answers to actual tasks, supported recommendations and conditions. No new experiment or result.]
+
+## 8.2 Contributions of the Methods
+
+[How the methods supported those answers, not another algorithm/formula list.]
+
+<!-- Place required memo/letter where the actual statement requires it, as a task-linked
+communication block or separate material. Record its task mapping and page-budget inclusion. -->
+
+# IX References
+
+[Actual sources, citations at their use, verified bibliographic details and applicable AI disclosure.]
+
+# X Appendices
+
+## Appendix A [Purpose]
+
+[Supporting derivation, necessary code excerpt or detail within the page budget. Remove empty placeholders.]
+
+## Appendix B [Purpose if needed]
+
+[Further actual supporting material.]
+
+<!-- Append truthful AI-use disclosure only as the current policy requires.
+Do not put ordinary solution content inside an AI-report page exemption. -->

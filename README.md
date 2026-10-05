@@ -61,6 +61,8 @@ python3 skills/mcm-modeling-library/scripts/query_models.py --id ts-gm1n --full
 
 具体模型定义保存在各家族的 `references/cards.json` 和补充卡中；完整检索目录位于 `skills/mcm-modeling-library/assets/catalog.json`。所有引用使用仓库内相对路径或公开科学来源 URL。
 
+正式比赛默认使用[用户指定的行文结构](skills/mcm-paper-writer/references/user-preferred-structure.md)及[配套英文大纲](skills/mcm-paper-writer/assets/paper-outline.md)：背景与工作概述、问题描述/分析、假设、术语/符号、逐问模型、误差/敏感性、评价/推广、结论、参考文献与附录。每个模型任务按“准备 → 建立 → 结果 → 结果分析”展开；实际题数和专项输出按题面安排，格式仍依当年规则。使用这套结构无需原始 Word 模板。
+
 ## 验证
 
 ```sh
