@@ -44,6 +44,8 @@ CSV row为从0开始的数据行；JSON selector=`{"keys":["metrics","mae"]}`。
 
 默认中英交付时 `files` 列入两版实际源稿/PDF及双语复核记录，可附 `language_versions` 分别登记 zh/en 文件与哈希。另保存 `verification/bilingual_review.json`，绑定同一结果冻结/清单与当前两版源稿/PDF，记录对应一致性、中文逐页视觉复核和英文 layout 证据。模板见[双语复核](../../mcm-paper-writer/assets/bilingual-review.json)。缺少任一版或对应检查时不能记录完整双语交付通过。
 
+`paper/content_manifest.json` 复用 `freeze_artifacts.py` 的 v1 文件字节清单格式，纳入两版主源/PDF及全部项目输入依赖（共享图表、TeX 分文件/参考文献/自定义样式等），不改变模型或结果状态；排除清单自身、所有 review 与 `paper/paper_manifest.json`，避免哈希循环。双语记录的 `paper_content_manifest:{path,sha256}` 绑定它，`source_dependencies_verified` 是人工依赖完备声明。仅绑定 `main.tex` 不能覆盖其分文件变化。双语记录还需 `zh_page_count` 与逐页 `zh_page_evidence:[{page,evidence:[...]}]`。完整示例与[双语静态预检](../scripts/audit_bilingual_delivery.py)见[双语约定](../../mcm-paper-writer/references/bilingual-delivery.md)；输出最多 `PRECHECK_PASS`，不代替结果复核、语言对应或视觉审阅。
+
 `verification/layout_review.json`：`status:PASS|FAIL|INCOMPLETE|STALE,pdf_sha256,page_count,main_page_count,ai_report_start_page`（物理页从1开始或null），`ai_used`必须根据真实日志明确为true或false，模板为null；`main_pages_verified,summary_first_page_verified,english_verified,anonymous_verified,control_number_each_page_verified,minimum_font_verified,visual_all_pages_verified,ai_report_appropriate_verified,citations_verified,task_coverage_verified,unresolved,evidence`。模板检查布尔值全为false。英文、匿名、字体、任务覆盖必须实际检查；最终PDF逐页视觉复核，不能仅靠文本抽取。只有AI报告页可按确认规则排除。
 
 `verification/final_audit.json`：`status:LOCAL_DELIVERY_PASS|FAIL|INCOMPLETE,pdf_sha256,manifest_sha256,checks,unresolved,official_submission:"NOT_SUBMITTED"`。自动静态检查最多给PRECHECK_PASS；真实接收凭证另存。

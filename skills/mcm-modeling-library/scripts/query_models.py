@@ -6,22 +6,59 @@ import math
 import re
 from pathlib import Path
 
-HINTS={'optimization':['优化','规划','约束','容量','资源','目标函数','整数'],
-       'discrete':['图','路径','网络流','背包','动态规划','组合'],
-       'evaluation':['评价','排名','排序','权重','指标'],
-       'statistics':['回归','检验','置信','关联','分布','统计','效应'],
-       'time-series':['时间序列','时序','季节','预测未来','波动'],
-       'machine-learning':['分类','聚类','学习','神经网络','特征','识别'],
-       'mechanisms':['微分','守恒','机理','热方程','生态','动力'],
-       'simulation':['仿真','模拟','排队','随机过程','蒙特卡洛','马尔可夫'],
-       'inverse':['反演','隐变量','校准','逆问题','病态','可识别'],
-       'numerical':['插值','求根','积分','数值','线性代数'],
-       'signals-images':['信号','图像','频谱','滤波','几何','小波'],
-       'games':['博弈','联盟','策略','合作','竞争'],
-       'control':['控制','反馈','卡尔曼','稳定','状态估计']}
+HINTS={'optimization':['优化','规划','约束','容量','资源','目标函数','整数',
+                       'optimization','constraint','capacity','resource','allocation','integer','binary'],
+       'discrete':['图','路径','网络流','背包','动态规划','组合',
+                   'graph','path','network flow','knapsack','dynamic programming','combinatorial'],
+       'evaluation':['评价','排名','排序','权重','指标','evaluation','ranking','weight','criterion'],
+       'statistics':['回归','检验','置信','关联','分布','统计','效应',
+                     'regression','hypothesis test','confidence','association','distribution','statistics'],
+       'time-series':['时间序列','时序','季节','预测未来','波动',
+                      'time series','forecast','forecasting','seasonal','volatility'],
+       'machine-learning':['分类','聚类','学习','神经网络','特征','识别',
+                           'classification','clustering','machine learning','neural network','feature'],
+       'mechanisms':['微分','守恒','机理','热方程','生态','动力',
+                     'differential','conservation','mechanism','heat equation','ecology','dynamics'],
+       'simulation':['仿真','模拟','排队','随机过程','蒙特卡洛','马尔可夫',
+                     'simulation','queue','stochastic process','monte carlo','markov'],
+       'inverse':['反演','隐变量','校准','逆问题','病态','可识别',
+                  'inverse','calibration','ill posed','identifiability'],
+       'numerical':['插值','求根','积分','数值','线性代数',
+                    'interpolation','root finding','integration','numerical','linear algebra'],
+       'signals-images':['信号','图像','频谱','滤波','几何','小波',
+                         'signal','image','spectrum','filter','geometry','wavelet'],
+       'games':['博弈','联盟','策略','合作','竞争','game','coalition','strategy','cooperation','competition'],
+       'control':['控制','反馈','卡尔曼','稳定','状态估计','control','feedback','kalman','stability','state estimation']}
+
+# The catalog prose is mostly Chinese. These are lexical translations, not
+# suitability rules: retain the same candidate-only boundary as other matches.
+QUERY_TRANSLATIONS={
+    'forecast':('预测',), 'forecasting':('预测',),
+    'time series':('时序','时间序列'), 'seasonal':('季节',),
+    'integer':('整数',), 'binary':('二元','0-1'),
+    'resource':('资源',), 'allocation':('分配',),
+    'capacity':('容量',), 'constraint':('约束',),
+    'optimization':('优化',), 'regression':('回归',),
+    'classification':('分类',), 'clustering':('聚类',),
+    'svm':('支持向量',), 'support vector machine':('支持向量',),
+    'calibration':('校准',), 'identifiability':('可识别',),
+    'conservation':('守恒',), 'simulation':('仿真','模拟'),
+    'ranking':('排名','排序'), 'interpolation':('插值',),
+    'wavelet':('小波',), 'feedback':('反馈',)}
 
 
 def normalize(text):return re.sub(r'[^a-z0-9\u4e00-\u9fff]+','',text.lower())
+
+
+def contains_phrase(text,phrase):
+    """Use ASCII token boundaries; preserve Chinese substring lookup."""
+    if re.fullmatch(r'[a-zA-Z0-9\s_-]+',phrase):
+        words=re.findall(r'[a-z0-9]+',phrase.lower())
+        if not words:return False
+        pattern=r'(?<![a-z0-9])'+r'[\s_-]+'.join(map(re.escape,words))+r'(?![a-z0-9])'
+        return re.search(pattern,text.lower()) is not None
+    normalized=normalize(phrase)
+    return bool(normalized) and normalized in normalize(text)
 
 
 def validate_cards(cards):
@@ -72,6 +109,8 @@ def search(cards,query='',family=None,identifier=None,limit=10):
         if family and result[0]['family']!=family:raise ValueError('Model id conflicts with selected family')
         return result
     query=query.strip(); nq=normalize(query); terms=re.findall(r'[a-zA-Z][a-zA-Z0-9_-]*',query.lower())
+    translated={word for phrase,words in QUERY_TRANSLATIONS.items()
+                if contains_phrase(query,phrase) for word in words}
     scored=[]
     for card in cards:
         if family and card['family']!=family:continue
@@ -82,12 +121,17 @@ def search(cards,query='',family=None,identifier=None,limit=10):
             for name in names:
                 nn=normalize(name)
                 if nq==nn:score=max(score,100)
-                elif nq and nn and nq in nn:score=max(score,70)
-                elif len(nn)>=2 and nn in nq:score=max(score,60)
-            body=normalize(' '.join(names+[card['purpose'],' '.join(card['assumptions'])]))
-            if nq and nq in body:score=max(score,35)
-            score+=sum(8 for term in terms if normalize(term) in body)
-            score+=sum(4 for hint in HINTS.get(card['family'],[]) if hint in query)
+                elif nq and nn and contains_phrase(name,query):score=max(score,70)
+                elif len(nn)>=2 and contains_phrase(query,name):score=max(score,60)
+            body=' '.join(names+[card['purpose'],' '.join(card['assumptions'])])
+            if nq and contains_phrase(body,query):score=max(score,35)
+            score+=sum(8 for term in terms if contains_phrase(body,term))
+            score+=sum(4 for hint in HINTS.get(card['family'],[]) if contains_phrase(query,hint))
+            for word in translated:
+                # An explicit translated title outranks an incidental mention
+                # in a different model's prose (e.g. RBF is not RBF-SVM).
+                if any(contains_phrase(name,word) for name in names):score+=60
+                elif contains_phrase(body,word):score+=8
         if score:scored.append((score,card))
     return [c for score,c in sorted(scored,key=lambda pair:(-pair[0],pair[1]['id']))[:limit]]
 

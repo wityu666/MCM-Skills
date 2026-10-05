@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install to a temporary folder, verify bytes, reuse, and two installed CLIs."""
+"""Install, verify bytes/reuse, and exercise a fresh bilingual workspace."""
 import json
 import os
 from pathlib import Path
@@ -46,12 +46,35 @@ def check_fresh_install():
         payload = json.loads(query.stdout)
         if payload.get('status') != 'MATCHES' or payload['results'][0]['id'] != 'disc-knapsack':
             raise ValueError('Installed model query returned the wrong card')
-        subprocess.run([
-            sys.executable, '-B', str(destination / 'mcm-suite/scripts/init_project.py'), '--help',
+        workspace = Path(temp) / 'contest-project'
+        initialized = subprocess.run([
+            sys.executable, '-B', str(destination / 'mcm-suite/scripts/init_project.py'),
+            '--root', str(workspace), '--year', '2027', '--mode', 'practice',
+            '--problem', 'C', '--implementation', 'python',
         ], cwd=temp, check=True, capture_output=True, text=True)
+        if json.loads(initialized.stdout).get('status') != 'INITIALIZED':
+            raise ValueError('Installed initializer did not create the project')
+        if not all((workspace / 'paper' / language).is_dir() for language in ('en', 'zh')):
+            raise ValueError('Installed initializer did not create both paper workspaces')
+        review = json.loads((workspace / 'verification/bilingual_review.json').read_text())
+        if review.get('status') != 'INCOMPLETE':
+            raise ValueError('Unreviewed bilingual workspace must remain incomplete')
+        preflight = subprocess.run([
+            sys.executable, '-B', str(destination / 'mcm-suite/scripts/audit_bilingual_delivery.py'),
+            '--root', str(workspace), '--review', 'verification/bilingual_review.json',
+            '--output', 'verification/bilingual_preflight.json',
+        ], cwd=temp, capture_output=True, text=True)
+        precheck = json.loads(preflight.stdout.strip() or preflight.stderr.strip())
+        if preflight.returncode == 0 or precheck.get('status') == 'PRECHECK_PASS':
+            raise ValueError('Empty bilingual workspace unexpectedly passed delivery precheck')
+        missing_evidence = precheck.get('error') or any(
+            row.get('status') == 'FAIL' for row in precheck.get('checks', []))
+        if 'Traceback' in preflight.stderr or not missing_evidence:
+            raise ValueError('Empty bilingual workspace did not report controlled missing evidence')
     return {'status': 'PASS', 'scope': 'TEMPORARY_FRESH_INSTALL_AND_READBACK',
             'modules': len(EXPECTED_SKILLS), 'precheck': initial['status'],
-            'identical_reinstall': 'REUSED', 'installed_cli_checks': 2}
+            'identical_reinstall': 'REUSED', 'installed_cli_checks': 3,
+            'bilingual_workspace': 'INITIALIZED', 'empty_delivery': 'REJECTED'}
 
 
 def main():

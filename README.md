@@ -48,6 +48,7 @@ python3 -m pip install -r requirements.txt
 
 ```sh
 python3 skills/mcm-modeling-library/scripts/query_models.py --query "整数规划"
+python3 skills/mcm-modeling-library/scripts/query_models.py --query "time series forecasting"
 python3 skills/mcm-modeling-library/scripts/query_models.py --id ts-gm1n --full
 ```
 
@@ -65,6 +66,14 @@ python3 skills/mcm-modeling-library/scripts/query_models.py --id ts-gm1n --full
 
 默认同时交付[完整中文版大纲对应的论文](skills/mcm-paper-writer/assets/paper-outline-zh.md)与英文版，各保留可编辑源和 PDF。两版共享模型、数字、公式与图表数据，并做[双语对应复核](skills/mcm-paper-writer/references/bilingual-delivery.md)；英文用于官方上传，中文供阅读复核，不将两版拼成一个提交 PDF。英文终审通过与中英两版全部交付完成分别记录。
 
+项目初始化会建立 `paper/zh/`、`paper/en/` 和未完成的双语复核模板。成稿后可检查两版源稿/PDF、共享结果清单和审阅证据是否对应当前文件：
+
+```sh
+python3 skills/mcm-suite/scripts/audit_bilingual_delivery.py --root /path/to/project --review verification/bilingual_review.json --output verification/bilingual_preflight.json
+```
+
+该工具只做静态预检；空模板、缺失文件、旧哈希及缺少逐页证据不会通过。语言等价、数学正确性和实际视觉质量仍须真实审阅。
+
 ## 验证
 
 ```sh
@@ -74,7 +83,7 @@ python3 scripts/run_tests.py
 python3 scripts/check_fresh_install.py
 ```
 
-本轮 Python 3.13 环境实际通过 183 项测试，并完成全新 `CODEX_HOME` 下的安装与全部文件回读。CI 配置覆盖 Python 3.11 和 3.13；远程 CI 的状态以 GitHub Actions 实际运行记录为准。MATLAB 源码保留静态审查范围，本轮未重新运行 MATLAB。
+本轮 Python 3.13 环境实际通过 222 项测试，并完成全新 `CODEX_HOME` 下的安装与全部文件回读，实际初始化中英工作区并确认空交付不能通过预检。CI 配置覆盖 Python 3.11 和 3.13；远程 CI 的状态以 GitHub Actions 实际运行记录为准。MATLAB 源码保留静态审查范围，本轮未重新运行 MATLAB。
 
 来源记录是资料名称、内容哈希和静态发现的摘要，不是必需外部文件。历史测试摘要明确保留其历史范围；当前发布验证使用本仓库的实际命令和相对资源。仓库不附第三方教材、原始优秀论文、商业源码包或个人机器目录。
 

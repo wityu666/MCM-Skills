@@ -32,7 +32,13 @@ python <mcm-suite>/scripts/audit_delivery.py --root PROJECT --pdf paper/NUMBER.p
 
 使用合同状态：已确认违反要求为 FAIL，缺少结果/文件/证据或规则未决为 INCOMPLETE；完整本地证据链成立才为 LOCAL_DELIVERY_PASS。记录 `pdf_sha256`、结果 `manifest_sha256`、每项证据及 `unresolved`，默认 `official_submission:"NOT_SUBMITTED"`。任何相关变化使受影响结论失效，PDF 任意字节改变须重新逐页复核。
 
-默认中英两版交付另按[双语约定](../mcm-paper-writer/references/bilingual-delivery.md)核对完整中文/英文源稿和 PDF、当前哈希、中文逐页证据与 `bilingual_review.json`。`LOCAL_DELIVERY_PASS` 和单一 `pdf_sha256` 保持英文提交链含义；中文缺失或对应检查未完成时，应分别报告英文状态与中文缺项，不能宣称中英整体交付完成。
+默认中英两版交付另按[双语约定](../mcm-paper-writer/references/bilingual-delivery.md)核对完整中文/英文源稿和 PDF、当前哈希、中文逐页证据与 `bilingual_review.json`，并运行[双语静态预检](../mcm-suite/scripts/audit_bilingual_delivery.py)：
+
+```sh
+python <mcm-suite>/scripts/audit_bilingual_delivery.py --root PROJECT --review verification/bilingual_review.json --result-manifest results/run_manifest.json --output verification/bilingual_preflight.json
+```
+
+双语 `PRECHECK_PASS` 说明文件绑定与审阅记录通过静态检查，仍需人工确认内容对应与真实逐页审阅；它不替代独立数学复核或英文终审。`LOCAL_DELIVERY_PASS` 和单一 `pdf_sha256` 保持英文提交链含义；中文缺失或对应检查未完成时，应分别报告英文状态与中文缺项，不能宣称中英整体交付完成。
 
 ## 冻结、交付与上传
 

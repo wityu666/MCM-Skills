@@ -68,6 +68,9 @@ def initialize(root, year, mode, problem=None, inputs=(), implementation='undeci
             or layout.get('unresolved') != [] or layout.get('evidence') != []
             or any(value is not False for key, value in layout.items() if key.endswith('_verified'))):
         raise ValueError('Invalid unreviewed layout template')
+    bilingual = read_json(assets.parent.parent / 'mcm-paper-writer/assets/bilingual-review.json')
+    from audit_bilingual_delivery import validate_review
+    validate_review(bilingual, template=True)
     # Build in a private sibling first. Malformed assets or copy failures do not
     # leave a partially initialized root, and publication refuses a nonempty root.
     root.parent.mkdir(parents=True, exist_ok=True)
@@ -75,6 +78,8 @@ def initialize(root, year, mode, problem=None, inputs=(), implementation='undeci
     try:
         for name in ['inputs', 'contracts', 'sources', 'data', 'code', 'results', 'verification', 'paper', 'logs']:
             (staging / name).mkdir()
+        for language in ['en', 'zh']:
+            (staging / 'paper' / language).mkdir()
         write_json(staging / 'context.json', dict(schema_version=1, contest='MCM', year=year, mode=mode,
                    problem=problem, team_control_number=None, working_language='zh', paper_language='en',
                    implementation=implementation))
@@ -95,6 +100,7 @@ def initialize(root, year, mode, problem=None, inputs=(), implementation='undeci
         (staging / 'logs/ai_usage.jsonl').touch()
         (staging / 'logs/worklog.md').write_text('# Worklog\n\nInitialized; no model or review completed.\n', encoding='utf-8')
         write_json(staging / 'verification/layout_review.json', layout)
+        write_json(staging / 'verification/bilingual_review.json', bilingual)
         if root.is_symlink() or (root.exists() and (not root.is_dir() or any(root.iterdir()))):
             raise ValueError('Project root changed; refusing to replace existing contents')
         os.replace(staging, root)

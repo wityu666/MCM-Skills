@@ -23,6 +23,8 @@ SKILL_CALL = re.compile(r'\$(mcm-[a-z0-9-]+)\b')
 MD_LINK = re.compile(r'(?<!!)\[[^\]]*\]\(([^)]+)\)')
 HASH = re.compile(r'[0-9a-f]{64}\Z')
 TEXT_SUFFIXES = {'.md', '.json', '.yaml', '.yml', '.py', '.m', '.txt', '.csv', '.tex'}
+TESTED_STATUSES = {'PASS', 'TESTED'}
+IMPLEMENTATION_SUFFIXES = {'python': {'.py', '.ipynb'}, 'matlab': {'.m', '.mlx'}}
 
 
 def digest(path):
@@ -83,6 +85,27 @@ def frontmatter(text):
     if not isinstance(value, dict):
         raise ValueError('Front matter must be an object')
     return value
+
+
+def evidence_bindings(report, base, skills, identifier, require_tested):
+    """Check report hashes without treating their presence as proof of a run."""
+    bound_sources = set()
+    count = 0
+    for key in ['source_files', 'test_files']:
+        bindings = report.get(key, [])
+        if not isinstance(bindings, list) or (require_tested and not bindings):
+            requirement = 'a nonempty array' if require_tested else 'an array'
+            raise ValueError(identifier + ' evidence ' + key + ' must be ' + requirement)
+        for binding in bindings:
+            if not isinstance(binding, dict) or not HASH.fullmatch(str(binding.get('sha256', ''))):
+                raise ValueError(identifier + ' invalid evidence hash binding')
+            bound_path = resolve_resource(base, binding.get('path'), skills)
+            if digest(bound_path) != binding['sha256']:
+                raise ValueError(identifier + ' evidence file hash mismatch: ' + binding['path'])
+            if key == 'source_files':
+                bound_sources.add(bound_path)
+            count += 1
+    return bound_sources, count
 
 
 def validate(root):
@@ -222,36 +245,52 @@ def validate(root):
                 else:
                     source = None
                 evidence = card.get('implementation_evidence', {})
+                tested_languages = set()
                 if isinstance(evidence, dict):
                     for language in ['python', 'matlab']:
                         item = evidence.get(language)
                         if not isinstance(item, dict):
+                            if isinstance(item, str) and item in TESTED_STATUSES:
+                                raise ValueError(identifier + ' claims tested implementation without a bundled report')
                             continue
+                        implementation_source = source
                         if 'path' in item:
-                            resolve_resource(path.parent.parent, item['path'], skills)
+                            implementation_source = resolve_resource(path.parent.parent, item['path'], skills)
+                        claims_tested = item.get('status') in TESTED_STATUSES
                         report_name = item.get('report', item.get('evidence'))
-                        if item.get('status') in {'PASS', 'TESTED'} and not report_name:
+                        if claims_tested and not report_name:
                             raise ValueError(identifier + ' claims tested implementation without a bundled report')
                         if report_name:
                             report_path = resolve_resource(path.parent.parent, report_name, skills)
                             report = read_json(report_path, skills)
                             if not isinstance(report, dict):
                                 raise ValueError(identifier + ' evidence report must be an object')
-                            for key in ['source_files', 'test_files']:
-                                bindings = report.get(key, [])
-                                if not isinstance(bindings, list):
-                                    raise ValueError(identifier + ' evidence ' + key + ' must be an array')
-                                for binding in bindings:
-                                    if not isinstance(binding, dict) or not HASH.fullmatch(str(binding.get('sha256', ''))):
-                                        raise ValueError(identifier + ' invalid evidence hash binding')
-                                    bound_path = resolve_resource(path.parent.parent, binding.get('path'), skills)
-                                    if digest(bound_path) != binding['sha256']:
-                                        raise ValueError(identifier + ' evidence file hash mismatch: ' + binding['path'])
-                                    counts['evidence_bindings'] += 1
+                            if claims_tested:
+                                if report.get('status') not in TESTED_STATUSES:
+                                    raise ValueError(identifier + ' tested claim needs a passing evidence report')
+                                if not isinstance(report.get('scope'), str) or not report['scope'].strip():
+                                    raise ValueError(identifier + ' tested report needs nonempty scope')
+                                tests = report.get('tests')
+                                if not isinstance(tests, int) or isinstance(tests, bool) or tests <= 0:
+                                    raise ValueError(identifier + ' tested report needs a positive integer test count')
+                                runtime = report.get('runtime', {})
+                                if not isinstance(runtime, dict) or not isinstance(runtime.get(language), str) or not runtime[language].strip():
+                                    raise ValueError(identifier + ' tested report lacks ' + language + ' runtime evidence')
+                                if implementation_source is None or implementation_source.suffix not in IMPLEMENTATION_SUFFIXES[language]:
+                                    raise ValueError(identifier + ' tested ' + language + ' claim needs a matching implementation source')
+                            bound_sources, binding_count = evidence_bindings(
+                                report, path.parent.parent, skills, identifier, claims_tested)
+                            counts['evidence_bindings'] += binding_count
+                            if claims_tested:
+                                if implementation_source not in bound_sources:
+                                    raise ValueError(identifier + ' tested report does not bind its ' + language + ' implementation source')
+                                tested_languages.add(language)
                         declared_hash = item.get('source_sha256')
                         if declared_hash is not None:
-                            if source is None or not HASH.fullmatch(str(declared_hash)) or digest(source) != declared_hash:
+                            if implementation_source is None or not HASH.fullmatch(str(declared_hash)) or digest(implementation_source) != declared_hash:
                                 raise ValueError(identifier + ' implementation source hash mismatch')
+                if card['knowledge_level'] in {'REFERENCE_IMPL_TESTED', 'REAL_CASE_REPRODUCED'} and not tested_languages:
+                    raise ValueError(identifier + ' tested knowledge level needs current tested implementation evidence')
         except (OSError, ValueError, TypeError, RecursionError) as error:
             record(path, error)
 
