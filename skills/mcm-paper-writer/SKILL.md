@@ -1,11 +1,11 @@
 ---
 name: mcm-paper-writer
-description: "把已冻结并复核的 MCM A–C 结果写成英文论文，交付 Word 或 LaTeX 可编辑源及 PDF；适用于起草、修订和结果到论文的交接。"
+description: "把已冻结并复核的 MCM A–C 结果写成完整中文与英文两版论文，交付可编辑源及 PDF；英文版用于正式提交，适用于起草、修订和结果到论文的交接。"
 ---
 
-# MCM 英文论文
+# MCM 中英两版论文
 
-指令与讨论用中文，正式论文用英文。先读[交接合同](../mcm-suite/references/contracts.md)和[年度规则](../mcm-suite/references/official-rules.md)，使用项目的 `context.json`、`rules.json` 与实际 A/B/C 题面。正式比赛默认采用用户指定的[论文结构](references/user-preferred-structure.md)和[英文大纲](assets/paper-outline.md)；章节主线与论证功能保留，实际题数、专项交付和合并理由按当前任务记录。行文调用 [$mcm-modeling-paper-writing](../mcm-modeling-paper-writing/SKILL.md)，按其[论证协议](../mcm-modeling-paper-writing/references/narrative-protocol.md)组织证据；模板不提供可直接照搬的句子、结果或强制满页要求。
+指令与讨论用中文，给用户完整中文与英文两版论文，英文版用于正式提交。先读[交接合同](../mcm-suite/references/contracts.md)、[年度规则](../mcm-suite/references/official-rules.md)和[双语交付约定](references/bilingual-delivery.md)，使用项目的 `context.json`、`rules.json` 与实际 A/B/C 题面。正式比赛默认采用用户指定的[论文结构](references/user-preferred-structure.md)及对应的[英文大纲](assets/paper-outline.md)、[中文大纲](assets/paper-outline-zh.md)；章节主线与论证功能保留，实际题数、专项交付和合并理由按当前任务记录。行文调用 [$mcm-modeling-paper-writing](../mcm-modeling-paper-writing/SKILL.md)，按其[论证协议](../mcm-modeling-paper-writing/references/narrative-protocol.md)组织证据；模板不提供可直接照搬的句子、结果或强制满页要求。
 
 ## 输入与写作
 
@@ -21,14 +21,14 @@ description: "把已冻结并复核的 MCM A–C 结果写成英文论文，交�
 
 ## 源稿与导出
 
-沿用用户选定路线：Word 或 LaTeX 至少一份可编辑源，最终只准备一个上传 PDF，不强制同时做两种源稿。Word 使用当前可用的 documents/PDF 技能及导出工具。单独 `.tex` 默认保存并用 Codex `open_in_codex` 打开内置编辑器，调用 `compile_latex_document` 确认编译；内置预览成功不等于已经导出提交 PDF。多文件 TeX 用已存在且实际可用的编译工具。无可用导出工具时保留源稿，报告未导出/未验证，不安装工具或声称成功来掩盖缺口。
+沿用用户选定的 Word 或 LaTeX 路线，为中文与英文各保留一份可编辑源和一份 PDF；不把“两版”理解为同时生成 Word 和 LaTeX。默认分开存于 `paper/zh/` 与 `paper/en/`，最终官方上传仅选择英文 `ControlNumber.pdf`。两版内容和图表依据同一冻结结果，译文不独立更改模型、数值、结论或限制。Word 使用当前可用的 documents/PDF 技能及导出工具。单独 `.tex` 默认保存并用 Codex `open_in_codex` 打开内置编辑器，调用 `compile_latex_document` 确认编译；内置预览成功不等于已经导出提交 PDF。多文件 TeX 用已存在且实际可用的编译工具。无可用导出工具时保留源稿，报告具体哪一版未导出/未验证，不安装工具或声称成功来掩盖缺口。
 
 导出前检查所有页及 AI 报告的身份信息：正文、页眉、图中文字、链接、作者属性和 PDF 元数据都只保留允许的 Control Number 标识。所有解答页顶部加 Control Number 与页码，字体按当年规则易读且达最低字号。
 
 ## 交接与失效
 
-在 `paper/paper_manifest.json` 写入合同规定的结果冻结 ID、结果清单与复核文件哈希、源稿/图/PDF 哈希、数字 ID、引用 ID、任务覆盖和 `ai_used`。交给 `$mcm-layout-verifier` 最终 PDF 与这些真实文件；源稿或导出缺失时交接为未完成。
+在 `paper/paper_manifest.json` 写入合同规定的结果冻结 ID、结果清单与复核文件哈希、两版源稿/图/PDF 哈希、数字 ID、引用 ID、任务覆盖和 `ai_used`，并按双语约定登记语言对应关系。交给 `$mcm-layout-verifier` 英文提交 PDF、中文复核 PDF 及这些真实文件，另做[双语对应复核](assets/bilingual-review.json)；一版缺失或未复核时不能报告两版交付完成。
 
 交接前对照标题、Summary Sheet、任务正文、图表、结论及专项材料中的对象、数值、方向、单位和限定语。核对用户默认结构、各实际任务的四步功能及后半部分分工；目录由最终标题生成，模板旧页码、重复编号、错误标题级别和编辑提示清除。若因题面或共享模型调整章节，在任务覆盖/交接记录中给出结构映射与理由，不丢任务或凭空补验证。较大论文可沿用通用行文技能的内部主张表；语句长度、词频或 `CLAIM_PRECHECK_PASS` 只能帮助定位，不代替论证审阅、结果 PASS 或逐页视觉复核。
 
-结果、模型解释或代码改变回到相应上游；纯文字/引用/排版改变更新论文清单并重做最终 PDF 版面检查。`mode=live` 到停止工作时间后不得再修改解答、引用、版式或 AI 报告，只能只读核验和交付已冻结文件。内部复现源码/数据与上传 PDF 分开保存。
+结果、模型解释或代码改变回到相应上游并同步两版；纯文字/引用/排版改变更新相应语言清单、该 PDF 版面和双语对应检查，未变字节的另一版页面证据保留。`mode=live` 到停止工作时间后不得再修改解答、翻译、引用、版式或 AI 报告，只能只读核验和交付已冻结文件。内部复现源码/数据、中文复核稿与英文上传 PDF 分开保存。

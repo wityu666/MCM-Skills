@@ -5,7 +5,7 @@ description: "为 MCM A、B、C 题建立动力系统、守恒、分室、热扩
 
 # MCM 机理与动力系统建模
 
-本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作、英文论文，Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
+本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作，完整中英两版论文交付沿用 `mcm-suite` 约定，英文版用于正式提交；Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
 
 先读 [共享合同](../mcm-modeling-library/references/contracts.md)。按任务读取 [模型卡](references/cards.json)，由守恒关系、可观测量和尺度选择模型；题型标签或现成求解器不决定机理。
 

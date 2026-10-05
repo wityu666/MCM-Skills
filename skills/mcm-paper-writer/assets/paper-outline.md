@@ -1,4 +1,6 @@
 <!-- User-selected formal MCM structure. Read ../references/user-preferred-structure.md.
+This is the English submission version; the complete Chinese version follows
+paper-outline-zh.md and bilingual-delivery.md with the same models/results.
 Use actual tasks and current rules. Remove all prompts before export. -->
 
 Problem Chosen: [actual A, B, or C]

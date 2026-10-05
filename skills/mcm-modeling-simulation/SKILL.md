@@ -5,7 +5,7 @@ description: "为 MCM A、B、C 题定义随机机制与决策时间，按分布
 
 # MCM mcm-modeling-simulation 建模指南
 
-本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作、英文论文，Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
+本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作，完整中英两版论文交付沿用 `mcm-suite` 约定，英文版用于正式提交；Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
 
 先读 [共享合同](../mcm-modeling-library/references/contracts.md)，再按任务需要从 [模型卡](references/cards.json) 选择，不一次加载全部14卡。Monte Carlo/方差缩减、observed Markov/MDP、MCMC/MH/Gibbs、事件、开放/有限源/有限容量队列、元胞/Brownian/主体。HMM主卡在machine-learning。
 

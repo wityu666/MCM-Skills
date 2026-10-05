@@ -32,10 +32,12 @@ python <mcm-suite>/scripts/audit_delivery.py --root PROJECT --pdf paper/NUMBER.p
 
 使用合同状态：已确认违反要求为 FAIL，缺少结果/文件/证据或规则未决为 INCOMPLETE；完整本地证据链成立才为 LOCAL_DELIVERY_PASS。记录 `pdf_sha256`、结果 `manifest_sha256`、每项证据及 `unresolved`，默认 `official_submission:"NOT_SUBMITTED"`。任何相关变化使受影响结论失效，PDF 任意字节改变须重新逐页复核。
 
+默认中英两版交付另按[双语约定](../mcm-paper-writer/references/bilingual-delivery.md)核对完整中文/英文源稿和 PDF、当前哈希、中文逐页证据与 `bilingual_review.json`。`LOCAL_DELIVERY_PASS` 和单一 `pdf_sha256` 保持英文提交链含义；中文缺失或对应检查未完成时，应分别报告英文状态与中文缺项，不能宣称中英整体交付完成。
+
 ## 冻结、交付与上传
 
 `mode=live` 在 `stop_work_at` 后不得修改解答、引用、版式、AI 报告或重新改善提交 PDF；之后的窗口只用于上传已冻结文件。发现缺陷做只读记录并报告，不借“排版修复”继续工作。
 
-交付分成内部复现包（原始副本、合同、源码、结果、日志和审计）与正式上传文件（单一 `ControlNumber.pdf`）。报告准确的本地状态、路径和剩余缺项。只本地保存或生成 PDF 不代表官方已接收。
+交付分成给用户的完整中文/英文两版、内部复现包（原始副本、合同、源码、结果、日志和审计）与正式上传文件（仅英文 `ControlNumber.pdf`）。中文 PDF 使用独立名称，不将两种语言拼接或一起上传。报告各版实际状态、路径和剩余缺项。只本地保存或生成 PDF 不代表官方已接收。
 
 实际上传须用户明确授权；已有授权有效，不重复询问。先完成可审阅文件和检查，再按当年官方入口提交，核对编号、题号、Advisor ID、AI 声明与 PDF。上传前终审快照保持 NOT_SUBMITTED；实际尝试和后续接收状态另存真实记录与时间。只有网站回执或可核验接收状态才能记录接收结论；若已尝试却未确认，明确报告“上传结果未知”，不能声称已接收或把尝试掩盖为未上传。

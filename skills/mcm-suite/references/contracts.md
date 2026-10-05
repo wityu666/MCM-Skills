@@ -4,9 +4,11 @@
 
 ## 目录与上下文
 
-`inputs/`原始副本，`contracts/`问题/模型，`sources/`来源，`data/`派生数据，`code/`源码，`results/`冻结结果，`verification/`复核，`paper/`英文源稿/PDF，`logs/`决策/AI使用。
+`inputs/`原始副本，`contracts/`问题/模型，`sources/`来源，`data/`派生数据，`code/`源码，`results/`冻结结果，`verification/`复核，`paper/en/`英文提交版、`paper/zh/`完整中文复核版，`logs/`决策/AI使用。两版分别保留用户所选路线的一份可编辑源与一份 PDF。
 
 `context.json`：`schema_version:1,contest:"MCM",year`整数，`mode:live|practice|reproduce,problem:A|B|C|null,team_control_number`字符串或null，`working_language:"zh",paper_language:"en",implementation:python|matlab|undecided`。未选题保持null；正式终审需真实题号与 Control Number。
+
+`paper_language:"en"` 表示正式上传语言；完整用户交付默认包含 zh/en 两版，遵循[双语交接](../../mcm-paper-writer/references/bilingual-delivery.md)。现有英文提交字段和脚本含义不变，不能用 `paper_language` 推断中文版不必交付。
 
 `rules.json`：`schema_version:1,contest:"MCM",year,checked_at`为ISO日期或带时区时间戳，`verification:reference_snapshot|verified|unresolved,sources:[{id,url,title,accessed_at}],claims:{key:{value,status:verified|unresolved,source_id,note}},conflicts:[],problem_specific_requirements_status:not_yet_published|verified|unresolved`。复制快照保持reference_snapshot；现场读取当年官方规则和题面后才能设verified。
 
@@ -40,12 +42,16 @@ CSV row为从0开始的数据行；JSON selector=`{"keys":["metrics","mae"]}`。
 
 `paper/paper_manifest.json`：`freeze_id,result_manifest_sha256,result_review_sha256,files`（源稿/图/PDF真实哈希），`number_ids,citation_ids,task_coverage,ai_used`。结构可先起草，未复核数字不能冒充定稿。
 
+默认中英交付时 `files` 列入两版实际源稿/PDF及双语复核记录，可附 `language_versions` 分别登记 zh/en 文件与哈希。另保存 `verification/bilingual_review.json`，绑定同一结果冻结/清单与当前两版源稿/PDF，记录对应一致性、中文逐页视觉复核和英文 layout 证据。模板见[双语复核](../../mcm-paper-writer/assets/bilingual-review.json)。缺少任一版或对应检查时不能记录完整双语交付通过。
+
 `verification/layout_review.json`：`status:PASS|FAIL|INCOMPLETE|STALE,pdf_sha256,page_count,main_page_count,ai_report_start_page`（物理页从1开始或null），`ai_used`必须根据真实日志明确为true或false，模板为null；`main_pages_verified,summary_first_page_verified,english_verified,anonymous_verified,control_number_each_page_verified,minimum_font_verified,visual_all_pages_verified,ai_report_appropriate_verified,citations_verified,task_coverage_verified,unresolved,evidence`。模板检查布尔值全为false。英文、匿名、字体、任务覆盖必须实际检查；最终PDF逐页视觉复核，不能仅靠文本抽取。只有AI报告页可按确认规则排除。
 
 `verification/final_audit.json`：`status:LOCAL_DELIVERY_PASS|FAIL|INCOMPLETE,pdf_sha256,manifest_sha256,checks,unresolved,official_submission:"NOT_SUBMITTED"`。自动静态检查最多给PRECHECK_PASS；真实接收凭证另存。
 
+上述 layout/final 字段保持英文提交链含义。中文版不填写 `english_verified:true`，其完整性、排版与对应审阅由双语记录单独说明；给用户的两版交付状态与英文可提交状态分别报告，英文通过不能隐藏中文缺项。
+
 ## 失效与AI记录
 
-数据/模型/代码/参数变化→受影响运行/结果复核/论文失效。纯措辞与引用修订通常只重做论文和版面；改变模型解释回到模型阶段。PDF任何字节变化使旧layout哈希不匹配，须重新渲染检查。保留不受影响成果。
+数据/模型/代码/参数变化→受影响运行/结果复核及两版论文失效。纯措辞与引用修订重做相应语言论文、该版页面和双语对应检查；改变模型解释回到模型阶段。任一 PDF 字节变化使该版旧页面哈希不匹配，须重新渲染检查；另一版字节未变时保留其页面证据，按变化范围重做对应审阅。
 
 `logs/ai_usage.jsonl`每行：`time,tool,version,purpose,category,input_record,output_record,used_in,human_validation`。只记录实际使用，未知版本记unknown。敏感细节留私有日志，公开披露依当年官方政策；翻译/内嵌AI/代码补全与生成内容的披露形式分别处理。

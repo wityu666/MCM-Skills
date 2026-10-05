@@ -5,7 +5,7 @@ description: "为 MCM A、B、C 题按频率、预测起点和动态结构选择
 
 # MCM 时序模型与未来验证
 
-本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作、英文论文，Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
+本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作，完整中英两版论文交付沿用 `mcm-suite` 约定，英文版用于正式提交；Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
 
 先读[共享合同](../mcm-modeling-library/references/contracts.md)，按当前问题读取[相关模型卡](references/cards.json)。INDEXED_ONLY的灰色变体/来源不冒充已核验模型；卡中API方向未运行不升级为实现通过。
 

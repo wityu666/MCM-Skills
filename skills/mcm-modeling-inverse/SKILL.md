@@ -5,7 +5,7 @@ description: "为 MCM A、B、C 题建立和核验正则化逆问题、截断 SV
 
 # MCM 逆问题、校准与可识别性
 
-本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作、英文论文，Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
+本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作，完整中英两版论文交付沿用 `mcm-suite` 约定，英文版用于正式提交；Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
 
 先读 [共享合同](../mcm-modeling-library/references/contracts.md)，按逆映射和噪声读取 [模型卡](references/cards.json)。普通统计回归及EM由统计家族处理；这里关注观测算子、病态、正则和参数识别，不能只以残差小宣称真实参数已找到。
 

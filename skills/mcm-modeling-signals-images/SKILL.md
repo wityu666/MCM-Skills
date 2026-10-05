@@ -5,7 +5,7 @@ description: "为 MCM A、B、C 题学习、选择及核验频域、小波、EMD
 
 # MCM 信号、图像与计算几何
 
-本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作、英文论文，Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
+本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作，完整中英两版论文交付沿用 `mcm-suite` 约定，英文版用于正式提交；Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
 
 先读 [共享合同](../mcm-modeling-library/references/contracts.md)，只读取当前任务相关的 [方法卡](references/cards.json)。PCA主卡在 [评价家族](../mcm-modeling-evaluation/references/cards.json)，不另写同一数学对象。
 

@@ -5,7 +5,7 @@ description: "为 MCM A、B、C 题写清收益、联盟与信息规则，选择
 
 # MCM mcm-modeling-games 建模指南
 
-本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作、英文论文，Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
+本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作，完整中英两版论文交付沿用 `mcm-suite` 约定，英文版用于正式提交；Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
 
 先读 [共享合同](../mcm-modeling-library/references/contracts.md)，再按任务需要从 [模型卡](references/cards.json) 选择，不一次加载全部7卡。有限矩阵Nash、零和LP、Stackelberg、Shapley、加权多数/权力、复制动态与Nash议价。SHAP特征应用归machine-learning。
 

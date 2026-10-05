@@ -5,7 +5,7 @@ description: "为 MCM A、B、C 题学习、选择及验证 AHP、TOPSIS、熵�
 
 # MCM 综合评价、降维与排名
 
-本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作、英文论文，Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
+本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作，完整中英两版论文交付沿用 `mcm-suite` 约定，英文版用于正式提交；Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
 
 先读 [共享合同](../mcm-modeling-library/references/contracts.md)，按目的读取 [模型卡](references/cards.json)。PCA主卡归本家族；降维不自动提供合理排序，数据方差权重也不自动代表用户偏好。
 

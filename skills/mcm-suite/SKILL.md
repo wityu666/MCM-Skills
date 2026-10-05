@@ -1,11 +1,11 @@
 ---
 name: mcm-suite
-description: 协调 MCM 美赛 A、B、C 题的选题、建模、数据检索、代码、独立复核及英文论文交付。用于赛时解题、历年题训练和复现；不处理 ICM D、E、F 题。
+description: 协调 MCM 美赛 A、B、C 题的选题、建模、数据检索、代码、独立复核及完整中英两版论文交付。英文版用于正式提交，适用于赛时解题、历年题训练和复现；不处理 ICM D、E、F 题。
 ---
 
 # MCM 美赛技能集入口
 
-中文协作，英文论文；遵循用户指定的数据、语言、交付路线与已有授权。A 连续、B 离散、C 数据洞察是初始标签，真实题设决定模型。本套件仅处理 MCM A–C；语言、页数、匿名、AI 报告和附录要求均依据当年 COMAP 规则与当前题设。
+中文协作，给用户完整中文与英文两版论文；英文版用于正式提交，中文版供阅读和复核，两版同结构、同模型、同结果。遵循[双语交付约定](../mcm-paper-writer/references/bilingual-delivery.md)及用户当前数据、路线与已有授权。A 连续、B 离散、C 数据洞察是初始标签，真实题设决定模型。本套件仅处理 MCM A–C；正式提交要求依据当年 COMAP 规则与当前题设。
 
 模型、方法检索与论文行文支持使用本套件的 `mcm-modeling-*` 兄弟技能；所有技能调用与本地资源引用都在同一 MCM 安装包内解析。
 
@@ -27,7 +27,7 @@ description: 协调 MCM 美赛 A、B、C 题的选题、建模、数据检索、
 | 变量、公式、约束、验证 | `$mcm-model-designer` | `contracts/model.json` |
 | Python / MATLAB 实现 | `$mcm-python-coder` / `$mcm-matlab-coder` | `results/run_manifest.json` |
 | 独立核对与数字追踪 | `$mcm-result-verifier` | `verification/result_review.json` |
-| 英文论文和 Summary Sheet | `$mcm-paper-writer` | 源稿、PDF、论文清单 |
+| 中英两版论文和 Summary Sheet | `$mcm-paper-writer` | 两版源稿/PDF、论文清单及双语复核 |
 | 渲染、计页、匿名、阅读检查 | `$mcm-layout-verifier` | `verification/layout_review.json` |
 | 冻结提交文件、完整性终审 | `$mcm-final-auditor` | `verification/final_audit.json` |
 
@@ -51,4 +51,4 @@ description: 协调 MCM 美赛 A、B、C 题的选题、建模、数据检索、
 
 正式比赛论文默认采用用户提供框架提炼的[行文结构](../mcm-paper-writer/references/user-preferred-structure.md)，从准备阶段即按其章节功能安排材料。各模型任务保留准备、建立、结果与结果分析，实际问数和专项交付由题面决定；框架中的旧格式说明不覆盖当届规则。完整结构和大纲在包内，不需要原 Word 文件。
 
-摘要、方法说明、结果解释、结论或memo/letter的起草与修订可由[$mcm-modeling-paper-writing](../mcm-modeling-paper-writing/SKILL.md)辅助；正式论文仍走本套件writer、layout与final链。它连接当前任务与真实证据，保持中文协作、英文交付及A–C范围；不因历史样稿改变本届规则或当前模型。普通语言修改同步母版/导出，数学含义变化回传上游，旧PDF审查不能覆盖新稿。
+摘要、方法说明、结果解释、结论或memo/letter的起草与修订可由[$mcm-modeling-paper-writing](../mcm-modeling-paper-writing/SKILL.md)辅助；正式论文仍走本套件writer、layout与final链。它连接当前任务与真实证据，保持完整中英交付及 A–C 范围；英文终审通过不等于两版交付完成。普通语言修改更新相应母版/导出及双语检查，数学含义变化回传上游，旧PDF审查不能覆盖新稿。

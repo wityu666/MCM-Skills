@@ -5,7 +5,7 @@ description: "为 MCM A、B、C 题依据响应域、抽样结构与估计目标
 
 # MCM 统计模型与推断
 
-本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作、英文论文，Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
+本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作，完整中英两版论文交付沿用 `mcm-suite` 约定，英文版用于正式提交；Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
 
 先读[共享合同](../mcm-modeling-library/references/contracts.md)。从[模型卡](references/cards.json)按名称/id选择相关条目，读取公式、假设、最低输入和来源证据；不全量加载无关模型。卡的知识层级、reference_only与实现状态保持原意，理论指南不等于运行通过。
 

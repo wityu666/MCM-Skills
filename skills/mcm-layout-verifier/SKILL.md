@@ -9,6 +9,8 @@ description: "复核 MCM A–C 最终英文 PDF 的实际渲染、页数、匿�
 
 英文与论证复核按 [$mcm-modeling-paper-writing](../mcm-modeling-paper-writing/SKILL.md) 的[论证协议](../mcm-modeling-paper-writing/references/narrative-protocol.md)。版面可读和语言流畅不证明数学正确；语义检查查当前 PDF 实际呈现的意思及其证据承接。
 
+完整用户交付默认另有中文 PDF。依[双语约定](../mcm-paper-writer/references/bilingual-delivery.md)逐页检查中文版的完整性、中文字体/图表可读性，并审阅两版的结构、模型、数字、公式和结论对应；证据记录在独立双语复核中。下述 `layout_review.json`、`english_verified` 及官方页数检查继续用于英文提交版，不把中文稿伪标成英文通过；两版页数无需相同。
+
 ## 检查与证据
 
 1. 计算最终 PDF 的 SHA-256，核对论文清单绑定的结果版本和 PDF 字节。复制[检查表模板](assets/layout-review.json)到 `verification/layout_review.json`；所有检查默认 false，只在实际证据成立后改为 true；`ai_used` 依真实日志与论文清单填写，不能把 null 默认为未使用。训练未分配 Control Number 时该页眉检查注明不适用，不虚构编号。

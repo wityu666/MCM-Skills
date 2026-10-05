@@ -1,4 +1,4 @@
 interface:
-  display_name: "MCM 英文论文"
-  short_description: "把已复核的MCM A–C结果写成英文论文并交付可编辑源与PDF"
-  default_prompt: "请使用 $mcm-paper-writer 将当前冻结并复核的 MCM A–C 结果写成英文论文，生成可编辑源与最终 PDF。"
+  display_name: "MCM 中英两版论文"
+  short_description: "把已复核的MCM A–C结果写成完整中英两版，交付源稿与PDF"
+  default_prompt: "请使用 $mcm-paper-writer 将当前冻结并复核的 MCM A–C 结果写成完整中文与英文两版，保持模型和结果一致，生成各自可编辑源与 PDF。"

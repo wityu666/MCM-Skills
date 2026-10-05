@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "INCOMPLETE",
+  "freeze_id": null,
+  "result_manifest_sha256": null,
+  "zh_source": {"path": null, "sha256": null},
+  "en_source": {"path": null, "sha256": null},
+  "zh_pdf": {"path": null, "sha256": null},
+  "en_pdf": {"path": null, "sha256": null},
+  "structure_and_task_mapping_verified": false,
+  "models_equations_symbols_verified": false,
+  "numbers_units_scenarios_verified": false,
+  "figures_tables_data_verified": false,
+  "citations_verified": false,
+  "conclusions_limits_verified": false,
+  "actual_ai_disclosure_verified": false,
+  "zh_visual_all_pages_verified": false,
+  "english_layout_review": {"path": null, "sha256": null},
+  "evidence": [],
+  "unresolved": ["Neither language version nor bilingual consistency has been reviewed."]
+}

@@ -1,4 +1,4 @@
 interface:
   display_name: "MCM 美赛技能集"
-  short_description: "协调美赛 A–C 从题面与数据、模型代码、独立复核到英文论文终审"
-  default_prompt: "使用 $mcm-suite 完成这道 MCM 题，先核对年度规则和已有资料。"
+  short_description: "协调美赛A–C从题面、模型代码、独立复核到完整中英两版论文"
+  default_prompt: "使用 $mcm-suite 完成这道 MCM 题，先核对年度规则和已有资料，最终交付完整中文和英文两版论文；英文版用于正式提交。"

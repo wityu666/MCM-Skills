@@ -1,6 +1,6 @@
 # MCM Skills
 
-面向 **MCM A、B、C** 的数学建模技能集：中文协作、英文论文，支持 Python 和 MATLAB。模型知识、选型规则、论文行文、模板、原创参考代码与测试均编入本仓库，克隆后不需要作者的原资料目录或工作区。
+面向 **MCM A、B、C** 的数学建模技能集：中文协作、完整中文与英文两版论文，英文版用于正式提交，支持 Python 和 MATLAB。模型知识、选型规则、论文行文、模板、原创参考代码与测试均编入本仓库，克隆后不需要作者的原资料目录或工作区。
 
 包含 11 个解题核心技能和 15 个模型、行文支持技能。198 张模型卡覆盖 13 个数学方法家族，逐卡给出适用任务、最低数据、假设、数学定义、算法步骤、Python/MATLAB 实现方向、验证和降级条件。目前 188 张为理论指南，10 张具有限定的参考实现测试证据；这些等级不等于所有变体或真实赛题均已复现。
 
@@ -35,7 +35,7 @@ python3 -m pip install -r requirements.txt
 
 ```text
 使用 $mcm-suite 分析这道 MCM C 题，先拆解任务、数据许可和输入输出，
-给出 baseline 与候选模型，再落实代码、验证和英文论文。
+给出 baseline 与候选模型，再落实代码、验证和完整中英两版论文。
 
 使用 $mcm-modeling-library 比较季节朴素预测、ARIMA 和灰色预测，
 根据我的数据长度与预测目标排除不适用的方法。
@@ -56,12 +56,14 @@ python3 skills/mcm-modeling-library/scripts/query_models.py --id ts-gm1n --full
 | 入口、任务与规则 | `mcm-suite`、`mcm-problem-analyst` |
 | 方法、数据与模型合同 | `mcm-method-retriever`、`mcm-data-researcher`、`mcm-model-designer` |
 | 实现与独立复核 | `mcm-python-coder`、`mcm-matlab-coder`、`mcm-result-verifier` |
-| 英文论文与交付 | `mcm-paper-writer`、`mcm-layout-verifier`、`mcm-final-auditor` |
+| 中英两版论文与交付 | `mcm-paper-writer`、`mcm-layout-verifier`、`mcm-final-auditor` |
 | 模型与行文支持 | `mcm-modeling-library`、13 个 `mcm-modeling-*` 方法家族、`mcm-modeling-paper-writing` |
 
 具体模型定义保存在各家族的 `references/cards.json` 和补充卡中；完整检索目录位于 `skills/mcm-modeling-library/assets/catalog.json`。所有引用使用仓库内相对路径或公开科学来源 URL。
 
 正式比赛默认使用[用户指定的行文结构](skills/mcm-paper-writer/references/user-preferred-structure.md)及[配套英文大纲](skills/mcm-paper-writer/assets/paper-outline.md)：背景与工作概述、问题描述/分析、假设、术语/符号、逐问模型、误差/敏感性、评价/推广、结论、参考文献与附录。每个模型任务按“准备 → 建立 → 结果 → 结果分析”展开；实际题数和专项输出按题面安排，格式仍依当年规则。使用这套结构无需原始 Word 模板。
+
+默认同时交付[完整中文版大纲对应的论文](skills/mcm-paper-writer/assets/paper-outline-zh.md)与英文版，各保留可编辑源和 PDF。两版共享模型、数字、公式与图表数据，并做[双语对应复核](skills/mcm-paper-writer/references/bilingual-delivery.md)；英文用于官方上传，中文供阅读复核，不将两版拼成一个提交 PDF。英文终审通过与中英两版全部交付完成分别记录。
 
 ## 验证
 

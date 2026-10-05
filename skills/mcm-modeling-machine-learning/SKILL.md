@@ -5,7 +5,7 @@ description: "为 MCM A、B、C 题按标签、距离、时点与预测目标选
 
 # MCM 机器学习模型与验证
 
-本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作、英文论文，Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
+本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作，完整中英两版论文交付沿用 `mcm-suite` 约定，英文版用于正式提交；Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
 
 先读[共享合同](../mcm-modeling-library/references/contracts.md)，按id/别名检索[模型卡](references/cards.json)。具名组件、INDEXED_ONLY总类与模型/算法区分：GOSS/EFB/分位草图不是独立预测模型；BP是训练方法；含保存输出的教材代码不是新验证。
 

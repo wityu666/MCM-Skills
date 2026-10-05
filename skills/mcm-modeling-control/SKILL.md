@@ -5,7 +5,7 @@ description: "为 MCM A、B、C 题学习、设计和验证状态空间、PID、
 
 # MCM 控制、估计与系统辨识
 
-本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作、英文论文，Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
+本技能用于 MCM A、B、C 题的赛时建模、历年题训练与指定材料复现。默认中文协作，完整中英两版论文交付沿用 `mcm-suite` 约定，英文版用于正式提交；Python 与 MATLAB 按当前主路线选择；年度规则、数据许可、冻结与交付由 `mcm-suite` 及当前题目合同负责。
 
 先读 [共享合同](../mcm-modeling-library/references/contracts.md)，按对象和任务读取 [模型卡](references/cards.json)。状态空间是表示，Kalman是估计，PID/LQR是控制策略，不能按接口数量视为不同物理模型。
 
